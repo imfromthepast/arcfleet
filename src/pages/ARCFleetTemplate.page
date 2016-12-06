@@ -1,0 +1,36 @@
+<apex:page docType="html-5.0" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+	<html xmlns:ng="http://angularjs.org" id="ngTemplate" ng-app="arcfleetApp" ng-controller="arcfleetCon">
+        <c:ARCFleetHead />
+        <apex:insert name="hiddenPane"/>
+        <div id="snapContent" class="snap-content" data-snap-ignore="true">
+    <!-- Top Nav -->
+        <nav id="navbar" class="navbar navbar-default navbar-fixed-top navbar-inverse navbar-flat" role="navigation">
+            <div class="container-flush">
+            <!-- Brand and toggle get grouped for better mobile display -->
+                <!-- <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{!$Page.ARCFleetHome}">
+                        <c:arcfleetlogo/>
+                    </a>
+                </div> -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
+                    <ul class="nav navbar-nav">
+                        <apex:insert name="mainNav"/>
+                    </ul>
+                    <div class="nav navbar-right">
+                        <apex:insert name="rightNav"/>
+                    </div>
+                <!-- </div> --><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <apex:insert name="body"/>
+    </div>
+    </html>
+</apex:page>

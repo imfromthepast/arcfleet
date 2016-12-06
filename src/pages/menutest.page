@@ -1,0 +1,9 @@
+<apex:page >
+  
+    <div id="optionMenu">
+        <c:DropDownMenu ItemName="taleItem" targetname="tale" Items="Trickshot;Jacob's Tale"/>
+    </div>
+    <script>
+        taleSetup();
+    </script>
+</apex:page>

@@ -1,0 +1,58 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000003FrQYIA0",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003FrQYIA0",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "init",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        }
+    ],
+    "name": "TerritoryMapController",
+    "namespace": "ARCFleet",
+    "parentClass": "ARCFleet.territorytemplatecontroller",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "coordinates",
+            "references": [],
+            "type": "String"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "TerritoryMapController",
+        "references": [],
+        "type": "TerritoryMapController"
+    },
+    "variables": []
+}

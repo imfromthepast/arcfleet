@@ -1,0 +1,378 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000002h9RzIAI",
+    "innerClasses": [
+        {
+            "constructors": [
+                {
+                    "annotations": [],
+                    "location": {
+                        "column": 16,
+                        "line": 79
+                    },
+                    "modifiers": [
+                        "public"
+                    ],
+                    "name": "InstallmentWrapper",
+                    "parameters": [],
+                    "references": [],
+                    "type": null
+                }
+            ],
+            "externalReferences": [],
+            "id": null,
+            "innerClasses": [],
+            "interfaces": [],
+            "key": null,
+            "methods": [],
+            "name": "InstallmentWrapper",
+            "namespace": "ARCFleet",
+            "parentClass": "",
+            "properties": [
+                {
+                    "annotations": [],
+                    "location": {
+                        "column": 31,
+                        "line": 76
+                    },
+                    "modifiers": [
+                        "public"
+                    ],
+                    "name": "i",
+                    "references": [],
+                    "type": "ARCFleet__Installment__c"
+                },
+                {
+                    "annotations": [],
+                    "location": {
+                        "column": 25,
+                        "line": 77
+                    },
+                    "modifiers": [
+                        "public"
+                    ],
+                    "name": "s",
+                    "references": [],
+                    "type": "ARCFleet__Story__c"
+                }
+            ],
+            "tableDeclaration": {
+                "annotations": [],
+                "location": {
+                    "column": 18,
+                    "line": 75
+                },
+                "modifiers": [
+                    "public"
+                ],
+                "name": "InstallmentWrapper",
+                "references": [],
+                "type": "InstallmentWrapper"
+            },
+            "variables": []
+        }
+    ],
+    "interfaces": [],
+    "key": "01pA0000002h9RzIAI",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 13
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "init",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 40
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "saveInstallments",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 46
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "saveStories",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 51
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "addInstallment",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 70
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "saveChapter",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        }
+    ],
+    "name": "ChapterEditController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "chapter",
+            "references": [],
+            "type": "ARCFleet__Chapter__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 4
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newstory",
+            "references": [],
+            "type": "ARCFleet__Story__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 27,
+                "line": 5
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "ni",
+            "references": [],
+            "type": "ARCFleet__Installment__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 33,
+                "line": 6
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "installments",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 27,
+                "line": 7
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "stories",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 19,
+                "line": 8
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "id",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 19,
+                "line": 9
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "sid",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 37,
+                "line": 10
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "iws",
+            "references": [],
+            "type": "LIST"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "ChapterEditController",
+        "references": [],
+        "type": "ChapterEditController"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 21
+            },
+            "modifiers": [],
+            "name": "storyids",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 28,
+                "line": 24
+            },
+            "modifiers": [],
+            "name": "i",
+            "references": [],
+            "type": "ARCFleet__Installment__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 32,
+                "line": 25
+            },
+            "modifiers": [],
+            "name": "iw",
+            "references": [],
+            "type": "InstallmentWrapper"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 28
+            },
+            "modifiers": [],
+            "name": "s",
+            "references": [],
+            "type": "ARCFleet__Story__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 43
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 48
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 53
+            },
+            "modifiers": [],
+            "name": "innum",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 67
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 72
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        }
+    ]
+}

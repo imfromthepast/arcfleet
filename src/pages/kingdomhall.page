@@ -1,0 +1,72 @@
+<apex:page Controller="KingdomHallController" showHeader="false">
+    <apex:composition template="territorytemplate"> 
+        <apex:define name="toolbarleft">
+            <a class="button black back" onclick="goto('{!URLFOR($page.kingdomhalls)}');" target="_TOP"><span></span>Halls</a>
+        </apex:define>
+        <apex:define name="toolbartitle">{!if(ismobile,left(KingdomHall.name,20),KingdomHall.name)}</apex:define>
+        <apex:define name="fields">
+            <apex:form >
+                <apex:actionFunction name="save" action="{!save}"/>
+                <apex:actionFunction name="newCongregation" action="{!newCongregation}"/>
+                <apex:inputHidden id="cName" value="{!cname}"/>
+                <apex:pageBlock mode="maindetail" id="field">
+                    <apex:pageBlockButtons location="top">
+                        <apex:commandButton action="{!save}" value="Save" id="savebtn"/>
+                        <apex:commandButton action="{!deleteKH}" value="Delete"/>
+                    </apex:pageBlockButtons>
+                    <apex:pageBlockSection columns="1">
+                        <apex:inputField label="Name" value="{!KingdomHall.name}"/>
+                        <apex:inputField value="{!KingdomHall.Street__c}"/>
+                        <apex:inputField value="{!KingdomHall.City__c}"/>
+                        <apex:inputField value="{!KingdomHall.State__c}"/>
+                        <apex:inputField value="{!KingdomHall.Zip_Code__c}"/>
+                    </apex:pageBlockSection>
+                </apex:pageBlock>
+            </apex:form>
+        </apex:define>
+       <apex:define name="content">
+           <!-- apex:pageBlock mode="maindetail" title="Congregations">
+               <hr/
+               -->
+               <div style="padding:10px; text-align: center;">
+               <apex:repeat value="{!congregations}" var="c">
+                   <!-- a class="delete">
+                       <span></span>
+                       <b>X</b>
+                   </a -->
+                   <div class="black button" onclick="goto('../{!c.id}')" style="margin: 5px; padding: 10px; width: 250px; cursor: pointer">
+                       <div style="text-align: center; font-weight: bold; font-size: 16px">{!c.name} Congregation</div>
+                       <div style="text-align: center;">({!round(c.Territories__c,0)} territories)</div>
+                       
+                       <div style="padding:5px; border: 1px black solid; background: #555555; border-radius: 5px; margin-top: 5px;">
+                           <h1>{!c.Public_Talk_Day__c}</h1> @ 
+                           <i>{!c.Public_Talk_Time__c}</i>
+                           <p/>
+                           <div style="list-style-type: none;">
+                               <div>Public Talk</div>
+                               <div>Watchtower</div>
+                           </div>
+                           <hr/>
+                           <h1>{!c.TMS_Service_Meeting_Day__c}</h1> @ 
+                           <i>{!c.TMS_Service_Meeting_Time__c}</i>
+                           <p/>
+                           <div style="list-style-type: none;">
+                               <div>Congregation Bible Study</div>
+                               <div>Theocratic Ministry School</div>
+                               <div>Service Meeting</div>
+                           </div>
+                       </div>
+                   </div>
+               </apex:repeat>
+               </div>
+           <!--/apex:pageBlock -->
+        </apex:define>
+         
+        <apex:define name="setup">
+            <input id="cName" type="text" placeholder="New Congregation Name" style="width:170px; font-size: 14px"/>
+            <a class="button black" onclick="addnewcongregation();"><span></span>
+                <img src="http://iys.nmajh.org/img/iys/plus-icon-white.png" width="12px"/>
+            </a>
+        </apex:define>
+    </apex:composition>
+</apex:page>

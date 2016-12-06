@@ -1,0 +1,49 @@
+<apex:page showHeader="false" controller="GameController" action="{!init}">
+  
+    <!-- Include CSS -->
+    <!-- Fonts -->
+    <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/ionicons/css/ionicons.min.css')}" rel="stylesheet" type="text/css"/>
+    <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/font_awesome/css/font-awesome.min.css')}" rel="stylesheet" type="text/css"/>
+    <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/arcfleet/style.css')}" rel="stylesheet" type="text/css"/>
+    <!-- Animate CSS -->  
+    <link href="{!URLFOR($Resource.ARCFleetResources, 'css/animate.min.css')}" rel="stylesheet" type="text/css"/>        
+    <!-- Bootstrap -->
+    <link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+    <!-- Include JS -->
+    <!-- is.js -->
+    <script src="{! $Resource.ISJS}"/>
+    <!-- jQuery -->
+    <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+    <!-- Bootstrap JS -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <!-- Include BlockUi -->
+    <script src="{!URLFOR($Resource.ARCFleetResources,'js/jquery.blockUI.min.js')}" type="text/javascript"/>
+    <!-- AngularJS CDN -->
+    <script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+    <!-- Angular UI Bootstrap -->
+    <script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-bootstrap-tpls-0.11.0.min.js')}" type="text/javascript"/>
+    <!-- Angular UI Utils -->
+    <script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-utils.min.js')}" type="text/javascript"/>
+            
+    <script>
+        $j = jQuery.noConflict();        
+            $j(document).ready(function() {
+                var sectorJSON;
+                
+                if('{!inProgress}' == 'true'){
+                    console.log('in progress');
+                    var sectorJSONString = '[{!game.sector_JSON_1__c}]'; //.replace(/ARCFleet__/g,'');
+                    //sectorJSONString = sectorJSONString.replace(/\"attributes\":\{\"type\":\"Game_Sector__c\",\"url\":\"\/services\/data\/v34.0\/sobjects\/Game_Sector__c\/a0FA000000F4ZZrMAN\"\},/g,'');
+                    if(sectorJSONString != '') sectorJSON = jQuery.parseJSON(sectorJSONString);
+                    $j('#jsonsize').html(sectorJSONString.length);
+                    $j('#json').html(sectorJSONString);
+                    console.log('done');
+                }
+            });
+        </script>
+        sectorJSON: <b id="jsonsize"></b>
+        <br/>
+        <!-- {!game.sector_JSON_1__c} -->
+        <!-- {!sectorJSON} -->
+        <div id="json"></div>
+</apex:page>

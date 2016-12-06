@@ -1,0 +1,42 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000003Iq5XIAS",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003Iq5XIAS",
+    "methods": [],
+    "name": "RaceStartSector",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 31,
+                "line": 2
+            },
+            "modifiers": [
+                "static",
+                "public"
+            ],
+            "name": "value",
+            "references": [],
+            "type": "ARCFleet__Game_Sector__c"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "RaceStartSector",
+        "references": [],
+        "type": "RaceStartSector"
+    },
+    "variables": []
+}

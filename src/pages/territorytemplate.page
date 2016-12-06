@@ -1,0 +1,77 @@
+<apex:page showHeader="false" controller="territorytemplatecontroller">
+    <html>
+        <head>    
+            <link rel="apple-touch-icon" href="{!URLFOR($Resource.mapfavicon)}"/>
+            <meta name="format-detection" content="telephone=no"/>
+            <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black"/ >
+            <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAGIkngpXmdoQU0EdxX4r9B_Nu6GGsBu-Y&sensor=false&libraries=drawing"></script>
+            
+            <apex:includeScript value="{!URLFOR($Resource.jQueryUILibrary, '/js/jquery-1.6.2.min.js')}"  />
+            <apex:includeScript value="{!URLFOR($Resource.jQueryUILibrary, '/js/jquery-ui-1.8.16.custom.min.js')}"  />
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryUILibrary, '/css/smoothness/jquery-ui-1.8.16.custom.css')}"  />
+            <apex:includeScript value="{!$Resource.territorymanagerJS}"  />
+            <apex:include pagename="TerritoryCSS"/>
+        </head>
+        <body onorientationchange="updateOrientation();">
+        	<style type="text/css">
+      			html{ 
+          			height: 100%;
+          			background-color: #000000;
+      			}
+      		</style>
+            <div class="toolbar">
+                <apex:insert name="banner"/>
+                <div style="border: 0px red solid; float:left; position: absolute; left: 10px;">
+                    <apex:insert name="toolbarleft"></apex:insert>
+                </div>
+                <div style="width: 100%; border: 0px red solid; float:left; text-align: center; z-index: 100;">
+                    <a class="button black title" id="info">
+                        <span></span>
+                        <apex:insert name="toolbartitle"/>
+                    </a>
+                </div>
+                <div style="width:75px; position: absolute; border:0px red solid; float:left; text-align: right; right:10px;">
+                    <apex:insert name="toolbarright"/>
+                    <a class="button black" id="setup">
+                        <span></span>
+                        <img src="http://www.biohorizons.com/images/icons/icon16_gear_white.png" width="12px" title="Setup"/>
+                    </a>
+                </div>
+            </div>
+            <apex:insert name="unplotted"></apex:insert>
+            <div class="wrapper">
+                <div class="innerwrapperd touchscrollable" >
+                    <apex:insert name="content"></apex:insert>
+                    <apex:form >
+                        <apex:inputHidden id="territoriesCoords" value="{!territoriesCoords}"/>
+                        <apex:inputhidden id="mode" value="{!mode}"/>
+                    </apex:form>
+                </div>
+            </div>
+            
+            <script type="text/javascript">
+                $j = jQuery.noConflict();
+                $j(document).ready(function() {
+                    <apex:insert name="docreadyscript"></apex:insert>
+                });
+				<apex:insert name="functions"></apex:insert>
+            </script>
+            <apex:insert name="javascript"/>
+        </body>
+          
+        <c:popover id="fields" pid="fieldspopover">
+            <apex:insert name="fields"></apex:insert>
+        </c:popover>
+        <c:popover id="setuppopover" pid="setuppopover">
+            <a class="black button" onclick="goto('../secur/logout.jsp');">
+                <span></span>
+                Logout
+            </a>
+            &nbsp;&nbsp;{!username}
+            <hr/>
+            <apex:insert name="setup"></apex:insert>
+        </c:popover>
+    </html>
+</apex:page>

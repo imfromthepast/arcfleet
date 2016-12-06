@@ -1,0 +1,4 @@
+<apex:page standardController="Territory__c">
+  {!Territory__c.Coordinates__c}<p/>
+  {!Territory__c.Covered_in_Campaign__c}
+</apex:page>

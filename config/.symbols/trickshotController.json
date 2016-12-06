@@ -1,0 +1,43 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 9,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "trickshotController",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01pA0000003ILuZIAW",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003ILuZIAW",
+    "methods": [],
+    "name": "trickshotController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "trickshotController",
+        "references": [],
+        "type": "trickshotController"
+    },
+    "variables": []
+}

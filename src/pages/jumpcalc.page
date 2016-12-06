@@ -1,0 +1,212 @@
+<apex:page standardStylesheets="false" showheader="false">
+    <apex:stylesheet value="{!URLFOR($Resource.Game, 'unsemantic/assets/stylesheets/unsemantic-grid-responsive.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Game, 'jquery-ui-1.10.2.custom/js/jquery-1.9.1.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Game, 'jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.min.js')}"  />
+    <apex:stylesheet value="{!URLFOR($Resource.Game, 'jquery-ui-1.10.2.custom/css/custom-theme/jquery-ui-1.10.2.custom.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Game, 'slide-menu/jquery.mobile-menu.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.Game, 'slide-menu/styles.css')}"/>
+    <div class="hide" >jQuery did not Work</div>
+    <div class="hide-on-desktop hide-on-mobile">Unsemantic did not load</div>
+    <div role="main" class="grid-container ui-widget" style="text-align: center">
+    	<div class="grid-33 ui-widget-content ui-corner-all">
+    		<h1>Source </h1>
+    		<input type="checkbox" id="sourceIButton"/><label for="sourceIButton">Inverter</label>
+    		<center>
+	    		<div class="vertCont">
+	    			<div class="grid-50">
+	    				<h2>
+		    				JP <output class="sourceJP">5</output>
+		    			</h2>
+	    				<span class="sourceJPSlider">5</span>
+	    			</div>
+	            	<div class="grid-50">
+	    				<h2>
+	    					LD <output class="sourceLD">0</output>
+	    				</h2>
+	    				<span class="sourceLDSlider">0</span>
+	    			</div>
+	    		</div>
+    		</center>
+    	</div>
+    	<div class="grid-33">
+    		<h1>Distance</h1>
+    		<input type="checkbox" id="losButton"/><label for="losButton">Line of Sight</label>
+    		<center>
+	    		
+	    		<div class="horzCont">
+		            <span class="distanceSlider">5</span>
+		        </div>
+		        <apex:pageBlock mode="maindetail">
+		            <output class="distance" style="font-size: 24px">5</output>
+		            <hr/>
+		            <label for="spacetimeResistance"><b>Resistance</b></label>
+		            <br/>
+		            <output type="textbox" id="formula"/> = <output type="textbox" id="spacetimeResistance"/>
+		            <hr/>
+		            <label for="chanceOfSuccessFormula"><b>Chance Of Success</b></label>
+		            <br/>
+		            <output type="Textbox" id="chanceOfSuccessFormula" /> = <output type="Textbox" id="chanceOfSuccess" />
+		        </apex:pageBlock>
+		    </center>
+    	</div>
+    	<div class="grid-33 ui-widget-content ui-corner-all">
+    		<h1>Target</h1>
+    		<input type="checkbox" id="targetIButton"/><label for="targetIButton">Inverter</label>
+    		<center>
+	    		<div class="vertCont">
+		            <div class="grid-50">
+	    				<h2>
+	    					JP 
+	    					<output class="targetJP">10</output>
+	    				</h2>
+	    				<span class="targetJPSlider">10</span>
+	    			</div>
+		            <div class="grid-50">
+	    				<h2>
+	    					LD 
+	    					<output class="targetLD">0</output>
+	    				</h2>
+	    				<span class="targetLDSlider">0</span>
+	    			</div>
+		        </div>
+	        </center>
+    	</div>
+        <p/>
+        
+    </div>
+    <style>
+        .vertCont, .horzCont{ width: 300px;}
+    	.vertCont span {
+	        height:120px; float:left; margin:15px
+	    }
+	    .horzCont span {
+	        width:100%; float:left; margin:15px
+	    }
+    </style>
+    <script>
+        $j = jQuery.noConflict();
+        $j(document).ready(function() {
+            setup();
+        });
+        function setup(){
+            $j('.hide').hide(); 
+            $j( ".vertCont > div > span" ).each(function() {
+	            // read initial values from markup and remove that
+	            var value = parseInt( $j( this ).text(), 10 );
+	            $j( this ).empty().slider({
+	                value: value,
+	                min: 0,
+	                max: 10,
+	                range: "min",
+	                animate: true,
+	                orientation: "vertical"
+	            });
+            });
+            $j( ".horzCont > span" ).each(function() {
+              	// read initial values from markup and remove that
+	            var value = parseInt( $j( this ).text(), 10 );
+	            $j( this ).empty().slider({
+	                value: value,
+	                min: 0,
+	                max: 10,
+	                range: "min",
+	                animate: true,
+	                orientation: "horizontal"
+	            });
+            });
+            $j('.sourceJPSlider').slider({
+              slide: function( event, ui ) {
+                $j( '.sourceJP').text( ui.value );
+                sourceJP = ui.value;
+                calculate();
+              }
+            });
+            $j('.sourceLDSlider').slider({
+              slide: function( event, ui ) {
+                $j( '.sourceLD').text( ui.value );
+                sourceLD = ui.value;
+                calculate();
+              }
+            });
+            $j('.targetJPSlider').slider({
+              slide: function( event, ui ) {
+                $j( '.targetJP').text( ui.value );
+                targetJP = ui.value;
+                calculate();
+              }
+            });
+            $j('.targetLDSlider').slider({
+              slide: function( event, ui ) {
+                $j( '.targetLD').text( ui.value );
+                targetLD = ui.value;
+                calculate();
+              }
+            });
+            $j('.distanceSlider').slider({
+              slide: function( event, ui ) {
+                $j( '.distance').text( ui.value );
+                distance = ui.value;
+                calculate();
+              }
+            });
+            
+            
+            $j('#sourceIButton').button().click(function(){
+                var val = $j(this).is(':checked');
+                $j('.sourceI').text(val);
+                sourceI = val;
+                calculate();
+            });
+            $j('#targetIButton').button().click(function(){
+                var val = $j(this).is(':checked');
+                $j('.targetI').text(val);
+                targetI = val;
+                calculate();
+            });
+            $j('#losButton').button().click(function(event, ui){
+                var val = $j(this).is(':checked');
+                $j('.los').text(val);
+                lineOfSight = val;
+                calculate();
+            });
+            
+            var sourceJP; 
+            var targetJP;
+            var distance;
+            var resistance = $j('[id$=spacetimeResistance]');
+            var chancesOfSuccess = $j('[id$=chanceOfSuccess]');
+            var chanceOfSuccessFormula = $j('[id$=chanceOfSuccessFormula]');
+            var lineOfSight; // = $j('[id$=lineOfSight]');
+            var sourceI; 
+            var targetI; 
+            var sourceLD; 
+            var targetLD; 
+            var formula = $j('[id$=formula]');
+            
+            if(sourceJP == null) sourceJP= 5;
+            if(targetJP == null) targetJP = 10;
+            if(distance == null) distance = 10;
+            
+            if(sourceLD == null) sourceLD = 0;
+            if(targetLD == null) targetLD = 0;
+            
+            function calculate(){
+                var tjp = 0;
+                var sjp = 0;
+                
+                if(!targetI)tjp = targetJP;
+                if(!sourceI)sjp = sourceJP;
+                
+                formula.val(''+distance+'/(('+tjp+' + '+targetLD+') - ('+sjp+' + '+sourceLD+'))');
+                resistance.val(distance/((tjp + targetLD) - (sjp + sourceLD)));
+                //alert(sourceLD+sjp);
+                chanceOfSuccessFormula.val('(('+tjp+' + '+targetLD+') - ('+sjp+' + '+sourceLD+'))/('+distance+' * '+distance+'))/'+resistance.val()+' * 100');
+                chancesOfSuccess.val(Math.round((((tjp + targetLD) - (sjp + sourceLD))/(distance*distance))/resistance.val() * 100));
+                
+                if(lineOfSight) chancesOfSuccess.val(chancesOfSuccess.val() * 2);
+                //alert(lineOfSight.is(':checked'));
+            }
+            
+        };
+    </script>
+</apex:page>

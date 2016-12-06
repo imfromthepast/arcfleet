@@ -1,0 +1,20 @@
+<apex:component >
+	<apex:attribute name="Unassigned" type="decimal" description="ToDo"/>
+	<apex:attribute name="Assigned" type="decimal" description="ToDo"/>
+	<apex:attribute name="Covered" type="decimal" description="ToDo"/>
+	<apex:attribute name="isMobile" type="boolean" description="ToDo"/>
+	<script>
+		$j = jQuery.noConflict();
+        $j(document).ready(function() {
+        	$j('.maplegend').click(function(){
+                $j(this).toggleClass("openLegend");
+            });
+        });
+    </script>
+	<div class="maplegend {!if(!ismobile,'openLegend','')}">
+    	<div style="margin: 5px; padding: 2px;">Legend</div>
+        <div class="legendUnassigned">Unassigned ({!round(unassigned,0)})</div>
+        <div class="legendAssigned">Assigned ({!round(assigned,0)})</div>
+        <div class="legendCovered">Covered ({!round(covered,0)}%)</div>
+    </div>
+</apex:component>

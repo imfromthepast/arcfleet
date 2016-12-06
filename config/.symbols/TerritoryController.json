@@ -1,0 +1,107 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000002hjSGIAY",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002hjSGIAY",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "Save",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 10
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "Reset",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 17
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "del",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        }
+    ],
+    "name": "TerritoryController",
+    "namespace": "ARCFleet",
+    "parentClass": "ARCFleet.territorytemplatecontroller",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "TerritoryController",
+        "references": [],
+        "type": "TerritoryController"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 5
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 13
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 18
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        }
+    ]
+}

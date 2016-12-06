@@ -1,0 +1,101 @@
+<apex:page controller="congregationController" showHeader="false" >
+    <apex:composition template="territorytemplate">
+        <apex:define name="javascript">
+            <script>
+                function geocode(){
+                    geocoder = new google.maps.Geocoder();
+                    address = "{!kingdomhall.Address__c}";
+                    geocoder.geocode( { address:address}, function(results, status) {
+                        if(status == google.maps.GeocoderStatus.OK && results.length){
+                            if(status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                                color = "none";
+                                plotTerritories(territories, 'link','{!congregation.id}');
+                                map.setCenter(mapBounds.getCenter());
+                                map.fitBounds(mapBounds);
+                                kingdomHall.setPosition(results[0].geometry.location);
+                                kingdomHall.setMap(map);
+                            }
+                        }else{
+                            $j('#map').css({'height' : '150px'});
+                            $j('#map').html("Oops! {!congregation.Name}'s Kingdom Hall address could not be found, please make sure the address is correct.");
+                        }
+                    });
+                }
+            </script>
+        </apex:define>
+        <apex:define name="toolbarleft">
+            <a onclick="goto('../{!URLFOR(congregation.Kingdom_Hall__c)}');" class="button back black"><span></span>{!if(ismobile,left(kingdomhall.name,10),kingdomhall.name)}</a>
+        </apex:define>
+        <apex:define name="toolbartitle">{!if(ismobile,left(congregation.name,13),congregation.name)}</apex:define>
+        <apex:define name="toolbarright">
+            <a id="openmap" class="button black" onclick="window.open('http://trickshot-developer-edition.na7.force.com/apex/congregationmap2?id={!cid}','{!congregation.name} Congregation Territory Map','location=no','fullscreen=yes','menubar=no');">
+                <span></span>
+                <img width="12px" title="Open Territory Map" src="http://files.softicons.com/download/toolbar-icons/white-wireframe-toolbar-icons-by-gentleface/png/32/top_right_expand.png"/>
+            </a>
+        </apex:define>
+        <apex:define name="fields">       
+            <apex:form id="form">
+                <apex:actionFunction name="addterritories" action="{!addterritories}"/>
+                <apex:inputhidden id="amountofterritories" value="{!amountofterritories}"/>
+                <apex:pageblock mode="maindetail" id="fielddd">
+                    <apex:pageBlockButtons location="top">
+                        <apex:commandButton onclick="upsertCongregation();" rendered="{!ismobile}"  value="Save"/>
+                        <apex:commandButton action="{!save}" value="Save" rendered="{!!ismobile}" id="savebtn"/>
+                        <apex:commandButton action="{!deleteCong}" value="Delete"/>
+                    </apex:pageBlockButtons>
+                    <apex:pageBlockSection columns="1">
+                        <apex:inputField label="Name" value="{!congregation.name}"/>
+                        <apex:inputField label="Public Talk" value="{!congregation.Public_Talk_Day__c}"/>
+                        <apex:inputField id="tmstimefield" label="Time" value="{!congregation.Public_Talk_Time__c}" rendered="{!!ismobile}"/>
+                        <apex:pageBlockSectionItem rendered="{!ismobile}">
+                            <apex:outputlabel for="ptwtime">Time</apex:outputlabel>
+                            <input type="time" id="ptwtime"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:inputField label="TMS/Service" value="{!congregation.TMS_Service_Meeting_Day__c}"/>
+                        <apex:inputField id="ptwtimefield" label="Time" value="{!congregation.TMS_Service_Meeting_Time__c}" rendered="{!!ismobile}"/>
+                        <apex:pageBlockSectionItem rendered="{!ismobile}">
+                            <apex:outputlabel for="tmstime">Time</apex:outputlabel>
+                            <input type="time" id="tmstime"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:inputField value="{!congregation.Campaign_Start__c}"/>
+                        <apex:inputField value="{!congregation.Campaign_End__c}"/>
+                    </apex:pageBlockSection>
+                </apex:pageblock>
+                <apex:actionFunction name="save" action="{!save}"/>
+                <apex:inputhidden id="tmstimefield" value="{!congregation.TMS_Service_Meeting_Time__c}" rendered="{!ismobile}"/>
+                <apex:inputhidden id="ptwtimefield" value="{!congregation.Public_Talk_Time__c}" rendered="{!ismobile}"/>
+                <!-- apex:inputHidden id="territoriesCoords" value="{!territoriesCoords}"/ -->
+            </apex:form>
+            <h1>Nonplotted Territories:</h1>
+            <hr/>
+            <div style="overflow-y:scroll; -webkit-overflow-scrolling: touch;  height: 200px; padding: 0px;" >
+                <apex:repeat value="{!territories}" var="t">
+                    <apex:outputpanel layout="block" rendered="{!if(t.Coordinates__c != '', 'False','True')}" styleclass="notplotted css3-button" onclick="goto('../{!URLFOR(t.id)}');">
+                        <apex:outputpanel style="font-size: 36px; color: #000;">
+                            <span></span>{!t.name}
+                        </apex:outputpanel>
+                    </apex:outputpanel>
+                </apex:repeat>        
+            </div>
+        </apex:define>
+        <apex:define name="content">
+            <div id="infocontent"><apex:outputField value="{!congregation.name}"/> Map</div>
+            <c:mapLegend unassigned="{!congregation.Unassigned_Territories__c}" assigned="{!congregation.Assigned_Territories__c}" covered="{!congregation.Percentage_Covered__c}" ismobile="{!ismobile}"/>
+            <div id="map_edit"></div>
+        </apex:define>
+        <apex:define name="setup">
+            <a class="button black" onclick="goto('../apex/assignments?id={!congregation.id}');"><span></span>
+                Assign Territories
+            </a>
+            <p/>
+            <a class="button black" onclick="window.open('../apex/territorycards?id={!congregation.id}','{!congregation.name} Territory Cards','location=no','fullscreen=yes','menubar=no');"><span></span>
+                PDF Territory Cards
+            </a>
+            <hr/>
+            <input id="numberofterritories" type="text" results="1" placeholder="# of territories to add" style="width:170px; font-size: 14px"/>
+            <a class="button black" onclick="addnewterritories();"><span></span>
+                <img src="http://iys.nmajh.org/img/iys/plus-icon-white.png" width="12px" title="Add the amount of territories in the text box"/>
+            </a>
+        </apex:define>
+    </apex:composition>
+</apex:page>

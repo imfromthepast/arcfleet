@@ -1,0 +1,96 @@
+<apex:page docType="html-5.0" showHeader="false" controller="TaleController" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" action="{!init}">
+    <apex:composition template="template">
+        <apex:define name="headertext">
+            Chapter {!story.chapternumber}: {!story.chaptername} - {!story.story.name}
+        </apex:define>
+        <apex:define name="body">
+            <apex:image value="{!URLFOR($Resource.images, 'coming-soon.png')}" rendered="{!noimage}"/>
+            <a data-toggle="modal" href='#modal-story'>
+                <!-- <apex:image value="{!URLFOR($Action.Attachment.Download, image)}" rendered="{!!noimage}" id="image" styleclass="img-responsive img-rounded"/> -->
+                <img src="{!URLFOR($Action.Attachment.Download, image)}" class="img-responsive img-rounded"/>
+            </a>
+        </apex:define>
+        <apex:define name="navbar">
+            <!-- <apex:form id="theform">
+                <div style="width: 1000px; text-align: center; float: auto">
+                    <apex:outputpanel rendered="{!(story.order - 1)>0}">
+                        <apex:commandLink action="{!prev}">
+                            <apex:image value="{!URLFOR($Resource.images, 'left-enabled.png')}" style="float: left"/>
+                            
+                        </apex:commandlink>
+                    </apex:outputpanel>
+                    <apex:outputpanel rendered="{!(story.order - 1)=0}">
+                        <apex:image value="{!URLFOR($Resource.images, 'left-disabled.png')}" style="float: left"/>
+                    </apex:outputpanel>
+                    <div id="xopener" style=" width: 898px; float: left; cursor: pointer; cursor: hand;" data-toggle="modal" href='#modal-story'>
+                        <apex:image value="{!URLFOR($Resource.images, 'READ-STORY.png')}" rendered="true"/>
+                    </div>
+                    <apex:outputpanel rendered="{!(story.order)<totalstories}">
+                        <apex:commandLink action="{!next}">
+                            <apex:image value="{!URLFOR($Resource.images, 'right-enabled.png')}" style="float: left"/>
+                            
+                        </apex:commandlink>
+                    </apex:outputpanel>
+                    <apex:outputpanel rendered="{!(story.order)=totalstories}">
+                        <apex:image value="{!URLFOR($Resource.images, 'right-disabled.png')}" style="float: left"/>
+                    </apex:outputpanel>
+                </div>
+                <div style="width: 1000px;  float: auto">
+                    <apex:repeat value="{!installments}" var="inst">
+                        <div style="width:{!1000/totalstories}px; float: left; text-align: center;  border:0px solid red">
+                            <a href="../apex/tale?c={!cid}&i={!inst}" target="_parent">
+                                <apex:image value="{!URLFOR($Resource.images, inst+'.png')}" style="border-bottom:{!if(i=inst,'4px','0px')} solid black"/>
+                            </a>
+                        </div>
+                    </apex:repeat>
+                </div>
+            </apex:form> -->
+        </apex:define>
+        <apex:define name="footer">
+            <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex2-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse navbar-ex2-collapse">
+                    <!-- <ul class="nav navbar-nav navbar-left">
+                        <li><a href="#"><i class="fa fa-chevron-left xpull-left xnavButton"></i></a></li>
+                    </ul> -->
+                    <ul class="nav navbar-nav clearfix center-block">
+                        <apex:repeat value="{!installments}" var="inst">
+                            <li class="{!if(i=inst,'active','')}">
+                                <a href="../apex/tale?c={!cid}&i={!inst}&tid={!tid}" target="_parent">
+                                    <!-- <apex:image value="{!URLFOR($Resource.images, inst+'.png')}"/> --> {!inst}
+                                </a>
+                            </li>
+                        </apex:repeat>
+                    </ul>
+                    <!-- <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><i class="fa fa-chevron-right xpull-right xnavButton"></i></a></li>
+                    </ul> -->
+                </div>
+            </nav>
+        </apex:define>
+    </apex:composition>
+    <div class="modal fade" id="modal-story">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{!story.story.name} ({!story.story.Date__c})</h4>
+                </div>
+                <div class="modal-body" style="height: 500px; overflow-y: auto;">
+                    <blockquote class="blockquote-reverse">
+                        <p>{!story.story.Quote__c}</p>
+                        <footer>{!story.story.Quoted__c}</footer>
+                    </blockquote>
+                    <apex:outputfield value="{!story.story.Body__c}"/>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</apex:page>

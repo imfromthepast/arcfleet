@@ -1,0 +1,15 @@
+<apex:page showHeader="false" controller="x0x10c">
+   <script>
+        function ImgError(source){
+            source.onerror = "";
+            source.style.visibility = 'hidden';
+            return true;
+        }
+   </script>
+   <style>
+       img:hover {width: 100%}
+   </style>
+   <apex:repeat value="{!imagecount}" var="c">
+       <img src="http://0x10c.com/screenshots/{!c}.png" width="200px" onerror="ImgError(this);"/><br/>
+   </apex:repeat>
+</apex:page>

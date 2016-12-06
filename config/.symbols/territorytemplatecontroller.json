@@ -1,0 +1,529 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 12,
+                "line": 24
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "territorytemplatecontroller",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01pA0000002hm59IAA",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002hm59IAA",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 84
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getIsAdmin",
+            "parameters": [],
+            "references": [],
+            "returnType": "Boolean",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 88
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "parseTerritoryCoordinates",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 110
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getIsInWindow",
+            "parameters": [],
+            "references": [],
+            "returnType": "Boolean",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 113
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "isInWindow",
+            "parameters": [
+                {
+                    "name": "ws",
+                    "type": "Date"
+                },
+                {
+                    "name": "we",
+                    "type": "Date"
+                }
+            ],
+            "references": [],
+            "returnType": "Boolean",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 19,
+                "line": 119
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getParam",
+            "parameters": [
+                {
+                    "name": "p",
+                    "type": "String"
+                }
+            ],
+            "references": [],
+            "returnType": "String",
+            "type": null
+        }
+    ],
+    "name": "territorytemplatecontroller",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "deviceType",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "userAgent",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 4
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "IsMobile",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 5
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "IsAdmin",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 6
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "username",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 25,
+                "line": 7
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "ks",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 25,
+                "line": 8
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "id",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 9
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "kid",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 10
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "cid",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 11
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "tid",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 12
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "kingdomhall",
+            "references": [],
+            "type": "ARCFleet__Kingdom_Hall__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 13
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "congregation",
+            "references": [],
+            "type": "ARCFleet__Congregation__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 14
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "territory",
+            "references": [],
+            "type": "ARCFleet__Territory__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 15
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "kingdomhalls",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 16
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "congregations",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 17
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "territories",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 18
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "territoriesCoords",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 19
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "amountofterritories",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 20
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "mode",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 21
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newkingdomhall",
+            "references": [],
+            "type": "ARCFleet__Kingdom_Hall__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 22
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "householders",
+            "references": [],
+            "type": "LIST"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 23,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "abstract"
+        ],
+        "name": "territorytemplatecontroller",
+        "references": [],
+        "type": "territorytemplatecontroller"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 89
+            },
+            "modifiers": [],
+            "name": "i",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 91
+            },
+            "modifiers": [],
+            "name": "inWindow",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 92
+            },
+            "modifiers": [],
+            "name": "t",
+            "references": [],
+            "type": "ARCFleet__Territory__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 93
+            },
+            "modifiers": [],
+            "name": "mc",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 99
+            },
+            "modifiers": [],
+            "name": "covered",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 36,
+                "line": 113
+            },
+            "modifiers": [],
+            "name": "ws",
+            "references": [],
+            "type": "Date"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 45,
+                "line": 113
+            },
+            "modifiers": [],
+            "name": "we",
+            "references": [],
+            "type": "Date"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 14,
+                "line": 114
+            },
+            "modifiers": [],
+            "name": "t",
+            "references": [],
+            "type": "Date"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 115
+            },
+            "modifiers": [],
+            "name": "tIsAfterWs",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 116
+            },
+            "modifiers": [],
+            "name": "tIsBeforeWe",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 119
+            },
+            "modifiers": [],
+            "name": "p",
+            "references": [],
+            "type": "String"
+        }
+    ]
+}

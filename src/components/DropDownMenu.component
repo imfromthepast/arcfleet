@@ -1,0 +1,127 @@
+<apex:component controller="DropDownMenuController" selfclosing="true">
+    <apex:attribute type="String" name="items" description="TODO" assignTo="{!preArrayString}"/>
+    <apex:attribute type="String" name="itemname" description="TODO"/>
+    <apex:attribute type="String" name="targetname" description="TODO"/>
+    
+    <div class="{!targetName}menu menu">
+        <apex:variable value="{!0}" var="indx"/>
+        <ul class="menuList">
+            <apex:repeat value="{!Bits}" var="i">
+                <li class="menuItem {!ItemName}menuItem" id="{!ItemName}{!indx}" data-number="{!indx}">
+                    <div>{!i}</div>
+                </li>
+                <apex:variable value="{!indx + 1}" var="indx"/>
+            </apex:repeat>
+        </ul>
+    </div>
+    
+
+    <style>
+        .menuItem{
+            display               : none;
+            position              : absolute;
+            width                 : 150px;
+            height                : 19px;
+            margin-left           : 0px;
+            list-style-type       : none;
+            top                   : 0px;
+            cursor                : pointer;
+            padding               : 5px;
+            border                : 1px solid #000;
+            background            : rgba(255,255,255,1);
+            text-align            : center;
+            border-radius         : 5px;
+            //background-image    : -webkit-gradient(linear, left bottom, right top, color-stop(0.33, rgb(119,119,119)), color-stop(0.67, rgb(255,255,255)));
+            //padding             : 2px;
+        }
+        .menuItem > div{
+            //background          : rgba(255,255,255,0.3);
+            //border              : 1px solid #fff;
+            //border-radius       : 5px;
+            //height              : 19px;
+            //padding             : 5px;
+        }
+        .menuItem:hover{
+            text-shadow           : 0 0 70px #fff,
+                                    0 0 60px #fff,
+                                    0 0 50px #fff,
+                                    0 0 40px #fff,
+                                    0 0 30px #fff;
+            color                 : #0000ff;
+        }
+        .menuList{
+            -webkit-margin-before : 0;
+            -webkit-margin-after  : 0;
+            -webkit-margin-start  : 0;
+            -webkit-margin-end    : 0;
+            -webkit-padding-start : 0;
+        }
+        .menu{
+            cursor                : pointer;
+            position              : absolute;
+            margin                : 5px;
+        }
+    </style>
+    <script>
+        function {!targetname}Setup(){
+            $j('.{!ItemName}menuItem').hide();
+            
+            var noOfMenuItems = parseInt('{!noOfBits}');
+            var speed = 200;
+            var f = 's';
+            var currentMenuItem = 0;
+            $j('[id$={!itemname}'+currentMenuItem+']').show();
+            $j('.{!targetname}').hide();
+            console.log('{!targetname}');
+            $j('[id$={!targetname}'+currentMenuItem+']').show();
+            
+            var inTimer;
+            var outTimer;
+            $j('.{!targetName}menu').hover(
+                function(){
+                    clearTimeout(outTimer);
+                    inTimer = setTimeout(showMenu,300);
+                },
+                function(){
+                    clearTimeout(inTimer);
+                    outTimer = setTimeout(function () {
+                        hideMenu(currentMenuItem);
+                    },300);
+                }
+            );
+            $j('.{!ItemName}menuItem').click(function(){
+                if(f=='s'){
+                    showMenu();
+                }else{
+                    var num = $j(this).attr('data-number');
+                    hideMenu(num);
+                    currentMenuItem = num;
+                    //$j(this).animate({'color':'#0000ff'},100);
+                    $j('.{!targetname}').hide();
+                    $j('[id$={!targetname}'+num+']').show();
+                    hideMenu(currentMenuItem);
+                }
+            });
+            function showMenu(){
+                for(var i = 0; i < (noOfMenuItems+1); i++){
+                    var topVal = 0+(i*35)+'px';
+                    $j('[id$={!itemname}'+i+']').animate({top: topVal,'z-index':100},{ duration: speed, queue: false }).fadeIn();
+                    console.log('Item Top: '+topVal);
+                }
+                console.log('--');
+                f = 'h';
+            }
+            function hideMenu(num){
+                console.log('menuHide clicked');
+                for(var i = 0; i < (noOfMenuItems+1); i++){
+                    if(i != num){
+                        $j('[id$={!itemname}'+i+']').animate({top: '0px','z-index':0},{ duration: speed, queue: false }).fadeOut(speed);
+                    }else{
+                        $j('[id$={!itemname}'+i+']').animate({top: '0px'},speed);
+                    }
+                }
+                f = 's';
+            }
+        }
+    </script>
+</apex:component>

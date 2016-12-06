@@ -1,0 +1,126 @@
+<apex:page showHeader="false" sidebar="true" standardStylesheets="false" standardController="Game__c">
+    <html xmlns:ng="http://angularjs.org" id="ngTemplate" ng-app="ngApp" ng-controller="ngCon">
+        <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="{!URLFOR($Resource.ARCFleetStartupImage,'apple-touch-startup-image-640x1096.png')}"/>
+        <!-- <link rel="apple-touch-icon" href="{!URLFOR($Resource.AppleARCFleetIcon)}" sizes="150x150"/> -->
+        <!-- <meta name="apple-mobile-web-app-capable" content="yes"/> -->
+        <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black"/> -->
+        <!-- <meta name="apple-mobile-web-app-title" content="ARC Fleet"/> -->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"/> -->
+        <!-- Include CSS -->
+        <!-- Fonts -->
+<!-- 
+        <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/ionicons/css/ionicons.min.css')}" rel="stylesheet" type="text/css"/>
+        <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/font_awesome/css/font-awesome.min.css')}" rel="stylesheet" type="text/css"/>
+        <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/arcfleet/style.css')}" rel="stylesheet" type="text/css"/>
+        <!-- Animate CSS -->  
+        <!-- <link href="{!URLFOR($Resource.ARCFleetResources, 'css/animate.min.css')}" rel="stylesheet" type="text/css"/>        
+        <!-- Bootstrap -->
+        <link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+        <!-- <link href="{!URLFOR($Resource.ARCFleetResources,'css/bootstrap-tour.min.css')}" rel="stylesheet" type="text/css"/> -->
+        <!-- Bootstrap Slider
+        <!-- <link href="{!URLFOR($Resource.ARCFleetResources, 'css/bootstrap-slider.min.css')}" rel="stylesheet" type="text/css"/>
+ -->
+        <!-- Include JS -->
+        <!-- is.js -->
+        <script src="{! $Resource.ISJS}"/>
+        <!-- jQuery -->
+        <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+        <!-- Bootstrap JS -->
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"/>
+        <!-- <script src="{!URLFOR($Resource.ARCFleetResources,'js/bootstrap-tour.min.js')}" type="text/javascript"/>  -->
+        <!-- Bootstrap Slider -->
+        <!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-slider.min.js')}" type="text/javascript"/> -->
+        <!-- Include BlockUi -->
+        <!-- <script src="{!URLFOR($Resource.ARCFleetResources,'js/jquery.blockUI.min.js')}" type="text/javascript"/> -->
+        <!-- HowlerJS -->
+        <!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/howler.min.js')}" type="text/javascript"/>         -->
+        <!-- AngularJS CDN -->
+        <script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+        <!-- Angular UI Bootstrap -->
+        <script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-bootstrap-tpls-0.11.0.min.js')}" type="text/javascript"/>
+        <!-- Angular UI Utils -->
+        <script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-utils.min.js')}" type="text/javascript"/>
+        <!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-growl.min.js')}" type="text/javascript"/> -->
+        <!-- <script src="http://www.sunsean.com/Whirlpool.js" type="text/javascript"/> -->
+        <script src="{! $Resource.ProcGenGalaxy}"/> 
+        <style>
+            .map{/*word-wrap: break-word;*/ overflow: hidden; background-color: #000;}
+            .sector{float: left; background-color: #000;}
+            .blackhole{background-color: #000; }
+            /*.terrain-1{background-color: #999; }
+            .terrain-2{background-color: #555; }
+            .terrain-3{background-color: #000; }*/
+
+            .terrain-Interspiral{background-color:  hsla(193,40%,30%,0.3);}
+            .terrain-Fringe{background-color:       hsla(193,40%,40%,0.4);}
+            .terrain-Axis{background-color:         hsla(193,40%,50%,0.5);}
+            .terrain-Nucleus{background-color:      hsla(193,40%,80%,0.8);}
+            .terrain-Core{background-color:         hsla(193,40%,90%,0.9);}
+            .blackhole{background-color:            blue;}
+            .home{background-color: yellow;}
+            .alien{background-color: red;}
+            .gwave-1{
+                background: rgba(128, 0, 0, 0.4); /*rgba(0,0,0,0.5);*/
+            }
+            .gwave-2{
+                background: rgba(238, 130, 238, 0.4); /*rgba(0,0,0,0.75);*/
+            }
+            .gwave-3{
+                background: rgba(0, 0, 255, 0.4); /*rgba(0,0,0,1);*/
+            }
+        </style>
+        <script>
+            $j = jQuery.noConflict(); 
+            var ngApp = angular.module('ngApp', [], function($locationProvider) {
+                $locationProvider.html5Mode({
+                    enabled: true,
+                    requireBase: false
+                });
+            });
+            var turn = '0'; //'{!game__c.Turns__c}';
+            var ngCon = ngApp.controller('ngCon',['$scope','$location', function ($scope,$location){                
+                $scope.sectors = [];
+                $scope.test = 'worked';
+                $scope.seed = '1';
+                
+                $scope.getGalaxyData = function(n){
+                    return metadata(n);
+                }
+                $scope.generate = function(){
+                    console.log('generating');
+                    $scope.sectors = [];
+                    seed = $scope.seed; //'2'; '{!Game__c.CreatedDate}';
+                    $scope.galaxyData = generate();
+                    $scope.sectors = sectors;
+                    $scope.name = galaxyName;
+                    $scope.galaxyDataList = [];
+                    $scope.galaxyDataList.push(['Galaxy Shape Name',$scope.getGalaxyData('galaxyShapeName')]);
+                    $scope.galaxyDataList.push(['Points',pointsArray[$scope.getGalaxyData('galaxyShape')]]);
+                    $scope.galaxyDataList.push(['Tightness',tightnessArray[$scope.getGalaxyData('galaxyShape')]]);
+                    $scope.galaxyDataList.push(['Core Size',coreSizeArray[$scope.getGalaxyData('coreSize')]]);
+                    $scope.galaxyDataList.push(['Galaxy Type',galaxyTypeArray[$scope.getGalaxyData('galaxyType')] + galaxyTypeSuffixArray[0]]);
+                    $scope.galaxyDataList.push(['Civilization Type',$scope.getGalaxyData('civilizationType')]);
+                    $scope.galaxyDataList.push(['Clouds',$scope.getGalaxyData('clouds')]);
+                    $scope.galaxyDataList.push(['Cloud Type',cloudTypeArray[$scope.getGalaxyData('cloudType')]]);
+                    
+                }
+                $scope.generate();
+            }]);
+        </script>
+        <div class="container">
+            
+            <div>
+            <input ng-model="seed" class="form-control" /><button ng-click="generate()" class="btn btn-default">Generate</button>
+            </div>
+            <div class="map" style="width: 801px; height: 801px; display: inline-block;">
+                <div class="sector terrain-{{s.Terrain}} gwave-{{s.GWaveSector()}}" ng-class="{'blackhole':s.BlackHole>0, 'home':s.IsHomeSector, 'alien':s.IsAlienHome}" ng-repeat="s in sectors track by $index" style="width: 8px; height: 8px;"></div>
+            </div>
+            <div style="display: inline-block; height: 801px; float:right;">
+                <h1>{{name}}</h1>
+                <ul>
+                    <li ng-repeat="listItem in galaxyDataList track by $index">{{listItem[0]}}: {{listItem[1]}}</li>
+                </ul>
+            </div>
+        </div>
+    </html>
+</apex:page>

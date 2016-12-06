@@ -1,0 +1,702 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 12,
+                "line": 26
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "GameController",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01pA0000002CTn6IAG",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002CTn6IAG",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 22
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getHash",
+            "parameters": [],
+            "references": [],
+            "returnType": "Integer",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 29
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "markExplored",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 32
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "init",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 175
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "handleEvent",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 230
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getsectorjsonsize",
+            "parameters": [],
+            "references": [],
+            "returnType": "Integer",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 233
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "randomIntFromInterval",
+            "parameters": [
+                {
+                    "name": "min",
+                    "type": "Integer"
+                },
+                {
+                    "name": "max",
+                    "type": "Integer"
+                }
+            ],
+            "references": [],
+            "returnType": "Integer",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 236
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "EndTurn",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 244
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "selfDestruct",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 250
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "startOver",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        }
+    ],
+    "name": "GameController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 33,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "status",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 37,
+                "line": 3
+            },
+            "modifiers": [
+                "private"
+            ],
+            "name": "id",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 36,
+                "line": 4
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "m",
+            "references": [],
+            "type": "ARCFleet__Map__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 36,
+                "line": 5
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "game",
+            "references": [],
+            "type": "ARCFleet__Game__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 34,
+                "line": 6
+            },
+            "modifiers": [
+                "public",
+                "transient"
+            ],
+            "name": "sectorJSON",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 8
+            },
+            "modifiers": [
+                "public",
+                "transient"
+            ],
+            "name": "contactARCBasesJSON",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 9
+            },
+            "modifiers": [
+                "public",
+                "transient"
+            ],
+            "name": "relationshipsJSON",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 36,
+                "line": 10
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "inProgress",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 37,
+                "line": 11
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "startX",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 37,
+                "line": 12
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "startY",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 13
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "turn",
+            "references": [],
+            "type": "Decimal"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 14
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "eventMatrix",
+            "references": [],
+            "type": "Map"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 15
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "currentEvent",
+            "references": [],
+            "type": "ARCFleet__Event__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 16
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "autonomousForces",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 17
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "eventTag",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 18
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "version",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 19
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "isDebug",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 33,
+                "line": 21
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "orphans",
+            "references": [],
+            "type": "LIST"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "GameController",
+        "references": [],
+        "type": "GameController"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 23
+            },
+            "modifiers": [],
+            "name": "s",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 36
+            },
+            "modifiers": [],
+            "name": "debug",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 40
+            },
+            "modifiers": [],
+            "name": "l0",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 50
+            },
+            "modifiers": [],
+            "name": "l1",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 60
+            },
+            "modifiers": [],
+            "name": "l2",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 70
+            },
+            "modifiers": [],
+            "name": "l3",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 80
+            },
+            "modifiers": [],
+            "name": "l4",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 90
+            },
+            "modifiers": [],
+            "name": "l5",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 100
+            },
+            "modifiers": [],
+            "name": "l6",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 110
+            },
+            "modifiers": [],
+            "name": "l7",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 120
+            },
+            "modifiers": [],
+            "name": "l8",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 130
+            },
+            "modifiers": [],
+            "name": "l9",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 140
+            },
+            "modifiers": [],
+            "name": "l10",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 180
+            },
+            "modifiers": [],
+            "name": "roll",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 181
+            },
+            "modifiers": [],
+            "name": "asp",
+            "references": [],
+            "type": "Decimal"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 185
+            },
+            "modifiers": [],
+            "name": "explored",
+            "references": [],
+            "type": "Boolean"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 30,
+                "line": 197
+            },
+            "modifiers": [],
+            "name": "sectorsWithARCBase",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 199
+            },
+            "modifiers": [],
+            "name": "dissolutionCount",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 200
+            },
+            "modifiers": [],
+            "name": "i",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 50,
+                "line": 233
+            },
+            "modifiers": [],
+            "name": "min",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 62,
+                "line": 233
+            },
+            "modifiers": [],
+            "name": "max",
+            "references": [],
+            "type": "Integer"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 238
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 246
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 251
+            },
+            "modifiers": [],
+            "name": "newGame",
+            "references": [],
+            "type": "ARCFleet__Game__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 255
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+<apex:page controller="ChapterEditController" action="{!init}" tabStyle="Chapter__c">
+    <apex:form id="theform">
+        <apex:sectionHeader title="{!chapter.Tale__r.name}" subtitle="Chapter {!round(chapter.Order__c,0)}: {!chapter.name}"/>
+        <apex:pageblock mode="maindetail">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save Chapter" action="{!saveChapter}"/>
+                <apex:commandButton value="Save Installments" action="{!saveInstallments}"/>
+                <apex:commandButton value="Save Stories" action="{!saveStories}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection >
+                <apex:inputField value="{!chapter.Tale__c}"/>
+                <apex:inputField value="{!chapter.Quoted__c}"/>
+                <apex:inputField value="{!chapter.name}"/>
+                <apex:inputField value="{!chapter.Quote__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="New Installment" columns="1">
+                <apex:pageblock mode="maindetail">
+                    <apex:pageBlockButtons >
+                        <apex:commandButton value="Add Installment" action="{!addInstallment}"/>
+                    </apex:pageBlockButtons>
+                    <apex:pageBlockSection columns="1">
+                        <apex:inputField value="{!ni.Story__c}"/>
+                        <apex:inputField value="{!newstory.name}"/>
+                        <apex:inputField value="{!newstory.Date__c}"/>
+                        <apex:inputField value="{!newstory.Quote__c}" style="height:50px; width:500px"/>
+                        <apex:inputField value="{!newstory.Quoted__c}"/>
+                        <apex:inputField value="{!newstory.Body__c}"/>
+                    </apex:pageblocksection>
+                </apex:pageblock>
+            </apex:pageblocksection>
+            <apex:repeat value="{!iws}" var="i">
+                <apex:pageBlockSection title="{!i.i.name}" columns="1">
+                    <apex:inputField value="{!i.i.Story__c}"/>
+                    <apex:inputField value="{!i.s.name}"/>
+                    <apex:inputfield value="{!i.s.Date__c}"/>
+                    <apex:inputField value="{!i.s.Quote__c}" style="height:50px; width:500px"/>
+                    <apex:inputField value="{!i.s.Quoted__c}"/>
+                    <apex:inputField value="{!i.s.Body__c}"/>
+                </apex:pageBlockSection>
+            </apex:repeat>
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,19 @@
+{
+    "username": "jim@49demo.com",
+    "environment": "developer",
+    "project_name": "Personal",
+    "workspace": "/Users/jboudreaux/Documents/workspaces/mavensmate",
+    "org_url": "",
+    "namespace": "ARCFleet",
+    "id": "CEPPYHSFQ3ROWE3JBS6776GKNM7XO6J5",
+    "metadata_container": "1dcA00000004VcNIAU",
+    "subscription": [
+        "ApexClass",
+        "ApexComponent",
+        "ApexPage",
+        "ApexTrigger",
+        "CustomObject",
+        "StaticResource"
+    ],
+    "loginUrl": ""
+}

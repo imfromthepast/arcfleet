@@ -1,0 +1,150 @@
+<apex:page docType="html-5.0" controller="TerritoryController" standardstylesheets="true" showheader="false">
+    <apex:composition template="territorytemplate">
+        <apex:define name="javascript">
+            <script>
+                function search(){
+                    var geo = new google.maps.Geocoder();
+                    var address = $j("[id$='search']").val()+', {!kingdomhall.City__c}, {!kingdomhall.State__c}';
+                    geo.geocode( { address: address}, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK && results.length) {
+                            if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                                map.setCenter(results[0].geometry.location);
+                                map.setZoom(16);
+                                marker.setPosition(results[0].geometry.location);
+                                marker.setMap(map);
+                            }else{alert("Oops");}
+                        }else{alert("oops");}
+                    });
+                }
+                
+                function geocode(){
+                	//alert('nope');
+                    var geocoder = new google.maps.Geocoder();
+                    //if(address == '') 
+                    
+                    address = "{!kingdomhall.Address__c}";
+                    geocoder.geocode({address:address}, function(results, status){
+                        if(status == google.maps.GeocoderStatus.OK && results.length){
+                            if(status != google.maps.GeocoderStatus.ZERO_RESULTS){
+                                color = getColor('{!if(isinwindow,territory.covered_in_campaign__c,false)}','{!territory.checked_out__c}');
+                                color='blue';
+                                var showMarkers = true;
+                                if($j("[id$='coords']").val() != ''){
+                                    plotTerritory('{!territory.id}','{!territory.name}',$j("[id$='coords']").val(),'edit',color,'#c5c5c5', showMarkers, '{!if(territory.marker_coords__c == null,"none",territory.marker_coords__c)}',true,24,'{!congregation.id}');
+                                }else{
+                                    map.setCenter(results[0].geometry.location);
+                                }
+                                plotTerritories(territories,'link');
+                                
+                                kingdomHall.setPosition(results[0].geometry.location);
+                                kingdomHall.setMap(map);
+                                
+                                drawingManager = new google.maps.drawing.DrawingManager({
+                                    drawingMode: google.maps.drawing.OverlayType.POLYGON,
+                                    drawingControl: true,
+                                    drawingControlOptions: {
+                                        position: google.maps.ControlPosition.TOP_CENTER,
+                                        drawingModes: [google.maps.drawing.OverlayType.MARKER, google.maps.drawing.OverlayType.POLYGON]
+                                    },
+                                    polygonOptions: {
+                                        fillColor: '#e0e0e7',
+                                        fillOpacity: 0.35,
+                                        strokeWeight: 1,
+                                        clickable: false,
+                                        zIndex: 1,
+                                        editable: true
+                                    }
+                                });
+                                if($j("[id$='mode']").val() == 'new') drawingManager.setMap(map);
+                                google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+                                    var vertices = polygon.getPath();
+                                    var coordinates = $j("[id$='coords']").val();
+                                    for (var i =0; i < vertices.length; i++) {
+                                        var xy = vertices.getAt(i);
+                                        coordinates += xy.lat() +',' + xy.lng();
+                                        if(i<vertices.length - 1) coordinates += ';';
+                                    }
+                                    $j("[id$='coords']").val(coordinates);
+                                });
+                                
+                            }else{
+                                $j('#map_edit').css({'height' : '15px'});
+                                $j('#map_edit').html("Oops!");
+                            }
+                        } else {
+                            $j('#map_edit').css({'height' : '15px'});
+                            $j('#map_edit').html("Oops! Territory #{!territory.Name}'s Kingdom Hall address could not be found, please make sure the address is correct.");
+                            
+                        }
+                        
+                    });
+                }
+            </script>
+        </apex:define>
+        <apex:define name="docreadyscript">
+            $j("[id$='coveredCheck']").button();
+        </apex:define>
+        <apex:define name="toolbarleft">
+            <a onclick="goto('../{!territory.Congregation__c}');" class="button back black" style="text-decoration: none; cursor: pointer;" target="_TOP">
+                <span></span>
+                {!if(ismobile,left(congregation.name,10),congregation.name)}
+            </a>
+        </apex:define>
+        <apex:define name="toolbartitle">
+            Territory #{!territory.name}
+        </apex:define>
+        <apex:define name="toolbarright">
+            <a class="button black" onclick="save();">
+                <span></span>
+                <img src="http://f.cl.ly/items/0R262F401K2u321M2Z2Y/cloudsave.png" width="15px"/>
+            </a>
+        </apex:define>
+        <apex:define name="fields">
+            <apex:form >
+                <apex:pageBlock mode="maindetail">
+                    <apex:pageBlockSection columns="1" title="{!territory.Publisher__r.name}" collapsible="false" >
+                        <apex:inputfield label="{!if(territory.Covered_in_Campaign__c,'Covered','Not Covered')}" value="{!territory.Covered_in_Campaign__c}" id="coveredCheck" onclick="save();"/>
+                        <apex:inputfield value="{!territory.name}"/>
+                        <apex:inputfield value="{!territory.Notes__c}"/>
+                    </apex:pageBlockSection>
+                </apex:pageBlock>
+                <apex:commandButton action="{!del}" value="Delete"/>
+                <apex:commandButton action="{!reset}" value="Reset"/>
+                <!--apex:commandButton action="{!save}" value="Save"/-->
+                <apex:actionFunction name="save" action="{!save}"/>
+                <!-- apex:inputhidden id="territoriesCoords" value="{!territoriesCoords}"/ -->
+                <apex:inputhidden id="coords" value="{!territory.Coordinates__c}"/>
+                <apex:inputhidden id="markercoords" value="{!territory.Marker_Coords__c}"/>
+                <apex:inputhidden id="city" value="{!kingdomhall.City__c}"/>
+                <apex:inputhidden id="state" value="{!kingdomhall.State__c}"/>
+                <apex:inputhidden id="address" value="{!kingdomhall.Address__c}"/>
+                <apex:inputhidden id="id" value="{!territory.id}"/>
+            </apex:form>
+            <apex:form >
+                <!-- apex:inputHidden id="householders" value="{!householders}"/ -->
+            </apex:form>
+            <hr/>
+            <div style="overflow-y:scroll; -webkit-overflow-scrolling: touch;  height: 300px; padding: 0px;" >
+                 <apex:repeat value="{!congregation.territories__r}" var="t">
+                     <div class="{!if(t.Coordinates__c != '', 'plotted','notplotted')} css3-button" onclick="goto('../{!t.id}');" style="background-position:center; text-decoration: none">
+                        <apex:outputpanel style="font-size: 36px; color: #000;">
+                            <span></span>{!t.name}
+                        </apex:outputpanel>
+                    </div>
+                </apex:repeat>
+            </div>
+        </apex:define>
+        <apex:define name="content">
+            <div id="map_edit"></div>
+        </apex:define>
+        <apex:define name="setup">
+            <a class="button black" onclick="goto('../apex/territorycard?id={!territory.id}');">
+                <span></span>
+                PDF Version
+            </a>
+            <hr/>
+            <input id="search" type="search" results="1" placeholder="Search..."/>
+        </apex:define>
+    </apex:composition>
+     <!-- -->
+</apex:page>

@@ -1,0 +1,56 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000002hlaQIAQ",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002hlaQIAQ",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "addKingdomHall",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        }
+    ],
+    "name": "kingdomhallscontroller",
+    "namespace": "ARCFleet",
+    "parentClass": "ARCFleet.territorytemplatecontroller",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "kingdomhallscontroller",
+        "references": [],
+        "type": "kingdomhallscontroller"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 4
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        }
+    ]
+}

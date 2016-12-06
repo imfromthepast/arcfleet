@@ -1,0 +1,14 @@
+<apex:component layout="none">
+	<apex:attribute name="Color" type="String" description="String" default="pale-yellow"/>
+	<apex:attribute name="Style" type="String" description="String" default="pill-all"/>
+	<apex:attribute name="Label" type="String" description="String" default="random"/>
+	<apex:attribute name="Title" type="String" description="String"/>
+	<apex:attribute name="ngTitle" type="String" description="String"/>
+	<apex:attribute name="amount" type="String" description="String" default="1"/>
+	<apex:attribute name="dynamicColor" type="Boolean" description="String" default="false"/>
+
+	<div class="button {!if(color=='random','random-color',color)} {!if(dynamicColor,'dynamic-color','')} button-{!style}" ng-repeat="i in getNumber({!amount}) track by $index">
+		<span class="button-label {!if(Label=='random','random-button-label','')}">{!label}</span>
+		<apex:outputpanel styleclass="button-title {!if(Title=='random','random-button-title','')}" rendered="{!title != ''}">{!title}</apex:outputpanel>
+	</div>
+</apex:component>

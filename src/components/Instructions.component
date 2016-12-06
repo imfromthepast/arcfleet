@@ -1,0 +1,108 @@
+<apex:component layout="none">
+	<apex:attribute name="Size" type="String" default="lg" description="Size of Modal Block"/>
+	<apex:attribute name="ShowTourButton" type="Boolean" default="true" description="Show Tour Button"/>
+
+	<div class="modal fade" id="instructionsModal">
+        <div class="modal-dialog modal-{!Size}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">Instructions</h3>
+                </div>
+                <div class="modal-body modal-scroll">   
+					<h4>Introduction</h4>                 
+					<p>
+						ARC Fleet is a game of galactic exploration and conflict. 
+						As the game begins, your civilization has just developed ARC technology, enabling it to travel thousands of lightyears, effectively opening up the galaxy.
+					</p>
+
+					<p>
+						You start the game with only one ARC base, one explorer ARC fleet, and three regular ARC fleets. 
+						ARC bases are used to produce new fleets and to improve the chances of a successful jump, or "ARC".
+					</p>
+					<p>
+						You'll want more of them.
+					</p>
+					<p>
+						In order to build additional ARC bases, you will need to find sectors with sufficient resources. 
+					</p>
+					<ul>
+						<li>
+							<i class="arcfleet arc-explorer"/> <b>Explorers</b> are used to explore sectors, revealing the potential resource points in each.
+							They are better suited to ARCing and improve the experience for all fleet types included in an ARC.
+						</li>
+						<li>
+							<i class="arcfleet arc-regular"/> <b>Regulars</b> can build an ARC base in an explored sector. 
+							When a starbase is first built, it has 0 resource points. 
+							It will need to be upgraded by regular fleets in order to increase its resource points.
+						</li>
+						<li>
+							<i class="arcfleet arc-destroyer"/> <b>Destroyers</b> If you are in a more aggressive mood, you can use destroyer fleets to destroy enemy fleets and capture their ARC bases instead of building your own. 
+							Keep in mind, this is an expensive endeavor.
+						</li>
+					</ul>
+					<h4>Gameplay</h4>
+					<p>
+						You interact with the game by clicking sectors on the map. 
+						The sidebar on the right will show you any fleets or ARC bases that are currently in that sector. 
+						From the sidebar you can build new fleets if an ARC base is present, or you can direct fleets to take actions.
+					</p>
+					<p>
+						To build a new fleet, click the appropriate fleet button in the ARC base section.
+						Directing fleets is done by using the sliders to set the amount of fleets from each category and then click one of the action buttons.
+						Some actions are only available to certain fleet types, for instance only explorer fleets can perform the explore action.
+					</p>
+					<ul>
+						<li>
+							Regulars can either build a new, or upgrade an existing ARC base. 
+							Which action is performed depends on the contents of the sector. 
+							In an empty, explored sector regular fleets will build a new base.
+							If a sector contains a base the regular fleet will upgrade it.
+						</li>
+						<li>
+							Exploration is a rather hit or miss affair.
+							The more explorers used to explore a sector, the greater the chances of success.
+							Exploration also has a chance of resulting in a discovery that can unlock features in the game.
+						</li>
+						<li>
+							Combat can be performed by all fleet types, however, only destroyers can capture enemy ARC bases. 
+							In order to do so, a destroyer must be in a sector with an enemy base, and there must be no enemy fleets present.
+							As with exploration more destroyers increases the chances of successful combat and base captures.
+						</li>
+						<li>
+							Movement in the game is accomplished through a process called the ARC.
+							All fleets can ARC, but explorers increase the chances of a successful ARC for all fleets ARCing with them.
+							In order to ARC you must select the fleets in a sector that will ARC to the same destination sector then click the ARC Calc button.
+							Once in ARC Calc mode, click your destination and you will see the probability of a successful ARC.
+							When you are satisfied with your chances, click the ARC button.
+						</li>
+					</ul>
+					<p>
+						You are now ready to get out there and explore the galaxy. 
+						While you should have fun doing so, there are a few things to remember.
+					</p>
+					<ul>
+						<li>
+							The galaxy is a big place, and yours is not the only civilization out there.
+						</li>
+						<li>
+							Black holes are dangerous.
+							But to a sufficiantly advanced civilization, they can also be useful and rather fun.
+						</li>
+						<li>
+							As you increase the size of your civilization, certain events may occur that may result in the loss of some of your ARC bases.
+							This is a well-established universal phenomenon known as "life".
+							If your turn begins with the sudden loss of half of your bases due to a civil war, shrug your shoulders and remember, "That's life!".
+						</li>
+					</ul>
+					<p>
+						This should be enough to get you started.
+						Go have an adventure!
+					</p>
+                </div>
+                <apex:outputpanel layout="block" styleclass="modal-footer" rendered="{!ShowTourButton}">
+                    <button class="btn panelButton" data-dismiss="modal" ng-click="startTour()">Start Tour</button>
+                </apex:outputpanel>
+            </div>
+        </div>
+    </div></apex:component>

@@ -1,0 +1,587 @@
+<apex:page doctype="html-5.0" showHeader="false" standardStylesheets="false" >
+	<!-- Include CSS -->
+    <!-- Bootstrap -->
+    <link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+    
+    <!-- Include JS -->
+    <!-- is.js -->
+    <script src="{! $Resource.ISJS}"/>
+    <!-- jQuery -->
+    <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+    <!-- Bootstrap JS -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"/>
+    <!-- AngularJS CDN -->
+    <script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+    <!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-growl.min.js')}" type="text/javascript"/> -->
+    <!-- <script src="http://www.sunsean.com/Whirlpool.js" type="text/javascript"/> -->
+    <!-- <script src="{! $Resource.ProcGenGalaxy}"/>  -->
+    <apex:includeScript value="https://code.createjs.com/easeljs-0.8.2.min.js"/>
+    <apex:includeScript value="{!$Resource.EaseljsClip}"/>
+    <body onload="init()">
+    	<div class="container">
+            <div class="row">
+            	<div class="col-xs-12">
+            		<canvas id="terrainStage" width="600" height="400"></canvas>
+            		<input id="terrainSeed"/>
+            		<input id="sealevel" type="number" onchange="genTerrain()" min="0" max="15"/>
+            		<!-- <button onclick="genTerrain()" class="btn panelButton btn-default">Gen terrain</button>   -->
+            	</div>
+            </div>
+        </div>
+    </body>
+
+    <style>
+		canvas{
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+			border: solid 1px black;
+            /*border-radius: 10px;*/
+		}
+        body{background: black}
+    </style>
+    <script>
+        PerlinNoise = new function() {
+
+            this.noise = function(x, y, z) {
+
+               var p = new Array(512)
+               var permutation = [ 151,160,137,91,90,15,
+               131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+               190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+               88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+               77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+               102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+               135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+               5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+               223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+               129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+               251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+               49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+               138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
+               ];
+               for (var i=0; i < 256 ; i++) 
+             p[256+i] = p[i] = permutation[i]; 
+
+                  var X = Math.floor(x) & 255,                  // FIND UNIT CUBE THAT
+                      Y = Math.floor(y) & 255,                  // CONTAINS POINT.
+                      Z = Math.floor(z) & 255;
+                  x -= Math.floor(x);                                // FIND RELATIVE X,Y,Z
+                  y -= Math.floor(y);                                // OF POINT IN CUBE.
+                  z -= Math.floor(z);
+                  var    u = fade(x),                                // COMPUTE FADE CURVES
+                         v = fade(y),                                // FOR EACH OF X,Y,Z.
+                         w = fade(z);
+                  var A = p[X  ]+Y, AA = p[A]+Z, AB = p[A+1]+Z,      // HASH COORDINATES OF
+                      B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;      // THE 8 CUBE CORNERS,
+
+                  return scale(lerp(w, lerp(v, lerp(u, grad(p[AA  ], x  , y  , z   ),  // AND ADD
+                                                 grad(p[BA  ], x-1, y  , z   )), // BLENDED
+                                         lerp(u, grad(p[AB  ], x  , y-1, z   ),  // RESULTS
+                                                 grad(p[BB  ], x-1, y-1, z   ))),// FROM  8
+                                 lerp(v, lerp(u, grad(p[AA+1], x  , y  , z-1 ),  // CORNERS
+                                                 grad(p[BA+1], x-1, y  , z-1 )), // OF CUBE
+                                         lerp(u, grad(p[AB+1], x  , y-1, z-1 ),
+                                                 grad(p[BB+1], x-1, y-1, z-1 )))));
+           }
+           function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+           function lerp( t, a, b) { return a + t * (b - a); }
+           function grad(hash, x, y, z) {
+              var h = hash & 15;                      // CONVERT LO 4 BITS OF HASH CODE
+              var u = h<8 ? x : y,                 // INTO 12 GRADIENT DIRECTIONS.
+                     v = h<4 ? y : h==12||h==14 ? x : z;
+              return ((h&1) == 0 ? u : -u) + ((h&2) == 0 ? v : -v);
+           } 
+           function scale(n) { return (1 + n)/2; }
+        }
+    </script>
+    <script>
+        function randomIntFromInterval(min,max){
+            return Math.floor(Math.random()*(max-min+1)+min);
+        } 
+        function rifi(min,max){
+            return randomIntFromInterval(min,max);
+        }           
+        function randomArrayElem(arr){              
+            return arr[randomIntFromInterval(0,arr.length-1)];
+        } 
+        function rae(arr){
+            return randomArrayElem(arr);
+        } 
+        function rdfi(min,max){
+            return Math.random()*(max-min+1)+min;
+        }
+        function getXY(dim,size,i){
+			i++;
+			var x = i % dim==0?dim:Math.ceil(i % dim);
+			var y = Math.ceil(i/dim);
+		    
+		    return {x:(x*size)-size,y:(y*size)-size};
+		}		
+		function getIndex(dim,x,y){
+			return (((parseInt(y))*dim)+parseInt(x));
+		}
+        class hashCode{            
+            constructor(seed,size,length){
+                // Whirlpool
+                !function(){var r,o,f,n,t,i,a,e,u,l,h,v,c=10,p=[],d=[],s="ᠣ웨螸ŏ㚦틵祯酒悼鮎ꌌ笵ᷠퟂ⹋﹗ᕷ㟥鿰䫚壉⤊놠殅뵝ჴ쬾է䆋Ᵹ闘ﯮ籦�䞞쨭뼇굚茳挂ꩱ젙䧙守騦㊰햀뻍㑈ｺ遟⁨᪮둔錢擱猒䀈쏬�贽需켫皂혛떯橐䗳ワ㽕ꋪ斺⿀�﵍鉵ڊ닦ฟ拔ꢖ暈╙葲㥌幸㢌톥댡鰞䏇ﰄ写洍﫟縤㮫츑轎럫㲁铷뤓ⳓ쐃噄義⪻셓�鵬ㅴ겉ᓡᘺ椉炶탭챂颤⡜";for(o=8;o-->0;)p[o]=[];for(f=0;256>f;f++){n=s.charCodeAt(f/2),a=0==(1&f)?n>>>8:255&n,e=a<<1,e>=256&&(e^=285),u=e<<1,u>=256&&(u^=285),l=u^a,h=u<<1,h>=256&&(h^=285),v=h^a,p[0][f]=[0,0],p[0][f][0]=a<<24|a<<16|u<<8|a,p[0][f][1]=h<<24|l<<16|e<<8|v;for(var o=1;8>o;o++)p[o][f]=[0,0],p[o][f][0]=p[o-1][f][0]>>>8|p[o-1][f][1]<<24,p[o][f][1]=p[o-1][f][1]>>>8|p[o-1][f][0]<<24}for(d[0]=[0,0],t=1;c>=t;t++)i=8*(t-1),d[t]=[0,0],d[t][0]=4278190080&p[0][i][0]^16711680&p[1][i+1][0]^65280&p[2][i+2][0]^255&p[3][i+3][0],d[t][1]=4278190080&p[4][i+4][1]^16711680&p[5][i+5][1]^65280&p[6][i+6][1]^255&p[7][i+7][1];var g=[],y=[],A=0,C=0,z=[],W=[],b=[],q=[],B=[],D=function(){var r,o,f,n,t;for(r=0,o=0;8>r;r++,o+=8)q[r]=[0,0],q[r][0]=(255&y[o])<<24^(255&y[o+1])<<16^(255&y[o+2])<<8^255&y[o+3],q[r][1]=(255&y[o+4])<<24^(255&y[o+5])<<16^(255&y[o+6])<<8^255&y[o+7];for(r=0;8>r;r++)B[r]=[0,0],W[r]=[0,0],B[r][0]=q[r][0]^(W[r][0]=z[r][0]),B[r][1]=q[r][1]^(W[r][1]=z[r][1]);for(f=1;c>=f;f++){for(r=0;8>r;r++)for(b[r]=[0,0],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][W[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][W[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)W[r][0]=b[r][0],W[r][1]=b[r][1];for(W[0][0]^=d[f][0],W[0][1]^=d[f][1],r=0;8>r;r++)for(b[r][0]=W[r][0],b[r][1]=W[r][1],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][B[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][B[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)B[r][0]=b[r][0],B[r][1]=b[r][1]}for(r=0;8>r;r++)z[r][0]^=B[r][0]^q[r][0],z[r][1]^=B[r][1]^q[r][1]};r=Whirlpool=function(o){return r.init().add(o).finalize()},r.version="3.0",r.init=function(){for(var o=32;o-->0;)g[o]=0;for(A=C=0,y=[0],o=8;o-->0;)z[o]=[0,0];return r};var E=function(r){var o,f,n=r.toString();for(r=[],o=0;o<n.length;o++)f=n.charCodeAt(o),f>=256&&r.push(f>>>8&255),r.push(255&f);return r};r.add=function(o,f){if(!o)return r;f||(o=E(o),f=8*o.length);var n,t,i,a=0,e=8-(7&f)&7,u=7&A,l=f;for(n=31,i=0;n>=0;n--)i+=(255&g[n])+l%256,g[n]=255&i,i>>>=8,l=Math.floor(l/256);for(;f>8;){if(t=o[a]<<e&255|(255&o[a+1])>>>8-e,0>t||t>=256)return"Whirlpool requires a byte array";y[C++]|=t>>>u,A+=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=u,f-=8,a++}return f>0?(t=o[a]<<e&255,y[C]|=t>>>u):t=0,8>u+f?A+=f:(C++,A+=8-u,f-=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=f),r},r.finalize=function(){var r,o,f,n="",t=[],i="0123456789ABCDEF".split("");if(y[C]|=128>>>(7&A),C++,C>32){for(;64>C;)y[C++]=0;D(),C=0,y=[]}for(;32>C;)y[C++]=0;for(y.push.apply(y,g),D(),r=0,o=0;8>r;r++,o+=8)f=z[r][0],t[o]=f>>>24&255,t[o+1]=f>>>16&255,t[o+2]=f>>>8&255,t[o+3]=255&f,f=z[r][1],t[o+4]=f>>>24&255,t[o+5]=f>>>16&255,t[o+6]=f>>>8&255,t[o+7]=255&f;for(r=0;r<t.length;r++)n+=i[t[r]>>>4],n+=i[15&t[r]];return n}}();
+                // End Whirlpool
+                this.rawString = Whirlpool(seed);
+                this.members = this.rawString.split('');
+                size = size==null?16:size;
+                if(length == 'long'){
+                    this.values = this.ints_long(size);
+                }else{
+                    this.values = this.ints_short(size);
+                }
+            }
+            ints_short(size){
+                var ints = [];
+                if(size == 256){
+                    for (var i = 0; i < this.members.length; i+=2) {
+                        ints.push(parseInt('0x'+this.members[i]+this.members[i+1]));
+                    }
+                }else{
+                    for (var i = 0; i < this.members.length; i++) {
+                        ints.push(parseInt('0x'+this.members[i]));
+                    } 
+                }
+                return ints;
+            }
+            ints_long(size){
+                this.rawString = '';
+                var ints = [];
+                for (var i = 0; i < this.members.length; i++) {
+                    var hash = Whirlpool(this.members[i]+i);
+                    this.rawString += hash;
+                    var harr = hash.split('');
+                    if(size == 256){
+                        for (var ii = 0; ii < harr.length; ii+=2) {
+                            ints.push(parseInt('0x'+harr[ii]+harr[ii+1]));
+                            // this.ints_256_Long.push(parseInt('0x'+harr[ii]+harr[ii+1]));                        
+                        }     
+                    }else{
+                        for (var ii = 0; ii < harr.length; ii++) {
+                            ints.push(parseInt('0x'+harr[ii]));   
+                            //this.ints_16_Long.push(parseInt('0x'+harr[ii]));                        
+                        }
+                    }             
+                }  
+                return ints;               
+            }
+            sub(start,stop){
+                return this.values.slice(start,stop);
+            }
+        }
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+    </script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
+    <script> 
+    	var elevationColor = [
+    	'#000','#111','#222','#333','#444',
+    	// '#555','#555','#555',
+    	'#555','#666','#777','#888','#999','#aaa','#bbb','#ccc','#ddd','#eee','#fff'];
+		// Whirlpool
+		!function(){var r,o,f,n,t,i,a,e,u,l,h,v,c=10,p=[],d=[],s="ᠣ웨螸ŏ㚦틵祯酒悼鮎ꌌ笵ᷠퟂ⹋﹗ᕷ㟥鿰䫚壉⤊놠殅뵝ჴ쬾է䆋Ᵹ闘ﯮ籦�䞞쨭뼇굚茳挂ꩱ젙䧙守騦㊰햀뻍㑈ｺ遟⁨᪮둔錢擱猒䀈쏬�贽需켫皂혛떯橐䗳ワ㽕ꋪ斺⿀�﵍鉵ڊ닦ฟ拔ꢖ暈╙葲㥌幸㢌톥댡鰞䏇ﰄ写洍﫟縤㮫츑轎럫㲁铷뤓ⳓ쐃噄義⪻셓�鵬ㅴ겉ᓡᘺ椉炶탭챂颤⡜";for(o=8;o-->0;)p[o]=[];for(f=0;256>f;f++){n=s.charCodeAt(f/2),a=0==(1&f)?n>>>8:255&n,e=a<<1,e>=256&&(e^=285),u=e<<1,u>=256&&(u^=285),l=u^a,h=u<<1,h>=256&&(h^=285),v=h^a,p[0][f]=[0,0],p[0][f][0]=a<<24|a<<16|u<<8|a,p[0][f][1]=h<<24|l<<16|e<<8|v;for(var o=1;8>o;o++)p[o][f]=[0,0],p[o][f][0]=p[o-1][f][0]>>>8|p[o-1][f][1]<<24,p[o][f][1]=p[o-1][f][1]>>>8|p[o-1][f][0]<<24}for(d[0]=[0,0],t=1;c>=t;t++)i=8*(t-1),d[t]=[0,0],d[t][0]=4278190080&p[0][i][0]^16711680&p[1][i+1][0]^65280&p[2][i+2][0]^255&p[3][i+3][0],d[t][1]=4278190080&p[4][i+4][1]^16711680&p[5][i+5][1]^65280&p[6][i+6][1]^255&p[7][i+7][1];var g=[],y=[],A=0,C=0,z=[],W=[],b=[],q=[],B=[],D=function(){var r,o,f,n,t;for(r=0,o=0;8>r;r++,o+=8)q[r]=[0,0],q[r][0]=(255&y[o])<<24^(255&y[o+1])<<16^(255&y[o+2])<<8^255&y[o+3],q[r][1]=(255&y[o+4])<<24^(255&y[o+5])<<16^(255&y[o+6])<<8^255&y[o+7];for(r=0;8>r;r++)B[r]=[0,0],W[r]=[0,0],B[r][0]=q[r][0]^(W[r][0]=z[r][0]),B[r][1]=q[r][1]^(W[r][1]=z[r][1]);for(f=1;c>=f;f++){for(r=0;8>r;r++)for(b[r]=[0,0],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][W[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][W[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)W[r][0]=b[r][0],W[r][1]=b[r][1];for(W[0][0]^=d[f][0],W[0][1]^=d[f][1],r=0;8>r;r++)for(b[r][0]=W[r][0],b[r][1]=W[r][1],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][B[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][B[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)B[r][0]=b[r][0],B[r][1]=b[r][1]}for(r=0;8>r;r++)z[r][0]^=B[r][0]^q[r][0],z[r][1]^=B[r][1]^q[r][1]};r=Whirlpool=function(o){return r.init().add(o).finalize()},r.version="3.0",r.init=function(){for(var o=32;o-->0;)g[o]=0;for(A=C=0,y=[0],o=8;o-->0;)z[o]=[0,0];return r};var E=function(r){var o,f,n=r.toString();for(r=[],o=0;o<n.length;o++)f=n.charCodeAt(o),f>=256&&r.push(f>>>8&255),r.push(255&f);return r};r.add=function(o,f){if(!o)return r;f||(o=E(o),f=8*o.length);var n,t,i,a=0,e=8-(7&f)&7,u=7&A,l=f;for(n=31,i=0;n>=0;n--)i+=(255&g[n])+l%256,g[n]=255&i,i>>>=8,l=Math.floor(l/256);for(;f>8;){if(t=o[a]<<e&255|(255&o[a+1])>>>8-e,0>t||t>=256)return"Whirlpool requires a byte array";y[C++]|=t>>>u,A+=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=u,f-=8,a++}return f>0?(t=o[a]<<e&255,y[C]|=t>>>u):t=0,8>u+f?A+=f:(C++,A+=8-u,f-=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=f),r},r.finalize=function(){var r,o,f,n="",t=[],i="0123456789ABCDEF".split("");if(y[C]|=128>>>(7&A),C++,C>32){for(;64>C;)y[C++]=0;D(),C=0,y=[]}for(;32>C;)y[C++]=0;for(y.push.apply(y,g),D(),r=0,o=0;8>r;r++,o+=8)f=z[r][0],t[o]=f>>>24&255,t[o+1]=f>>>16&255,t[o+2]=f>>>8&255,t[o+3]=255&f,f=z[r][1],t[o+4]=f>>>24&255,t[o+5]=f>>>16&255,t[o+6]=f>>>8&255,t[o+7]=255&f;for(r=0;r<t.length;r++)n+=i[t[r]>>>4],n+=i[15&t[r]];return n}}();
+		// End Whirlpool
+        //var h = new hashCode('jim',16,'short');
+        // console.log(new hashCode('jim').sub(0,10));
+        // console.log(new hashCode('jim').rawString);
+        // console.log(new hashCode('jim').values);
+        // console.log(new hashCode('jim').values.length);
+        // console.log(new hashCode('jim',256).values);
+        // console.log(new hashCode('jim',256).values.length);
+
+        // console.log(new hashCode('jim',null,'long').rawString);
+        // console.log(new hashCode('jim',null,'long').values);
+        // console.log(new hashCode('jim',null,'long').values.length);
+        // console.log(new hashCode('jim',256,'long').values);
+        // console.log(new hashCode('jim',256,'long').values.length);
+        var stage = new createjs.Stage('terrainStage');
+        var bg = new createjs.Shape();
+        var seed = '';
+        function init(){
+            $('#sealevel').val(0)
+            //stage.update();            
+            seed = getUrlParameter('s');
+            if(seed == null) seed = $('#terrainSeed').val();
+            if(seed == ''){
+                //randomSeed();
+            }else{
+                //genTerrain();
+            }
+            $('#shareCode').html('<a href="http://trickshot-developer-edition.na7.force.com/terrainGen?s='+seed+'" class="btn panelButton btn-default">Share</a>');
+            var your_url = 'https://www.jw.org/en/publications/magazines/watchtower-study-january-2017/offered-themselves-willingly-single-sisters/';
+jQuery.ajax = (function(_ajax){
+
+    var protocol = location.protocol,
+        hostname = location.hostname,
+        exRegex = RegExp(protocol + '//' + hostname),
+        YQL = 'http' + (/^https/.test(protocol)?'s':'') + '://query.yahooapis.com/v1/public/yql?callback=?',
+        query = 'select * from html where url="{URL}" and xpath="*"';
+
+    function isExternal(url) {
+        return !exRegex.test(url) && /:\/\//.test(url);
+    }
+
+    return function(o) {
+
+        var url = o.url;
+
+        if ( /get/i.test(o.type) && !/json/i.test(o.dataType) && isExternal(url) ) {
+
+            // Manipulate options so that JSONP-x request is made to YQL
+
+            o.url = YQL;
+            o.dataType = 'json';
+
+            o.data = {
+                q: query.replace(
+                    '{URL}',
+                    url + (o.data ?
+                        (/\?/.test(url) ? '&' : '?') + jQuery.param(o.data)
+                    : '')
+                ),
+                format: 'xml'
+            };
+
+            // Since it's a JSONP request
+            // complete === success
+            if (!o.success && o.complete) {
+                o.success = o.complete;
+                delete o.complete;
+            }
+
+            o.success = (function(_success){
+                return function(data) {
+
+                    if (_success) {
+                        // Fake XHR callback.
+                        _success.call(this, {
+                            responseText: data.results[0]
+                                // YQL screws with <script>s
+                                // Get rid of them
+                                .replace(/<script[^>]+?\/>|<script(.|\s)*?\/script>/gi, '')
+                        }, 'success');
+                    }
+
+                };
+            })(o.success);
+
+        }
+
+        return _ajax.apply(this, arguments);
+
+    };
+
+})(jQuery.ajax);
+
+
+
+$.ajax({
+    url: your_url,
+    type: 'GET',
+    success: function(res) {
+        var text = res.responseText;
+        // then you can manipulate your text as you wish
+        //alert(text);
+        console.log(text.includes('Watchtower Study'));
+   //      loop: for (var i = 0; i < $.parseHTML(text).length; i++) {
+   //      	var tmp = document.createElement("div");
+			// tmp.appendChild($.parseHTML(text)[i]);
+			// //console.log(tmp.innerHTML);
+
+   //      	var desc='';
+   //      	var node = tmp.innerHTML;
+   //      	if(node.includes('Watchtower Study')){
+   //      		console.log(node);
+   //      		break loop;
+   //      	}
+   //      }
+    }
+});
+        }
+
+        function randomSeed(){
+            seed = Date.now();
+            $('#terrainSeed').val(seed);
+            $('#shareCode').html('<a href="http://trickshot-developer-edition.na7.force.com/terrainGen?s='+seed+'" class="btn panelButton btn-default">Share</a>');
+            genTerrain();
+        }
+
+        function genFromSeed(){
+            seed = $('#terrainSeed').val();
+            $('#shareCode').html('<a href="http://trickshot-developer-edition.na7.force.com/terrainGen?s='+seed+'" class="btn panelButton btn-default">Share</a>');
+            genTerrain();
+        } 
+        var terrainArray = []; 
+        var elModArray = [];
+        var terrArr = [];  
+        var seaLevel = $('#sealevel').val();
+        function genTerrain(){ 
+        	stage.removeAllChildren();bg.graphics.beginFill('blue').drawRect(0, 0, 1000, 500);
+            stage.addChild(bg);
+        	$('#terrainSeed').val(seed);
+        	seaLevel = $('#sealevel').val();
+            /*
+            var hashArray = Whirlpool(seed).split('');
+
+        	//var lod1Array = hashArray.slice(0,6);
+        	
+        	var lod3Array = [];
+        	//var lod1 = [];
+        	
+        	var lod3 = [];
+        	var terrArr = [];
+        	//for (var i = 0; i < lod1Array.length; i++) {
+        		//lod1.push(parseInt('0x'+lod1Array[i]));
+        	//}
+            var lod1 = new hashCode(seed).sub(0,6);
+        	for (var i = 0; i < lod1.length; i++) {
+        		var elePoint = new createjs.Shape();
+        		//lod1[i] = lod1[i]>8?1:0;
+        		var color = lod1[i]>8?'brown':'blue';
+        		elePoint.graphics.beginFill(color).dr(0,0,200,200);
+				elePoint.x=getXY(3,200,i).x;
+        		elePoint.y=getXY(3,200,i).y;
+        		//terrArr.push(elePoint)
+        		//lod2Array = lod2Array.concat(Whirlpool(i+lod1[i]).split(''));
+        		genLOD2(i);
+        		//stage.addChild(elePoint);
+        	}
+			//console.log(lod1)
+        	
+
+	        function genLOD2(lod1Index){
+	        	//console.log(lod1Index+': '+lod1[lod1Index]);
+	        	var lod2Array = [];
+	        	var lod2 = [];
+	        	lod2Array = Whirlpool(lod1Index+lod1[lod1Index]).split('');
+	        	
+	        	for (var i = 0; i < 25; i++) {
+	        		lod2.push(parseInt('0x'+lod2Array[i]));        	
+	        	}
+	        	for (var i = 0; i < lod2.length; i++) {
+	        		var elePoint = new createjs.Shape();
+	        		//lod2[i] = lod2[i]-(lod1[lod1Index]/2); //>8?1:0;
+	        		lod2[i] = lod1[lod1Index]>8?lod2[i]:0;
+	        		//console.log(lod2[i]);
+	        		var color = lod2[i]>8?'brown':'blue';
+	        		elePoint.graphics.beginFill(color).dr(0,0,40,40);
+					//elePoint.x=getXY(15,40,i).x;
+	        		//elePoint.y=getXY(15,40,i).y;
+	        		//lod3 = lod3.concat(Whirlpool(i+lod2[i]).split(''));
+	        		// terrArr.push(elePoint)
+	        		//stage.addChild(elePoint);
+	        	}
+	        }
+        	//var longHashArray = [];
+        	var terrainArray = [];
+        	
+        	//for (var i = 0; i < hashArray.length; i++) {
+        	//	longHashArray = longHashArray.concat(Whirlpool(i+hashArray[i]).split(''));
+        	//}
+            */
+        	var longHashArray = new hashCode(seed,16,'long').sub(0,15000);
+            //console.log(longHashArray);
+   			size = 4;
+   			//console.log(seaLevel)
+        	for (var i = 0; i < longHashArray.length; i++) {
+        		var flatness = 2;
+        		var elevation = longHashArray[i]; //parseInt('0x'+longHashArray[i]);
+        		elevation = elevation<0?0:elevation;
+        		//elevation = Math.floor(elevation*flatness);
+        		terrainArray.push(elevation);
+        	}
+            elmodPass(1);
+            elmodPass(2);
+            elmodPass(3);
+            elmodPass(4);
+            elmodPass(5);
+            elmodPass(6);
+            elmodPass(7);
+            elmodPass(8);
+            elmodPass(9);
+            elmodPass(10);
+            elmodPass(11);
+            elmodPass(12);
+            elmodPass(13);
+            elmodPass(14);
+            elmodPass(15);
+
+            // elmodPass(15);
+            // elmodPass(14);
+            // elmodPass(13);
+            // elmodPass(12);
+            // elmodPass(11);
+            // elmodPass(10);
+            // elmodPass(9);
+            // elmodPass(8);
+            // elmodPass(7);
+            // elmodPass(6);
+            // elmodPass(5);
+            // elmodPass(4);
+            // elmodPass(3);
+            // elmodPass(2);
+            // elmodPass(1);
+        	//console.log(getXY(150,4,38).x+','+getXY(150,4,38).y);
+
+        	// console.log(getIndex(150,150,1));
+        	for (var i = 0; i < terrArr.length; i++) {
+        		//terrArr[i].x = getXY(150,size,i).x;
+        		//terrArr[i].y = getXY(150,size,i).y;
+        		//console.log(terrArr[i].x+','+terrArr[i].y)
+        		stage.addChild(terrArr[i]);
+        	}
+        	stage.update();
+        	//console.log(terrainArray.length);
+        	//console.log(terrainArray);
+        }
+        // var elevationModifiers = [
+        //     [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1], //0
+        //     [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1], //1
+        //     [0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2], //2
+        //     [0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2], //3
+        //     [-1,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2], //4
+        //     [-1,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2], //5
+        //     [-1,-1,0,0,0,0,0,1,1,1,1,1,2,2,2,2], //6
+        //     [-2,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,2], //7
+        //     [-2,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,2], //8
+        //     [-2,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,2], //9
+        //     [-2,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,2], //10
+        //     [-3,-3,-2,-2,-1,-1,0,0,0,0,1,1,2,2,3,3], //11
+        //     [-3,-3,-2,-2,-1,-1,0,0,0,0,1,1,2,2,3,3], //12
+        //     [-5,-4,-3,-2,-1,-1,0,0,0,0,1,1,2,2,2,2], //13
+        //     [-5,-4,-3,-2,-2,-1,-1,-1,0,0,0,0,0,1,1,1], //14
+        //     [-5,-5,-5,-5,-5,-5,-5,-5,-3,-3,-3,-3,-3,-2,-2,0] //15
+        // ]
+         var elevationModifiers = [
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,2], //0
+        //     [0,0,0,0,0,0,0,0,0,1,1,1,1,2,2,3], //1
+        //     [0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3], //2
+        //     [1,1,1,1,1,2,2,2,2,2,2,3,3,3,4,4], //3
+        //     [2,2,3,3,3,3,4,4,4,4,4,4,5,5,5,5], //4
+        //     [3,3,4,4,4,5,5,5,5,5,5,6,6,6,6,7], //5        
+            // [4,4,5,5,5,5,6,6,6,6,6,7,7,7,7,8], //6
+            // [4,5,5,6,6,7,7,7,7,7,8,8,8,8,8,9], //7
+            // [5,6,6,7,7,8,8,8,8,8,9,9,9,9,9,10], //8
+            // [6,6,7,7,8,8,9,9,9,9,10,10,10,11,11,11], //9
+            // [7,7,7,8,8,8,9,9,9,10,10,10,10,11,11,12], //10
+            // [8,8,8,8,8,8,8,8,10,10,11,11,12,12,13,13], //11
+            // [9,9,10,10,11,11,12,12,12,12,13,13,13,14,14,14], //12
+            // [10,10,10,10,10,11,11,11,12,12,13,13,14,14,14,15], //13
+            // [11,11,11,12,12,13,13,14,14,14,14,15,15,15,15,15], //14
+            // [11,11,11,12,12,13,13,13,13,14,14,14,14,15,15,15] //15
+
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], //0
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2], //1
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3], //2
+            [0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4], //3
+            [0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5], //4
+            [0,0,0,0,0,0,0,0,0,0,0,5,5,5,6,7], //5
+            [0,0,0,0,0,0,0,0,0,0,0,6,6,6,7,8], //6
+            [0,0,0,0,0,0,0,0,0,0,0,7,7,7,8,9], //7
+            [0,0,0,0,0,0,0,0,0,0,0,8,8,8,9,10], //8
+            [0,0,0,0,0,0,0,0,0,0,0,9,9,9,10,11], //9
+            [0,0,0,0,0,0,0,3,3,3,3,7,7,7,7,10], //10
+            [0,0,0,0,0,0,0,4,4,4,4,8,8,8,8,11], //11
+            [0,0,0,0,0,0,0,5,5,5,5,9,9,9,9,12], //12
+            [1,1,1,1,1,1,1,6,6,6,6,10,10,10,10,13], //13
+            [2,2,2,2,2,2,2,7,7,7,7,11,11,11,11,14], //14
+            [3,3,3,3,3,3,3,8,8,8,8,10,10,10,10,15] //15
+        ]
+        function elmodPass(el){
+            for (var i = 0; i < terrainArray.length; i++){
+                modifyAdjacentElevations(i,el)
+                var elevation = terrainArray[i];
+                var elePoint = new createjs.Shape();
+                var color = elevation>=seaLevel?elevationColor[elevation]:'blue';
+                x = getXY(150,size,i).x;
+                y = getXY(150,size,i).y;
+                elePoint.graphics.beginFill(color).dr(0,0,4,4);
+                elePoint.x=x
+                elePoint.y=y
+
+                terrArr.push(elePoint);
+            }
+        }
+        function modifyAdjacentElevations(i,el){
+            dim = 150
+            size = 4
+            thisEl = terrainArray[i]
+            if(el == thisEl){
+                x = getXY(dim,size,i).x
+                y = getXY(dim,size,i).y            
+                
+                if(y>0&&x>0){
+                    toplefti = getIndex(dim,x-1,y-1)
+                    if(is.undefined(elModArray[toplefti])){
+                        terrainArray[toplefti] = elevationModifiers[thisEl][terrainArray[toplefti]]// + thisEl
+                        elModArray[toplefti] = 1
+                    }
+                }
+                if(y>0){
+                    topi = getIndex(dim,x,y-1)
+                    if(is.undefined(elModArray[topi])){
+                        terrainArray[topi] = elevationModifiers[thisEl][terrainArray[topi]]// + thisEl
+                        elModArray[topi] = 1
+                    }
+                }
+                if(y>0&&x<150){
+                    toprighti = getIndex(dim,x+1,y-1)
+                    if(is.undefined(elModArray[toprighti])){
+                        terrainArray[toprighti] = elevationModifiers[thisEl][terrainArray[toprighti]]// + thisEl
+                        elModArray[toprighti] = 1
+                    }
+                }
+                if(x<150){
+                    righti = getIndex(dim,x+1,y)
+                    if(is.undefined(elModArray[righti])){
+                        terrainArray[righti] = elevationModifiers[thisEl][terrainArray[righti]]// + thisEl
+                        elModArray[righti] = 1
+                    }
+                }
+                if(y<100&&x<150){
+                    bottomrighti = getIndex(dim,x+1,y+1)
+                    if(is.undefined(elModArray[bottomrighti])){
+                        terrainArray[bottomrighti] = elevationModifiers[thisEl][terrainArray[bottomrighti]]// + thisEl
+                        elModArray[bottomrighti] = 1
+                    }
+                }
+                if(y<100){
+                    bottomi = getIndex(dim,x,y+1)
+                    if(is.undefined(elModArray[bottomi])){
+                        terrainArray[bottomi] = elevationModifiers[thisEl][terrainArray[bottomi]]// + thisEl
+                        elModArray[bottomi] = 1
+                    }
+                }
+                if(y<100&&x>0){
+                    bottomlefti = getIndex(dim,x+1,y-1)
+                    if(is.undefined(elModArray[bottomlefti])){
+                        terrainArray[bottomlefti] = elevationModifiers[thisEl][terrainArray[bottomlefti]]// + thisEl
+                        elModArray[bottomlefti] = 1
+                    }
+                }
+                if(x>0){
+                    lefti = getIndex(dim,x-1,y)
+                    if(is.undefined(elModArray[lefti])){
+                        terrainArray[lefti] = elevationModifiers[thisEl][terrainArray[lefti]]// + thisEl
+                        elModArray[lefti] = 1
+                    }
+                }
+            }   
+        }
+    </script>
+</apex:page>

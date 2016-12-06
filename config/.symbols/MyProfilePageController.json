@@ -1,0 +1,307 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 12,
+                "line": 14
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "MyProfilePageController",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01pA0000002fMLJIA2",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002fMLJIA2",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 10
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getUser",
+            "parameters": [],
+            "references": [],
+            "returnType": "User",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 25
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getIsEdit",
+            "parameters": [],
+            "references": [],
+            "returnType": "Boolean",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 29
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "edit",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 33
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "save",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 49
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "changePassword",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 53
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "cancel",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 25,
+                "line": 61
+            },
+            "modifiers": [
+                "private",
+                "static"
+            ],
+            "name": "setContactFields",
+            "parameters": [
+                {
+                    "name": "c",
+                    "type": "Contact"
+                },
+                {
+                    "name": "u",
+                    "type": "User"
+                }
+            ],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [
+                {
+                    "name": "IsTest"
+                }
+            ],
+            "location": {
+                "column": 28,
+                "line": 76
+            },
+            "modifiers": [
+                "private",
+                "static",
+                "testMethod"
+            ],
+            "name": "testSave",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        }
+    ],
+    "name": "MyProfilePageController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 18,
+                "line": 7
+            },
+            "modifiers": [
+                "private"
+            ],
+            "name": "user",
+            "references": [],
+            "type": "User"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 8
+            },
+            "modifiers": [
+                "private"
+            ],
+            "name": "isEdit",
+            "references": [],
+            "type": "Boolean"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 5
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "MyProfilePageController",
+        "references": [],
+        "type": "MyProfilePageController"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 50,
+                "line": 61
+            },
+            "modifiers": [],
+            "name": "c",
+            "references": [],
+            "type": "Contact"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 58,
+                "line": 61
+            },
+            "modifiers": [],
+            "name": "u",
+            "references": [],
+            "type": "User"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 78
+            },
+            "modifiers": [],
+            "name": "existingPortalUsers",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 18,
+                "line": 81
+            },
+            "modifiers": [],
+            "name": "currentUser",
+            "references": [],
+            "type": "User"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 37,
+                "line": 83
+            },
+            "modifiers": [],
+            "name": "controller",
+            "references": [],
+            "type": "MyProfilePageController"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 21,
+                "line": 91
+            },
+            "modifiers": [],
+            "name": "c",
+            "references": [],
+            "type": "Contact"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 18,
+                "line": 99
+            },
+            "modifiers": [],
+            "name": "existingPortalUser",
+            "references": [],
+            "type": "User"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 20,
+                "line": 100
+            },
+            "modifiers": [],
+            "name": "randFax",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 103
+            },
+            "modifiers": [],
+            "name": "controller",
+            "references": [],
+            "type": "MyProfilePageController"
+        }
+    ]
+}

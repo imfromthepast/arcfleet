@@ -1,0 +1,117 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="ARCBugTrackerController">
+	<apex:composition template="ARCFleetTemplate">
+		<apex:define name="body">
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-heading clearfix">
+						<h3 class="xpanel-title pull-left">
+							<!-- <i class="ionicons ion-bug"/>  -->
+							<span class="fa-stack fa-md">
+							  	<i class="ionicons ion-bug fa-stack-1x"></i>
+							  	<i class="fa fa-ban fa-stack-2x text-danger"></i>
+							</span>
+							Bug Tracker
+						</h3>
+						<div class="pull-right"><a class="btn btn-sm panelButton" data-toggle="modal" href='#newBugModal'><i class="fa fa-plus"/></a></div>
+					</div>
+					<div class="panel-body">
+						These are the bugs that have been reported thus far.
+					</div>
+					<div class="table-responsive">
+						<apex:dataTable value="{!bugs}" var="b" styleClass="table">
+							<apex:column headerValue="Name" value="{!b.Name}"/>
+							<apex:column value="{!b.Priority__c}">
+								<apex:facet name="header">
+									<i class="fa fa-exclamation-circle fa-lg"/>
+								</apex:facet>
+							</apex:column>
+							<apex:column value="{!b.Reporter__r.Name}">
+								<apex:facet name="header">
+									<i class="glyphicon glyphicon-user fa-lg"/>
+								</apex:facet>
+							</apex:column>
+							<apex:column headerValue="Description" value="{!b.Description__c}"/>
+							<apex:column value="{!b.Status__c}">
+								<apex:facet name="header">
+									<i class="glyphicon glyphicon-tasks fa-lg"/>
+								</apex:facet>
+							</apex:column>
+							<apex:column >
+								<apex:facet name="header">
+									<i class="fa fa-file-image-o fa-lg"/>
+								</apex:facet>
+								<apex:repeat value="{!b.attachments}" var="a">
+									<a data-toggle="modal" href='#{!a.id}'><apex:image value="{!URLFOR($Action.Attachment.Download,a.id)}" rendered="{!contains(a.contenttype,'image')}" style="max-width: 200px" styleClass="img-thumbnail" /></a>
+								</apex:repeat>
+							</apex:column>
+						</apex:dataTable>
+					</div>
+				</div>
+			</div>
+			<apex:repeat value="{!bugs}" var="b">
+				<apex:repeat value="{!b.attachments}" var="a">
+					<div class="modal fade" id="{!a.id}">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title">Screenshot</h4>
+								</div>
+								<div class="modal-body">
+									<apex:image value="{!URLFOR($Action.Attachment.Download,a.id)}" rendered="{!contains(a.contenttype,'image')}" styleClass="img-responsive"/>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</apex:repeat>
+			</apex:repeat>
+			<div class="modal fade" id="newBugModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title">New Bug</h4>
+						</div>
+						<div class="modal-body">
+							<apex:form styleclass="form-horizontal">								
+								<div class="form-group">
+									<label class="col-sm-4 control-label">Description</label>
+									<div class="col-sm-8"><apex:inputField value="{!bug.Description__c}" styleclass="form-control"/></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">Priority</label>
+									<div class="col-sm-4"><apex:inputfield value="{!bug.Priority__c}" styleclass="form-control"/></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">Attach Screenshot</label>
+									<div class="col-sm-4"><apex:inputfile value="{!a.body}" styleclass="xform-control"/></div>
+								</div>
+
+								<apex:actionFunction name="af__submitBug" action="{!SubmitBug}"/>									
+							</apex:form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn panelButton" onclick="af__submitBug()">Submit</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		</apex:define>
+	</apex:composition>
+	<style>
+		body{
+            padding-top: 70px;
+            background-color: #3c3c3c;
+        }
+        .panelButton{
+            background: #3c3c3c;
+            border-color: #000000 !important;
+            box-shadow: inset 1px 1px 1px rgba(255,255,255,.15),0 1px 5px rgba(0,0,0,.075) !important;
+            color: #999 !important;
+        }
+        .panelButton:hover, .panelButton:active{
+            background: #464646;
+        }
+	</style>
+</apex:page>

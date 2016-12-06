@@ -1,0 +1,19 @@
+<apex:component layout="none">
+	<apex:attribute name="large" description="size" type="boolean" default="false"/>
+	<apex:attribute name="icon" description="size" type="boolean" default="false"/>
+	<apex:attribute name="imgclass" type="String" description="class"/>
+
+	<apex:outputPanel layout="block" styleclass="fa-stack fa-1x" style="margin-top: -10px;" rendered="{! icon}">
+      <i class="arcfleet arc-arcbase fa-stack-2x logoBase"></i>
+      <i class="arcfleet arc-explorer fa-stack-2x logoFleet"></i>
+	</apex:outputPanel>
+	<apex:outputPanel layout="none" rendered="{! !icon}">
+		<apex:outputPanel style="margin-top: -10px;" rendered="{! !large}">
+			<img src="{!URLFOR($Resource.AppleARCFleetIcon)}" width="35px"/>
+	  	</apex:outputPanel>
+		<apex:image value="{!URLFOR($Resource.ARCFleetLogos,'ARC-Fleet-Logo-Transparent.png')}" rendered="{!large}" styleClass="img-responsive center-block {!imgclass}"/>
+	</apex:outputPanel>
+	<div class="logoText">
+		<apex:componentBody />	
+	</div>
+</apex:component>

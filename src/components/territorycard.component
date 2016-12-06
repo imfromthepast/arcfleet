@@ -1,0 +1,31 @@
+<apex:component >
+    <apex:attribute name="cname" type="string" description="todo"/>
+    <apex:attribute name="tname" type="string" description="todo"/>
+    <apex:attribute name="coords" type="string" description="todo"/>
+    <apex:attribute name="notes" type="string" description="todo"/>
+    <apex:attribute name="householders" type="Householder__c[]" description="todo"/>
+    <apex:attribute name="zoom" type="string" default="" description="todo"/>
+    <div class="cardr" style="page-break-after: always;">
+        <div style="position:absolute; z-index: 10; padding: 3px; font-family: Arial Unicode MS; font-size: 16px; background-color: #EEEAE2;border:1px black solid;">
+            {!cname} Congregation - Territory #{!tname}
+        </div>
+        <div id="img">
+            <img src="http://maps.googleapis.com/maps/api/staticmap?size=640x400&zoom=&maptype=roadmap&sensor=false&scale=1&format=png&style=feature:road|element:labels|visibility:on&path=color:blue|weight:5|{!coords}"  style="position:absolute; border: 1px black solid; width: 710px"/>
+        </div>
+        <div style="font-family: Arial Unicode MS; position: relative; border-top: 1px black dashed; width: 100%; top: 500px; padding-top: 20px;">
+            <div style="border-bottom: 1px solid black; height: 50px;">{!notes}</div>
+            Do Not Calls:<br/>
+            <apex:repeat value="{!householders}" var="h">
+                {!h.Street__c}{!if(h.Note__c !='',' - '+h.Note__c,'')}<br/> 
+            </apex:repeat>
+            <!--div style="border-bottom: 1px solid black; height: 50px;">&nbsp;</div>
+            <div style="border-bottom: 1px solid black; height: 50px;">&nbsp;</div>
+            <div style="border-bottom: 1px solid black; height: 50px;">&nbsp;</div>
+            <div style="border-bottom: 1px solid black; height: 50px;">&nbsp;</div>
+            <div style="border-bottom: 1px solid black; height: 50px;">&nbsp;</div>
+            <div style="border-bottom: 1px solid black; height: 50px;">&nbsp;</div>
+            <div style="border-bottom: 1px solid black; height: 50px;">&nbsp;</div-->
+        </div>
+    </div>
+    
+</apex:component>

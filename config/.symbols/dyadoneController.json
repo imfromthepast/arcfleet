@@ -1,0 +1,56 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 12,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "dyadoneController",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01pA0000003IArlIAG",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003IArlIAG",
+    "methods": [],
+    "name": "dyadoneController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 19,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "pg",
+            "references": [],
+            "type": "String"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "dyadoneController",
+        "references": [],
+        "type": "dyadoneController"
+    },
+    "variables": []
+}

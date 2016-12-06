@@ -1,0 +1,32 @@
+<apex:page showHeader="false" standardStylesheets="false">
+    <apex:composition template="ARCFleetTemplate">
+        <apex:define name="body">
+            <i id="fleet1" class="fa fa-home fa-5x zoomOut animated"/>
+            <i id="fleet2" class="fa fa-home fa-5x animated"/>
+            <i id="fleet3" class="fa fa-home fa-5x animated"/>
+            <i id="fleet4" class="fa fa-home fa-5x animated"/>
+            <div id="step"></div>
+        </apex:define>
+    </apex:composition>
+    <style>
+        
+        body{
+            padding-top: 50px;
+        }
+        #fleet1{
+          /*-webkit-animation-duration: 5s;*/
+          -webkit-animation-delay: 1s;
+          -webkit-animation-iteration-count: 1;
+        }
+    </style>
+    <script>
+        //$('#fleet').addClass('zoomOut')
+        var step = 1;
+
+        $('.animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+            step++;
+            $('#fleet'+step).addClass('zoomOut');
+            $('#step').text(step);
+        });
+    </script>
+</apex:page>

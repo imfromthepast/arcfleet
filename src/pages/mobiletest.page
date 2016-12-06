@@ -1,0 +1,93 @@
+<apex:page showHeader="false" docType="html" standardStylesheets="false" controller="territorytemplatecontroller">
+    <html> 
+        <head> 
+            <title>Territory Manager</title> 
+            <meta name="viewport" content="width=device-width, initial-scale=1"/> 
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black"/ >
+            <link rel="apple-touch-icon" href="{!URLFOR($Resource.mapfavicon)}"/>
+            <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+            <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBdZE4dKrPhs5Jp08-edTlK-D23yF0Ppg0&sensor=false&libraries=drawing"></script>
+            <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+            <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+            <style>
+                .ui-dialog .ui-dialog-contain { margin-top: 0; }
+                .ui-overlay-a{background: url('http://turbo.premiumpixels.com/wp-content/uploads/2011/05/feat9.jpg');}
+                .ui-overlay-b{background: url('http://turbo.premiumpixels.com/wp-content/uploads/2011/05/feat9.jpg');;}
+                .ui-overlay-c{background: url('http://turbo.premiumpixels.com/wp-content/uploads/2011/05/feat9.jpg');;}
+                .ui-overlay-d{background: url('http://turbo.premiumpixels.com/wp-content/uploads/2011/05/feat9.jpg');;}
+                .ui-overlay-e{background: url('http://turbo.premiumpixels.com/wp-content/uploads/2011/05/feat9.jpg');;}
+                //.nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 20px !important; }
+                //.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 20px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+                //#share .ui-icon  { background:  url({!$Resource.Share}) 20% 20% no-repeat; background-size: 16px 16px; }
+        
+            </style>
+        </head> 
+        <body> 
+            <div data-role="page" id="congregation" data-add-back-btn="true">
+                <div data-role="header" data-position="fixed">
+                    <h1>Etowah</h1>
+                </div>
+                <div data-role="content">   
+                    Map<a href="#" data-role="button"  data-icon="gear" data-iconpos="notext">Three</a>
+                    kjhkhklhhl<p/>
+                    jhgjgjgjkghj<p/>
+                    jhgjgjgjkghj<p/>
+                    jhgjgjgjkghj<p/>
+                    jhgjgjgjkghj<p/>
+                    jhgjgjgjkghj<p/>
+                    jhgjgjgjkghj<p/>
+                    jhgjgjgjkghj<p/>
+                    jhgjgjgjkghj<p/>
+                </div>
+                <div data-role="footer" data-position="fixed">
+                    <div data-role="navbar" data-iconpos="top">
+                        <ul>
+                            <li><a href="#" data-icon="edit">Edit</a></li>
+                            <li><a href="#buttons" data-transition="slideup" data-icon="edit">Buttons</a></li>
+                            <li><a href="#share" data-rel="dialog" id="share" data-icon="refresh">Share</a></li>
+                            <li><a href="#" data-icon="gear">Setup</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="page" id="share">
+                <div data-role="header" data-theme="a">
+                    <h1>Share</h1>
+                </div>
+                <div data-role="content">   
+                    <apex:form >
+                        <div data-role="fieldcontain" class="ui-hide-label">
+                            <label for="email">Username:</label>
+                            <input type="text" name="email" id="email" value="" placeholder="Email"/>
+                        </div>
+                    </apex:form>
+                </div>
+            </div>
+            <div data-role="page" id="buttons" data-add-back-btn="true">
+                <div data-role="header">
+                    <h1>Buttons</h1>
+                </div><!-- /header -->
+                <div data-role="content">   
+                    <a href="#" data-role="button" data-icon="star">Star button</a>
+                    <a href="#" data-role="button" data-icon="star" data-theme="a">Button</a>  
+                    <a href="#" data-role="button" data-icon="star" data-theme="b">Button</a>  
+                    <a href="#" data-role="button" data-icon="star" data-theme="c">Button</a>  
+                    <a href="#" data-role="button" data-icon="star" data-theme="d">Button</a>  
+                    <a href="#" data-role="button" data-icon="star" data-theme="e">Button</a>
+                </div><!-- /content --> 
+                <div data-role="footer" data-position="fixed">
+                    <div data-role="navbar" data-iconpos="top">
+                        <ul>
+                            <li><a href="#" data-icon="edit">Edit</a></li>
+                            <li><a href="#buttons" data-icon="edit">Buttons</a></li>
+                            <li><a href="#share" data-rel="dialog" id="share" data-icon="refresh">Share</a></li>
+                            <li><a href="#" data-icon="gear">Setup</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- /page -->
+        </body>
+    </html>
+</apex:page>

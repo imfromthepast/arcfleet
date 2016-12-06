@@ -1,0 +1,385 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000003ILKkIAO",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003ILKkIAO",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 21
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "init",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 56
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newGame",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 67
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "login",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 85
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "logout",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 93
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "register",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        }
+    ],
+    "name": "ARCFleetHomeController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 36,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "id",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 36,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "releaseNotes",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 38,
+                "line": 4
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "Player",
+            "references": [],
+            "type": "ARCFleet__Player__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 5
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "playerFirstName",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 6
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "playerLastName",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 7
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newPlayer",
+            "references": [],
+            "type": "ARCFleet__Player__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 8
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "email",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 9
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "password",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 10
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newemail",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 11
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newpassword",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 12
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "Games",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 13
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "Maps",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 14
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newGame",
+            "references": [],
+            "type": "ARCFleet__Game__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 15
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "game",
+            "references": [],
+            "type": "ARCFleet__Game__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 16
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "version",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 17
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "screenshots",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 18
+            },
+            "modifiers": [
+                "public",
+                "transient"
+            ],
+            "name": "playerId",
+            "references": [],
+            "type": "Cookie"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 41,
+                "line": 19
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "rememberme",
+            "references": [],
+            "type": "Boolean"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "ARCFleetHomeController",
+        "references": [],
+        "type": "ARCFleetHomeController"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 61
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 68
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 88
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 103
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        }
+    ]
+}

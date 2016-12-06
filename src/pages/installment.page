@@ -1,0 +1,28 @@
+<apex:page controller="InstallmentController" showHeader="false">
+
+<body background="{!URLFOR($Resource.images, 'bg.jpg')}" style="font-size: 16px; background-attachment:fixed;">
+    <div style="width: 1000px; height:100%; overflow: hidden; margin-left: auto; margin-right: auto;"> 
+        <div style="position:absolute; z-index:100; margin-left: 0px;">
+            <a href="../apex/chapter?id={!installment.chapter__r.id}">
+                <img width="375px" height="84px" src="{!URLFOR($Resource.images, 'header.png')}"/>
+            </a>
+        </div>  
+        <div style="position:absolute; width:365px; text-align:center; z-index:101; margin-left: 20px; margin-top:65px;">
+            <b><font color="black" size="2">
+                Chapter {!round(installment.chapter__r.Order__c,0)}: {!installment.chapter__r.name}
+            </font></b>
+        </div> 
+        <apex:image value="{!URLFOR($Action.Attachment.Download, image)}" />
+        <p/>
+        <div style="width: 500px; margin-left: auto; margin-right: auto;">
+            <div style="text-align:center"><i>"{!installment.story__r.Quote__c}"</i></div>
+    
+            <div style="text-align: right">-{!installment.story__r.Quoted__c}</div>
+        </div>
+        <hr/>
+            <h2>{!installment.name} ({!installment.story__r.Date__c})</h2><p/>
+            <apex:outputfield value="{!installment.story__r.Body__c}"/>
+       
+    </div>
+    </body>
+</apex:page>

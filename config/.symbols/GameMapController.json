@@ -1,0 +1,133 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 9,
+                "line": 8
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "GameMapController",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01pA0000003IdSRIA0",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003IdSRIA0",
+    "methods": [],
+    "name": "GameMapController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "id",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "game",
+            "references": [],
+            "type": "ARCFleet__Game__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 22,
+                "line": 4
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "m",
+            "references": [],
+            "type": "ARCFleet__Map__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 34,
+                "line": 5
+            },
+            "modifiers": [
+                "public",
+                "transient"
+            ],
+            "name": "sectorJSON",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 6
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "races",
+            "references": [],
+            "type": "LIST"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "GameMapController",
+        "references": [],
+        "type": "GameMapController"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 13,
+                "line": 13
+            },
+            "modifiers": [],
+            "name": "constructQuery",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 13,
+                "line": 28
+            },
+            "modifiers": [],
+            "name": "sectorQuery",
+            "references": [],
+            "type": "String"
+        }
+    ]
+}

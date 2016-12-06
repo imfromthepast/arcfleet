@@ -1,0 +1,116 @@
+<apex:page showHeader="false">
+    <apex:stylesheet value="{!URLFOR($Resource.TrickshotV2StaticResources, '/unsemantic/assets/stylesheets/unsemantic-grid-responsive.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.TrickshotV2StaticResources, '/unsemantic/assets/stylesheets/unsemantic-grid-responsive-tablet.css')}"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+    
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"/>
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    
+    <div class="hidden">jQuery is not working</div>
+    <div class="hide-on-desktop hide-on-mobile">Unsemantic not working</div>
+    
+        <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Cover</h3>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading">Cover your page.</h1>
+            <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+            <p class="lead">
+              <a href="#" class="btn btn-lg btn-default">Learn more</a>
+            </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+        <!--<div class="header grid-container">
+            <div class="tales grid-33">
+                <div class="">Tales</div>
+            </div>
+            <div class="installment grid-33">
+                <div class="">Installments</div>
+            </div>
+            <div class="date grid-33">
+                <div class="">Date</div>
+            </div>
+        </div>
+        <div class="body grid-container">
+            <div class="grid-100">
+                <div class="prev">&lt;</div>
+                <div class="content">content</div>
+                <div class="next">&gt;</div>
+            </div>
+        </div>-->
+    
+    <style>
+        .header, .body{
+            background: #f00;
+            padding: 10px;
+            min-width: 1000px;
+        }
+        .header>div>div{
+            background: #fff;
+            padding: 10px;
+            width: 200px;
+        }
+        .tales{
+            text-align: center;
+        }
+        .installment{
+            text-align: center;
+        }
+        .installment>div{
+            margin: 0 auto;
+        }
+        .date{
+            text-align: center;
+        }
+        .date>div{
+            margin: 0 auto;
+        }
+        .prev, .next{
+            width: 44px;
+            display: inline-block;
+            background: #fff;
+        }
+        .content{
+            width: 1000px;
+            display: inline-block;
+        }
+    </style>
+    <script>
+        $j = jQuery.noConflict();
+        $j(document).ready(function(){
+            setup();
+        }
+        function setup(){
+            $j('.hidden').hide();
+        }
+    </script>
+</apex:page>

@@ -1,0 +1,126 @@
+<apex:page docType="html-5.0" showHeader="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" controller="homecontroller" action="{!init}">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+        <apex:stylesheet value="http://code.ionicframework.com/ionicons/1.4.1/css/ionicons.min.css"/>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+        <apex:includeScript value="{!URLFOR($Resource.Game, 'jquery-ui-1.10.2.custom/js/jquery-1.9.1.js')}"/>
+
+        <apex:includeScript value="{!URLFOR($Resource.Game, 'jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.min.js')}"  />
+        <apex:stylesheet value="{!URLFOR($Resource.Game, 'jquery-ui-1.10.2.custom/css/custom-theme/jquery-ui-1.10.2.custom.css')}"/>
+    
+        <!-- Bootstrap CDN -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"/>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script>
+            
+            $j = jQuery.noConflict();
+            
+            $j(document).ready(function() {
+                $j("#dialog").dialog({ 
+                    height: 400, 
+                    width: 500,
+                    autoOpen: false,
+                    show: "fade",
+                    hide: "fade"
+                });
+        
+                $j( "#opener" ).click(function() {
+                    $j( "#dialog" ).dialog( "open" );
+                    return false;
+                });        
+            });
+                
+        </script>
+        <style>
+            .navButton{
+                /*font-size: 40px; color: #222;*/
+            }
+            body{
+                /*background-image: url("{!URLFOR($Resource.images, 'bg.jpg')}"); */
+                background-color: #e7e7e7;
+                /*font-size: 16px; 
+                background-attachment:fixed; 
+                font-family:arial; 
+                margin:0px; */
+                padding-top: 60px; 
+                padding-bottom:60px;
+            }
+            .navbar-center {
+                display: inline-block;
+                float: none;
+            }
+
+            .navbar-collapse.navbar-center{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default xnavbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-left" href="{!$Page.home}">
+                    <apex:image value="{!URLFOR($Resource.images, 'header.png')}" style="height: 45px;"/>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tales <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <apex:repeat value="{!tales}" var="t">
+                                <li>
+                                    <a href="../apex/home?tid={!t.id}">
+                                        {!t.name}
+                                    </a>
+                                </li>
+                            </apex:repeat>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Chapters <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <apex:repeat value="{!chapters}" var="c">
+                                <li>
+                                    <a href="../apex/tale?i=1&c={!c.id}&tid={!c.Tale__c}">
+                                        {!round(c.Order__c,0)}. {!c.name}
+                                    </a>
+                                </li>
+                            </apex:repeat>
+                        </ul>
+                    </li>
+
+                    <li><p class="navbar-text"><apex:insert name="headertext"/></p></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">  <!-- style="width: 1000px; height:100%; overflow: hidden; margin-left: auto; margin-right: auto; background: red;"> --> 
+            <!-- <div style="position:absolute; z-index:100; margin-left: 0px;">
+                <img width="375px" height="84px" src="{!URLFOR($Resource.images, 'header.png')}"/>
+            </div>  --> 
+            <!-- <div style="position:absolute; width:365px; text-align:center; z-index:101; margin-left: 20px; margin-top:65px;">
+                <b><font color="black" size="2">
+                    <apex:insert name="headertext"/>
+                </font></b>
+            </div> -->
+            <div class="col-xs-12">
+            <apex:insert name="body"/>
+            </div>
+            <apex:insert name="navbar"/>
+        </div>
+        <apex:insert name="footer"/>
+    </body>
+</apex:page>

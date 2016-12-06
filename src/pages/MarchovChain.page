@@ -1,0 +1,290 @@
+<apex:page showHeader="false" standardStylesheets="false">
+    <html>
+        <head>      
+		    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="{!URLFOR($Resource.ARCFleetStartupImage,'apple-touch-startup-image-640x1096.png')}"/>
+		    <link rel="apple-touch-icon" href="{!URLFOR($Resource.AppleARCFleetIcon)}" sizes="150x150"/>
+		    <meta name="apple-mobile-web-app-capable" content="yes"/>
+		    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		    <meta name="apple-mobile-web-app-title" content="ARC Fleet"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+
+      		<!-- Include CSS -->
+      		<!-- Fonts -->
+	      	<link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/ionicons/css/ionicons.min.css')}" rel="stylesheet" type="text/css"/>
+	      	<link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/font_awesome/css/font-awesome.min.css')}" rel="stylesheet" type="text/css"/>
+	      	<link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/arcfleet/style.css')}" rel="stylesheet" type="text/css"/>
+      		<!-- Animate CSS -->  
+      		<link href="{!URLFOR($Resource.ARCFleetResources, 'css/animate.min.css')}" rel="stylesheet" type="text/css"/>        
+      		<!-- Bootstrap -->
+      		<link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+      		<link href="{!URLFOR($Resource.ARCFleetResources,'css/bootstrap-tour.min.css')}" rel="stylesheet" type="text/css"/>
+      		<!-- jQuery UI CSS -->
+      		<!-- <link href="{!URLFOR($Resource.ARCFleetResources, 'css/jquery-ui.min.css')}" rel="stylesheet" type="text/css"/> -->
+      		<!-- Bootstrap Slider -->
+      		<link href="{!URLFOR($Resource.ARCFleetResources, 'css/bootstrap-slider.min.css')}" rel="stylesheet" type="text/css"/>
+      		<!-- FlipClock CSS -->
+      		<link href="{!URLFOR($RESOURCE.FlipClockJs, 'flipclock.css')}" rel="stylesheet" type="text/css"/>    
+      		
+
+      		<!-- Include JS -->
+      		<!-- is.js -->
+      		<script src="{! $Resource.ISJS}"/>
+      		<!-- jQuery -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+      		<!-- Bootstrap JS -->
+      
+      		<!-- <script src="{!URLFOR($Resource.ARCFleetResources,'bootstrap/js/bootstrap.js')}" type="text/javascript"/> -->
+      		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+      		<script src="{!URLFOR($Resource.ARCFleetResources,'js/bootstrap-tour.min.js')}" type="text/javascript"/> 
+      		<!-- jQueryUI -->
+      		<!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-ui.min.js')}" type="text/javascript"/> -->
+      		<!-- Bootstrap Slider -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-slider.min.js')}" type="text/javascript"/>
+      		<!-- FlipClockJs -->
+      		<script src="{!URLFOR($Resource.FlipClockJs, 'flipclock.min.js')}" type="text/javascript"/>            
+      		<!-- Include BlockUi -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources,'js/jquery.blockUI.min.js')}" type="text/javascript"/>
+      		<!-- HowlerJS -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/howler.min.js')}" type="text/javascript"/>           
+      		<!-- AngularJS CDN -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+      		<!-- <script src=="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-touch.min.js" type="text/javascript"/>
+      		<script src=="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-animate.js" type="text/javascript"/> -->            
+      		<!-- Angular UI Bootstrap -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-bootstrap-tpls-0.11.0.min.js')}" type="text/javascript"/>
+      		<!-- Angular UI Utils -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-utils.min.js')}" type="text/javascript"/>
+      		<!-- Snap Menu -->
+      		<!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/snap.min.js')}" type="text/javascript"/> -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-growl.min.js')}" type="text/javascript"/>
+      		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-sanitize.js"></script>
+            
+      		<script type="text/javascript">    
+		        $j = jQuery.noConflict();
+	            $j(document).ready(function() {
+	                setup();
+	            }); 
+	            function setup(){
+
+					$j("#success-alert").hide();
+					// $j("#buildTable").click(function showAlert() {
+	    //             	$j("#success-alert").alert();
+	    //             	$j("#success-alert").fadeTo(1000, 500).slideUp(500, function(){
+	    //            			$j("#success-alert").alert('close');
+	    //             	}); 
+	    //             });
+	            }
+		        // Whirlpool
+				!function(){var r,o,f,n,t,i,a,e,u,l,h,v,c=10,p=[],d=[],s="ᠣ웨螸ŏ㚦틵祯酒悼鮎ꌌ笵ᷠퟂ⹋﹗ᕷ㟥鿰䫚壉⤊놠殅뵝ჴ쬾է䆋Ᵹ闘ﯮ籦�䞞쨭뼇굚茳挂ꩱ젙䧙守騦㊰햀뻍㑈ｺ遟⁨᪮둔錢擱猒䀈쏬�贽需켫皂혛떯橐䗳ワ㽕ꋪ斺⿀�﵍鉵ڊ닦ฟ拔ꢖ暈╙葲㥌幸㢌톥댡鰞䏇ﰄ写洍﫟縤㮫츑轎럫㲁铷뤓ⳓ쐃噄義⪻셓�鵬ㅴ겉ᓡᘺ椉炶탭챂颤⡜";for(o=8;o-->0;)p[o]=[];for(f=0;256>f;f++){n=s.charCodeAt(f/2),a=0==(1&f)?n>>>8:255&n,e=a<<1,e>=256&&(e^=285),u=e<<1,u>=256&&(u^=285),l=u^a,h=u<<1,h>=256&&(h^=285),v=h^a,p[0][f]=[0,0],p[0][f][0]=a<<24|a<<16|u<<8|a,p[0][f][1]=h<<24|l<<16|e<<8|v;for(var o=1;8>o;o++)p[o][f]=[0,0],p[o][f][0]=p[o-1][f][0]>>>8|p[o-1][f][1]<<24,p[o][f][1]=p[o-1][f][1]>>>8|p[o-1][f][0]<<24}for(d[0]=[0,0],t=1;c>=t;t++)i=8*(t-1),d[t]=[0,0],d[t][0]=4278190080&p[0][i][0]^16711680&p[1][i+1][0]^65280&p[2][i+2][0]^255&p[3][i+3][0],d[t][1]=4278190080&p[4][i+4][1]^16711680&p[5][i+5][1]^65280&p[6][i+6][1]^255&p[7][i+7][1];var g=[],y=[],A=0,C=0,z=[],W=[],b=[],q=[],B=[],D=function(){var r,o,f,n,t;for(r=0,o=0;8>r;r++,o+=8)q[r]=[0,0],q[r][0]=(255&y[o])<<24^(255&y[o+1])<<16^(255&y[o+2])<<8^255&y[o+3],q[r][1]=(255&y[o+4])<<24^(255&y[o+5])<<16^(255&y[o+6])<<8^255&y[o+7];for(r=0;8>r;r++)B[r]=[0,0],W[r]=[0,0],B[r][0]=q[r][0]^(W[r][0]=z[r][0]),B[r][1]=q[r][1]^(W[r][1]=z[r][1]);for(f=1;c>=f;f++){for(r=0;8>r;r++)for(b[r]=[0,0],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][W[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][W[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)W[r][0]=b[r][0],W[r][1]=b[r][1];for(W[0][0]^=d[f][0],W[0][1]^=d[f][1],r=0;8>r;r++)for(b[r][0]=W[r][0],b[r][1]=W[r][1],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][B[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][B[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)B[r][0]=b[r][0],B[r][1]=b[r][1]}for(r=0;8>r;r++)z[r][0]^=B[r][0]^q[r][0],z[r][1]^=B[r][1]^q[r][1]};r=Whirlpool=function(o){return r.init().add(o).finalize()},r.version="3.0",r.init=function(){for(var o=32;o-->0;)g[o]=0;for(A=C=0,y=[0],o=8;o-->0;)z[o]=[0,0];return r};var E=function(r){var o,f,n=r.toString();for(r=[],o=0;o<n.length;o++)f=n.charCodeAt(o),f>=256&&r.push(f>>>8&255),r.push(255&f);return r};r.add=function(o,f){if(!o)return r;f||(o=E(o),f=8*o.length);var n,t,i,a=0,e=8-(7&f)&7,u=7&A,l=f;for(n=31,i=0;n>=0;n--)i+=(255&g[n])+l%256,g[n]=255&i,i>>>=8,l=Math.floor(l/256);for(;f>8;){if(t=o[a]<<e&255|(255&o[a+1])>>>8-e,0>t||t>=256)return"Whirlpool requires a byte array";y[C++]|=t>>>u,A+=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=u,f-=8,a++}return f>0?(t=o[a]<<e&255,y[C]|=t>>>u):t=0,8>u+f?A+=f:(C++,A+=8-u,f-=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=f),r},r.finalize=function(){var r,o,f,n="",t=[],i="0123456789ABCDEF".split("");if(y[C]|=128>>>(7&A),C++,C>32){for(;64>C;)y[C++]=0;D(),C=0,y=[]}for(;32>C;)y[C++]=0;for(y.push.apply(y,g),D(),r=0,o=0;8>r;r++,o+=8)f=z[r][0],t[o]=f>>>24&255,t[o+1]=f>>>16&255,t[o+2]=f>>>8&255,t[o+3]=255&f,f=z[r][1],t[o+4]=f>>>24&255,t[o+5]=f>>>16&255,t[o+6]=f>>>8&255,t[o+7]=255&f;for(r=0;r<t.length;r++)n+=i[t[r]>>>4],n+=i[15&t[r]];return n}}();
+				// End Whirlpool
+				var app = angular.module('app', ['ngSanitize']);
+		        app.controller('cont',['$scope', function($scope){
+		            $scope.rando = Math.random();
+		            $scope.test = "this is a test";
+		            $scope.numberOfGenWords = 10;
+		          	$scope.words = '';
+		          	$scope.sep = '';
+		          	$scope.wordSep = ',';
+		          	$scope.status = "";
+		       		$scope.buildTransitionTable = function(){
+		            	$scope.transitionTable = {}
+		          		var wordArray = replaceAll($scope.words,' ','').split($scope.wordSep);
+		       			for (var i = 0; i < wordArray.length; i++) {
+		       				
+		       				var chars = wordArray[i].split($scope.sep);
+		       				//console.log(chars);
+		       				for (var ii = 0; ii < chars.length; ii++) {
+		       					var letter = chars[ii];
+		       					if(is.undefined($scope.transitionTable[letter])){
+		       						$scope.transitionTable[letter] = [];
+		       					}
+	       						if(ii == (chars.length - 1)){
+	       							//if($scope.transitionTable[letter].indexOf('_END') == -1){
+	       								$scope.transitionTable[letter].push('_END');
+	       							//}
+	       						}else{
+	       							//if($scope.transitionTable[letter].indexOf(chars[ii+1]) == -1){
+	       								$scope.transitionTable[letter].push(chars[ii+1]);
+	       							//}
+	       						}
+		       				}
+		       				if(i<wordArray.length){
+		       					$scope.status = "ding...";
+		       					console.log('building');
+		       				}
+		       			}
+		       			$scope.status = "";
+		       			console.log('clear');
+		       			//console.log($scope.transitionTable);
+		       		}
+		       		function replaceAll(str, find, replace) {
+					  	return str.replace(new RegExp(find, 'g'), replace);
+					}
+					$scope.buildTransitionTable();
+		            $scope.generateNextNode = function(node,ran){
+		            	//console.log(ran);
+		            	//console.log(node);
+		            	var transitionArray = $scope.transitionTable[node];
+		            	var p = ran % transitionArray.length;
+		            	return transitionArray[p];
+		            }
+		            $scope.randomNode = function(ran){
+		            	var keys = Object.keys($scope.transitionTable);
+		            	var ranA = keys[ran % keys.length];
+		            	return ranA;
+		            }
+		            $scope.minChainLength = 3;
+		            $scope.maxChainLength = 8;
+		            var chainArray = [];
+		            $scope.generatedWords = [];
+		            $scope.seed = '';
+		            $scope.generateChain = function(seed){
+		            	$scope.seed = seed;
+		            	var ran = seed.split(',');
+		            	chainArray = [];
+		            	var currentNode = $scope.randomNode(ran[0]);
+		            	//console.log(currentNode);
+		            	var word = ''; 
+		            	for (var i = 0; i < $scope.maxChainLength; i++) {
+		            		if(is.not.undefined(ran[i])){
+			            		currentNode = $scope.generateNextNode(currentNode,ran[i]);
+			            		if(currentNode == '_END'){
+			            			if(i>$scope.minChainLength){
+			            				//console.log('result: '+word);
+			            				return word;
+			            			}else{
+			            				currentNode = $scope.randomNode(ran[i]);
+			            			}
+			            		}
+			            		word += currentNode;
+			            	}
+		            	}
+		            	return word;
+		            }
+		            $scope.generateRandomChain = function(seed){
+		            	$scope.generatedWords = [];
+		            	var numberOfWords = is.undefined(seed)?$scope.numberOfGenWords:1;
+		            	for (var i = 0; i < numberOfWords; i++) {
+			            	
+				            var ran = '';
+			            	var wordSize = randomIntFromInterval($scope.minChainLength,$scope.maxChainLength);
+				            if(is.undefined(seed)){
+				            	for (var ii = 0; ii < wordSize; ii++) {
+				            		ran += randomIntFromInterval(0,25)+',';
+				            	}
+		            		}else{
+		            			ran = seed;
+		            		}
+		            		$scope.generatedWords.push($scope.generateChain(ran));
+		            	}		            	
+		            }
+		            $scope.presetWords = function(type){
+		            	if (type=='lotr') {
+		            		$scope.words = 'saruman,sauron,frodo,sam,samwise,merry,meriadoc,pippin,peregrin,gandalf,elrond,aragorn,boromir,legolas,gimli,smeagol,gollum,faramis,theoden,thengel,eomir,eowyn,denethor,arwen';
+		            	}else if(type == 'sw'){
+		            		$scope.words = 'tatooine,alderaan,mos,eisley,anchorhead,espa,coruscant,dantoine,hoth,dagobah,bespin,yavin,endor,sarlacc,skywalker,theed,naboo,utapau,obiwan,kenobi,anakin,kamino,geonosis,mustafar,jakuu,organa,palpatine';
+		            	}else if(type == 'klingon'){
+		            		$scope.words = "yI'el,pe'el,nuqneH,bIpIv'a',jIpIv,qaleghqa'mo',jIQuch,nuq,'oH,ponglIj'e',munglIj,maj,ram,'IwlIj,jachjaj,tlhIngan,Hol,Dajatlh'a',HIja',loQ,vIjatlhlaH,tlhIngan,Hol,vIjatlhtaHvIS,chay',vIjatlh,Huch,'ar,DaneH";
+		            	}else if(type == 'elvish'){
+		            		$scope.words = 'mae,govannen,annon,edhellen,edro,hi,ammen,fennas,nogothrim,lasto,beth,lammen,elen,síla,lúmenn,omentielvo,manen,lambë,quendion,ahyanë,él,síla,lúmena,vomentienguo';
+		            	}
+		            	$scope.buildTransitionTable();
+		            }
+		            $scope.presetWords('sw');
+		        }]);
+				function randomIntFromInterval(min,max){
+				    return Math.floor(Math.random()*(max-min+1)+min);
+				}  
+            
+		    </script> 
+		    <style>
+				.box{
+					padding: 2px;
+					border: 1px solid #E4E0E0;
+				}				
+	            @font-face {
+	                font-family: 'ARCFleet';
+	                src: url("{!URLFOR($Resource.ARCFleetResources,'/fonts/SFAlienEncountersSolid.ttf')}");
+	            }
+	            @font-face {
+	                font-family: 'ARCFleetLined';
+	                src: url("{!URLFOR($Resource.ARCFleetResources,'/fonts/SFAlienEncounters.ttf')}");
+	            }
+		    </style>
+    	</head>
+    	<body>
+	    	<div id="ng-app" ng-app="app" ng-controller="cont" ng-cloak="true" class="container">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <h2 class="panel-title">
+	                        Markov Chains
+	                    </h2>
+	                </div>
+	                <div class="panel-body">
+				    	<form>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6">
+									<div class="form-group">
+										<label for="seed">Seed</label>
+										<input class="form-control" ng-model="seed" placeholder="#,#,#,#,#,#,#..."/>
+									</div>
+									<div class="row">
+										<div class="col-xs-4">													
+											<div class="form-group">
+												<label for="seed">Min Length</label>
+												<input class="form-control col-xs-6" ng-model="minChainLength" placeholder="Min Length" type="number"/>
+											</div>
+										</div>
+										<div class="col-xs-4">
+											<div class="form-group">
+												<label for="seed">Max Length</label>
+												<input class="form-control" ng-model="maxChainLength" placeholder="Max Length" type="number"/>
+											</div>
+										</div>
+										<div class="col-xs-4">
+											<div class="form-group">
+												<label># of Words</label>
+												<input class="form-control" ng-model="numberOfGenWords" placeholder="#" type="number"/>
+											</div>	
+										</div>
+									</div>																			
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="form-group">
+										<label for="seed" class="pull-left">Sample Words</label>
+										<div class="pull-right">												
+											<button class="btn btn-sm btn-default" ng-click="presetWords('lotr')">LotR</button>
+											<button class="btn btn-sm btn-default" ng-click="presetWords('sw')">Star Wars</button>
+											<button class="btn btn-sm btn-default" ng-click="presetWords('klingon')">Klingon</button>
+											<button class="btn btn-sm btn-default" ng-click="presetWords('elvish')">Elvish</button>
+											<!-- <button class="btn btn-sm btn-default" ng-click="presetWords('tb')">Technobabble</button> -->
+										</div>
+										<textarea class="form-control" ng-model="words" placeholder="words" rows="5" />
+									</div>
+									<div class="form-group">
+										<label for="seed">Delimiter</label>
+										<input class="form-control" ng-model="wordSep" placeholder=""/>
+									</div>									
+								</div>
+							</div>	
+							<button id="buildTable" class="btn btn-default pull-right" ng-click="buildTransitionTable()">Build{{status}}</button>
+							
+							<!-- <div class="alert alert-success col-xs-4 pull-right" id="success-alert">
+							    <strong>Success!</strong>
+							</div> -->
+						</form>	
+			            <div class="row">
+				    		<div class="col-xs-12">
+				    			<h3 style="display: inline" ng-repeat="generatedWord in generatedWords track by $index">{{generatedWord}}, </h3>
+				    		</div>					    		
+				    	</div>				    
+                	</div>
+	                <div class="panel-footer clearfix">
+	                    <button class="btn btn-default" ng-disabled="numberOfGenWords < 1" ng-click="generateRandomChain()">Random Word<span ng-show="numberOfGenWords>1">s</span></button>
+						<button class="btn btn-default" ng-disabled="seed == ''" ng-click="generateRandomChain(seed)">From Seed</button>
+					</div>
+	            </div>
+	        </div>    
+	    </body>
+	</html>
+</apex:page>

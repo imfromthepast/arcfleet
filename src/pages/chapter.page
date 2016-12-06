@@ -1,0 +1,8 @@
+<apex:page controller="ChapterController" showHeader="false" standardStylesheets="true">
+    <a href="../apex/tale?id={!chapter.Tale__c}&i=1">{!chapter.tale__r.name}</a><hr/>
+    <h2>{!chapter.name}</h2>
+    <apex:repeat value="{!installments}" var="i">
+        <a href="../apex/installment?id={!i.id}">{!i.name}</a>
+        <br/>
+    </apex:repeat>
+</apex:page>

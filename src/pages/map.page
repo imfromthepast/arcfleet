@@ -1,0 +1,415 @@
+<apex:page docType="html-5.0" showHeader="false" standardStylesheets="false" controller="mapcontroller" action="{!init}">
+    <html xmlns:ng="http://angularjs.org" id="ngTemplate" ng-app="arcfleetApp" ng-controller="arcfleetCon">
+        <head>
+            <c:ARCFleetHead />
+            <apex:variable value="fa fa-circle" var="beaconIcon"/>
+            <apex:remoteObjects jsNamespace="RemoteObjectModel">
+                <apex:remoteObjectModel name="ARCFleet__Sector__c" jsShorthand="Sector" fields="Name,Id">
+                    <apex:remoteObjectField name="ARCFleet__Terrain__c" jsShorthand="terrain"/>
+                </apex:remoteObjectModel>
+            </apex:remoteObjects>
+            <script>    
+        // ANGULAR.JS
+            // Name your application
+                var arcfleetApp = angular.module('arcfleetApp', []);
+            // Define Controllers
+                var arcfleetCon = arcfleetApp.controller('arcfleetCon', function ($scope, $filter) {
+            // Initialize Scope Variables
+                    $scope.opacity = 10;
+                    $scope.sectors = [];            
+                    var sectorJSON = jQuery.parseJSON('{!sectorjson}');
+                    $scope.sectorMap = new Object();
+                    $scope.sectorSize = 10;
+                    $scope.homeActive = false;
+                    $scope.darkMatterActive = false;
+                    
+                    for(var i = 0; i < sectorJSON.length; i++){
+                        var sectorCoord = sectorJSON[i].ARCFleet__X__c +'x'+sectorJSON[i].ARCFleet__Y__c;
+                        var beaconStarName = '';
+                        var beaconStar = 0;
+                        var terrain = 'Empty';
+                        var homeSector = false;
+                        var darkMatter = false;
+
+                        if(sectorJSON[i].ARCFleet__Terrain__c != null){
+                            terrain = sectorJSON[i].ARCFleet__Terrain__c;
+                        }
+                        if(sectorJSON[i].ARCFleet__Home_Sector__c != null){
+                            homeSector = sectorJSON[i].ARCFleet__Home_Sector__c;                            
+                        }
+                        if(sectorJSON[i].ARCFleet__Dark_Matter__c != null){
+                            darkMatter = sectorJSON[i].ARCFleet__Dark_Matter__c; 
+                        }
+                        if(sectorJSON[i].ARCFleet__Beacon_Star_Name__c != null){
+                            beaconStarName = sectorJSON[i].ARCFleet__Beacon_Star_Name__c;
+                        }
+                        if(sectorJSON[i].ARCFleet__Beacon_Star__c != null){
+                            if(sectorJSON[i].ARCFleet__Beacon_Star__c > 0){
+                                beaconStar = sectorJSON[i].ARCFleet__Beacon_Star__c;
+                            }
+                        }
+                        
+                        var s = {
+                            'Id': sectorJSON[i].Id, 
+                            'Name':sectorJSON[i].Name, 
+                            'Order':sectorJSON[i].ARCFleet__Order__c, 
+                            'X':sectorJSON[i].ARCFleet__X__c, 
+                            'Y':sectorJSON[i].ARCFleet__Y__c,
+                            'Terrain': terrain,  
+                            'HomeSector': homeSector,
+                            'DarkMatter': darkMatter,
+                            'BeaconStar': beaconStar,  
+                            'BeaconStarName': beaconStarName,  
+                            'BaseGPot': sectorJSON[i].ARCFleet__Base_Gpot__c,  
+                            'BaseRPot': sectorJSON[i].ARCFleet__Base_Rpot__c
+                        };     
+                        if(darkMatter) $j('#'+s.Id+'-darkmatter').addClass('darkmatter'); 
+                        $scope.sectors.push(s);
+                        $scope.sectorMap[sectorCoord] = s;
+                    }
+                });
+            </script>
+            <style>
+                body{
+                    padding-top: 60px;
+                    background-color: #000;
+                }
+                .sectorInfoPanel{display: none;}
+                .scroll-frame{overflow: scroll;}
+                .btn-toolbar{margin-bottom: 8px;}
+                //.panel{background-color: #000 !important;}
+                .fleet,.starbase{
+                    position: absolute;
+                    height: 10px;
+                    width: 10px;
+                    padding-top: 8px;
+                    top: 0px;
+                    left: 0px;
+                }
+                .fleet{z-index: 101;}
+                .starbase{z-index: 100;}
+                .explorer{color:#0000ff;}
+                .regular{color: grey;}
+                .destroyer{color:#ff0000;}
+                .map{
+                    width:{!(m.Width__c*50)+1}px;
+                    height:{!(m.Height__c*50)+1}px;
+                    border-left: 1px solid #222; 
+                    border-top: 1px solid #222;
+                }
+                .frame{
+                    width:1000px; 
+                    height:750px; 
+                    border: 1px solid red; 
+                    overflow: scroll;
+                }
+                #mapContainer{
+                    border-left: 1px solid #222; 
+                    border-top: 1px solid #222; 
+                    width: 710px;
+                    height:710px;
+                    background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 100%),url('/servlet/servlet.FileDownload?file={!a.Id}');
+                    background-size: 701px 701px;
+                }
+                .sector{
+                    border-right: 1px solid #222; 
+                    border-bottom: 1px solid #222; 
+                    width: 7px; 
+                    height: 7px; 
+                    float:left;
+                    color: #ddd;
+                    position: relative;
+                    z-index: 10;
+                    cursor: crosshair;
+                }
+                .xDivider{border-right: 1px solid #0080ff !important;}
+                .yDivider{border-bottom: 1px solid #0080ff !important;}
+                /* Terrain */
+                .Empty{background-color: rgba(255,255,255,0);}
+                .Interspiral{background-color: #4943c7;}
+                .Fringe{background-color: #974d0f;}
+                .Axis{background-color: #cfba0c;}
+                .Nucleus{background-color: #ff000c;}
+                .Core{background-color: #960209;}
+                
+                .opacity-0{opacity: 0;}
+                .opacity-1{opacity: 0.1;}
+                .opacity-2{opacity: 0.2;}
+                .opacity-3{opacity: 0.3;}
+                .opacity-4{opacity: 0.4;}
+                .opacity-5{opacity: 0.5;}
+                .opacity-6{opacity: 0.6;}
+                .opacity-7{opacity: 0.7;}
+                .opacity-8{opacity: 0.8;}
+                .opacity-9{opacity: 0.9;}
+                .opacity-10{opacity: 1;}
+
+                .noSelect{pointer-events: none;}
+                .hover{background-color: rgba(0,0,255,0.25);} 
+                .beacon{
+                    color: #fff;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                }
+                .beacon-1{font-size: 1px;}
+                .beacon-2{font-size: 2px;}
+                .beacon-3{font-size: 3px;}
+                .beacon-4{font-size: 4px;}
+                .beacon-5{font-size: 5px;}
+                .isHome{
+                    z-index: 101;
+                    font-size: 7px;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    color: cyan;
+                }
+                .darkmatter{
+                    background-color: #000 !important;
+                    height: 10px;
+                    width: 10px;
+                }
+            </style>
+            <script>
+                $j = jQuery.noConflict();                
+                $j(document).ready(function() {
+                    window.addEventListener("load",function() {
+                        // Set a timeout...
+                        setTimeout(function(){
+                            // Hide the address bar!
+                            window.scrollTo(0, 1);
+                        }, 0);
+                    });
+                    $j('.sector').mouseover(function(){
+                        $j(this).addClass('hover');
+                    });
+                          
+                    $j('.sector').mouseout(function(){
+                        $j(this).removeClass('hover');
+                    });
+                    setup();
+                });
+        
+                function setup(){   
+                    var sectorFunction ='';
+                    var terrainType ='';
+                    var beaconType =0;
+                    var isHome = false;
+                    var darkMatter = false;
+                    $j('.terrainButton').on('click',function(){
+                        sectorFunction = 'terrainPainter';
+                        terrainType = $j(this).attr('data-terrain');
+                    })
+                    $j('.beaconButton').on('click',function(){
+                        sectorFunction = 'beaconPainter';
+                        beaconType = $j(this).attr('data-beacon');
+                    })
+                    $j('.homeButton').on('click',function(){
+                        if(sectorFunction != 'homePainter'){
+                            sectorFunction = 'homePainter';
+                        }else{
+                            sectorFunction = '';
+                        }
+                        isHome = true;
+                    })
+                    $j('.darkMatterButton').on('click',function(){
+                        if(sectorFunction != 'darkMatterPainter'){
+                            sectorFunction = 'darkMatterPainter';
+                        }else{
+                            sectorFunction = '';
+                        }
+                        darkMatter = true;
+                    })
+                    resizePanels();
+                    $j(window).resize(function() {
+                        resizePanels();
+                    });
+
+                    function randomIntFromInterval(min,max){
+                        return Math.floor(Math.random()*(max-min+1)+min);
+                    }
+                    $j('.beaconStarField').hide();
+                    var paintingSector = false;
+                    var paintingDarkMatter = false;
+                    var sectorIds = '';
+
+                    $j('.sector').on('click',function(){
+                        var sid = $j(this).attr('id');
+                        var st = $j(this).attr('data-terrain');
+                        var sb = $j(this).attr('data-beacon');
+                        var dm = $j(this).attr('data-darkmatter');
+                        console.log('clicked: '+sid);
+                        if(sectorFunction == 'terrainPainter'){
+                            if(paintingSector){
+                                paintingSector = false;
+                                console.log('SIds: '+sectorIds);
+                                $j('[id$=terrainType]').val(terrainType);
+                                $j('[id$=beacon]').val(sb);
+                                $j('[id$=darkMatter]').val(dm);
+                                $j('[id$=sectorIds]').val(sectorIds);
+                                saveSectors();
+                            }else{
+                                sectorIds = sid;
+                                paintSector(sid);
+                                paintingSector = true;
+                            }
+                        }else if(sectorFunction == 'beaconPainter'){
+                            $j('[id$=beacon]').val(beaconType);
+                            $j('[id$=terrainType]').val(st);
+                            $j('[id$=darkMatter]').val(dm);
+                            $j('[id$=sectorIds]').val(sid);
+                            paintBeacon(sid);
+                        }else if(sectorFunction == 'homePainter'){
+                            $j('[id$=terrainType]').val(st);
+                            $j('[id$=sectorIds]').val(sid);
+                            $j('[id$=darkMatter]').val(dm);
+                            $j('[id$=homeSector]').val(true);
+                            paintHome(sid);
+                        }else if(sectorFunction == 'darkMatterPainter'){
+                            if(paintingDarkMatter){
+                                paintingDarkMatter = false;
+                                $j('[id$=terrainType]').val(st);
+                                $j('[id$=sectorIds]').val(sectorIds);
+                                $j('[id$=darkMatterSector]').val(!dm);
+                                saveSectors();
+                            }else{
+                                sectorIds = sid;
+                                paintDarkMatter(sid,!dm);
+                                paintingDarkMatter = true;
+                            }                            
+                        }                        
+                    }).mouseenter(function(){
+                        var st = $j(this).attr('data-terrain');
+                        var sb = $j(this).attr('data-beacon');
+                        var dm = $j(this).attr('data-darkmatter');
+                        if(paintingSector){
+                            paintSector($j(this).attr('id'));
+                        }
+                        if(paintingDarkMatter){
+                            $j('[id$=terrainType]').val(st);
+                            $j('[id$=beacon]').val(sb);
+                            paintDarkMatter($j(this).attr('id'),!dm);
+                        }
+                    });
+                    function paintBeacon(sid){
+                        console.log('Paint '+beaconType+' to Sector '+sid);
+                        var beacon = $j('#'+sid).children('i');
+                        beacon.removeClass('{!beaconIcon} beacon beacon-1 beacon-2 beacon-3 beacon-4 beacon-5');
+                        if(beaconType > 0) beacon.addClass('{!beaconIcon} beacon beacon-'+beaconType);
+                        saveSectors();
+                    }
+                    function paintHome(sid){
+                        sectorIds = sectorIds+';'+sid;
+                        $j('#'+sid).addClass('isHome');
+                        saveSectors();
+                    }
+                    function paintDarkMatter(sid,dm){
+                        sectorIds = sectorIds+';'+sid;
+                        if(dm){
+                            $j('#'+sid+'-darkmatter').addClass('darkmatter');
+                        }else{
+                            $j('#'+sid+'-darkmatter').removeClass('darkmatter');
+                        }
+                        saveSectors();
+                    }
+                    function paintSector(sid){
+                        sectorIds = sectorIds+';'+sid;
+                        $j('#'+sid).removeClass('Empty Interspiral Fringe Axis Nucleus Core').addClass('sector '+terrainType);
+                    }
+
+                    $j('#updateButton').on('click',function(){
+                       
+                    });
+                    
+                    function resizePanels(){
+                        console.log('//** START gsi_utils.resizePanels() **//');
+
+                        var windowHeight = $j(window).height();
+                        var navbarHeight = $j('nav.navbar').height();
+                        var fullRowHeight = $j('.fullRow').height();
+                        console.log(' Window Height: '+windowHeight);
+                        console.log(' Navbar Height: '+navbarHeight);
+                        console.log(' FullRow Height: '+fullRowHeight);
+
+                        var bodyHeight = windowHeight - navbarHeight;
+                        
+                        console.log(' Body Height: '+bodyHeight);
+
+                        $j('.fullCol').height(bodyHeight);
+                        $j('.scroll-frame').height(bodyHeight - 20);
+
+                        console.log(' scroll-frame Height: '+$j('.scroll-frame').height());
+                        console.log('//** END gsi_utils.resizePanels() **//');
+                    }
+                }
+            </script>       
+        </head>
+        <body>
+            <nav id="navbar" class="navbar navbar-default navbar-fixed-top navbar-inverse navbar-flat" role="navigation">
+                <div class="container">                            
+                    <ul class="nav navbar-nav navbar-right">
+                        <apex:repeat value="{!maps}" var="map">
+                            <li><a href="../apex/map?id={!map.Id}" >{!map.Name}</a></li>
+                        </apex:repeat>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container">
+                <div class="row fullRow">
+                    <div class="col-xs-8">
+                        <div id="mapContainer">
+                            <div ng-repeat="sector in sectors track by $index" class="sector {{sector.Terrain}} opacity-{{opacity}}" id="{{sector.Id}}" data-terrain="{{sector.Terrain}}" data-darkmatter="{{sector.DarkMatter}}" data-beacon="{{sector.BeaconStar}}" ng-click="selectSector(sector.X,sector.Y);">
+                                <div class="sectorFilters" ng-show="darkMatterActive">
+                                    <div class="#{{sector.Id}}-darkmatter" ng-class="{'darkmatter':sector.DarkMatter}" style="position: absolute; top: 0px; cursor: crosshair;"></div>
+                                </div>
+                                <i class="{!beaconIcon} beacon beacon-{{sector.BeaconStar}}" ng-show="sector.BeaconStar > 0"/>
+                                <i class="fa fa-star isHome" ng-show="sector.HomeSector"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4" style="position: relative; z-index: 200;">
+                        <div class="panel panel-default">
+                            <div class="panel-body panel-scroll">
+                                <h3>Terrain Types</h3>
+                                <ul class="nav nav-pills nav-justified"> 
+                                    <li><a href="#" class="terrainButton" data-toggle="pill" data-terrain="None">None</a></li>
+                                    <li><a href="#" class="terrainButton" data-toggle="pill" data-terrain="Interspiral">Interspiral</a></li>
+                                    <li><a href="#" class="terrainButton" data-toggle="pill" data-terrain="Fringe">Fringe</a></li>
+                                    <li><a href="#" class="terrainButton" data-toggle="pill" data-terrain="Axis">Axis</a></li>
+                                    <li><a href="#" class="terrainButton" data-toggle="pill" data-terrain="Nucleus">Nucleus</a></li>
+                                    <li><a href="#" class="terrainButton" data-toggle="pill" data-terrain="Core">Core</a></li>
+                                </ul> 
+                                <h3>Beacon Star Types</h3>
+                                <ul class="nav nav-pills nav-justified"> 
+                                    <li><a href="#" class="beaconButton" data-toggle="pill" data-beacon="0">0</a></li>
+                                    <li><a href="#" class="beaconButton" data-toggle="pill" data-beacon="1">1</a></li>
+                                    <li><a href="#" class="beaconButton" data-toggle="pill" data-beacon="2">2</a></li>
+                                    <li><a href="#" class="beaconButton" data-toggle="pill" data-beacon="3">3</a></li>
+                                    <li><a href="#" class="beaconButton" data-toggle="pill" data-beacon="4">4</a></li>
+                                    <li><a href="#" class="beaconButton" data-toggle="pill" data-beacon="5">5</a></li>
+                                </ul> 
+                                <h3>Extras</h3>
+                                <div class="btn-group btn-group-justified">
+                                    <a class="homeButton btn btn-default" ng-click="homeActive = !homeActive" ng-class="{'btn-primary':homeActive}">Home Sector</a>
+                                    <a class="darkMatterButton btn btn-default" ng-click="darkMatterActive = !darkMatterActive" ng-class="{'btn-primary':darkMatterActive}">Dark Matter Sector</a>
+                                </div>
+                                <input ng-model="opacity" type="number" min="0" max="10"/>
+                                <apex:form >
+                                    <apex:actionFunction action="{!saveSectors}" name="saveSectors" reRender="nothing" oncomplete="xsetup();"/>
+                                    <apex:input id="sectorIds" value="{!sectorIds}"/>
+                                    <apex:input id="terrainType" value="{!terrainType}"/>
+                                    <apex:input id="beacon" value="{!beacon}"/>
+                                    <apex:input id="homeSector" value="{!isHome}"/>   
+                                    <apex:input id="darkMatterSector" value="{!darkMatter}"/>                                    
+                                    <apex:commandButton styleClass="btn btn-default" action="{!clearBeaconStars}" value="Clear Beacon Stars"/>
+                                    <apex:commandButton styleClass="btn btn-default" action="{!expungeOrphanSectors}" value="Expunge Orphan Sectors"/>
+                                </apex:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

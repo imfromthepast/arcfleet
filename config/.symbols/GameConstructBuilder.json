@@ -1,0 +1,95 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 9,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "GameConstructBuilder",
+            "parameters": [
+                {
+                    "name": "constructs",
+                    "type": "LIST"
+                }
+            ],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01pA0000003J5v5IAC",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003J5v5IAC",
+    "methods": [
+        {
+            "annotations": [
+                {
+                    "name": "Future"
+                }
+            ],
+            "location": {
+                "column": 21,
+                "line": 7
+            },
+            "modifiers": [
+                "static",
+                "public"
+            ],
+            "name": "insertConstructs",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        }
+    ],
+    "name": "GameConstructBuilder",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 35,
+                "line": 2
+            },
+            "modifiers": [
+                "static",
+                "public"
+            ],
+            "name": "cs",
+            "references": [],
+            "type": "LIST"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "GameConstructBuilder",
+        "references": [],
+        "type": "GameConstructBuilder"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 49,
+                "line": 3
+            },
+            "modifiers": [],
+            "name": "constructs",
+            "references": [],
+            "type": "LIST"
+        }
+    ]
+}

@@ -1,0 +1,599 @@
+<apex:page showHeader="false">
+    <html>
+        <head>      
+		    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="{!URLFOR($Resource.ARCFleetStartupImage,'apple-touch-startup-image-640x1096.png')}"/>
+		    <link rel="apple-touch-icon" href="{!URLFOR($Resource.AppleARCFleetIcon)}" sizes="150x150"/>
+		    <meta name="apple-mobile-web-app-capable" content="yes"/>
+		    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		    <meta name="apple-mobile-web-app-title" content="ARC Fleet"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"/>
+
+      		<!-- Include CSS -->
+      		<!-- Fonts -->
+	      	<link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/ionicons/css/ionicons.min.css')}" rel="stylesheet" type="text/css"/>
+	      	<link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/font_awesome/css/font-awesome.min.css')}" rel="stylesheet" type="text/css"/>
+	      	<link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/arcfleet/style.css')}" rel="stylesheet" type="text/css"/>
+      		<!-- Animate CSS -->  
+      		<link href="{!URLFOR($Resource.ARCFleetResources, 'css/animate.min.css')}" rel="stylesheet" type="text/css"/>        
+      		<!-- Bootstrap -->
+      		<link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+      		<link href="{!URLFOR($Resource.ARCFleetResources,'css/bootstrap-tour.min.css')}" rel="stylesheet" type="text/css"/>
+      		<!-- jQuery UI CSS -->
+      		<!-- <link href="{!URLFOR($Resource.ARCFleetResources, 'css/jquery-ui.min.css')}" rel="stylesheet" type="text/css"/> -->
+      		<!-- Bootstrap Slider -->
+      		<link href="{!URLFOR($Resource.ARCFleetResources, 'css/bootstrap-slider.min.css')}" rel="stylesheet" type="text/css"/>
+      		<!-- FlipClock CSS -->
+      		<link href="{!URLFOR($RESOURCE.FlipClockJs, 'flipclock.css')}" rel="stylesheet" type="text/css"/>    
+      		
+
+      		<!-- Include JS -->
+      		<!-- is.js -->
+      		<script src="{! $Resource.ISJS}"/>
+      		<!-- jQuery -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+      		<!-- Bootstrap JS -->
+      
+      		<!-- <script src="{!URLFOR($Resource.ARCFleetResources,'bootstrap/js/bootstrap.js')}" type="text/javascript"/> -->
+      		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+      		<script src="{!URLFOR($Resource.ARCFleetResources,'js/bootstrap-tour.min.js')}" type="text/javascript"/> 
+      		<!-- jQueryUI -->
+      		<!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-ui.min.js')}" type="text/javascript"/> -->
+      		<!-- Bootstrap Slider -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-slider.min.js')}" type="text/javascript"/>
+      		<!-- FlipClockJs -->
+      		<script src="{!URLFOR($Resource.FlipClockJs, 'flipclock.min.js')}" type="text/javascript"/>            
+      		<!-- Include BlockUi -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources,'js/jquery.blockUI.min.js')}" type="text/javascript"/>
+      		<!-- HowlerJS -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/howler.min.js')}" type="text/javascript"/>           
+      		<!-- AngularJS CDN -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+      		<!-- <script src=="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-touch.min.js" type="text/javascript"/>
+      		<script src=="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-animate.js" type="text/javascript"/> -->            
+      		<!-- Angular UI Bootstrap -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-bootstrap-tpls-0.11.0.min.js')}" type="text/javascript"/>
+      		<!-- Angular UI Utils -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/ui-utils.min.js')}" type="text/javascript"/>
+      		<!-- Snap Menu -->
+      		<!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/snap.min.js')}" type="text/javascript"/> -->
+      		<script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-growl.min.js')}" type="text/javascript"/>
+      		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-sanitize.js"></script>
+            
+      		<script type="text/javascript">    
+		        $j = jQuery.noConflict();
+	            $j(document).ready(function() {
+	                setup();
+	            }); 
+	            function setup(){
+
+	            }
+		        // Whirlpool
+				!function(){var r,o,f,n,t,i,a,e,u,l,h,v,c=10,p=[],d=[],s="ᠣ웨螸ŏ㚦틵祯酒悼鮎ꌌ笵ᷠퟂ⹋﹗ᕷ㟥鿰䫚壉⤊놠殅뵝ჴ쬾է䆋Ᵹ闘ﯮ籦�䞞쨭뼇굚茳挂ꩱ젙䧙守騦㊰햀뻍㑈ｺ遟⁨᪮둔錢擱猒䀈쏬�贽需켫皂혛떯橐䗳ワ㽕ꋪ斺⿀�﵍鉵ڊ닦ฟ拔ꢖ暈╙葲㥌幸㢌톥댡鰞䏇ﰄ写洍﫟縤㮫츑轎럫㲁铷뤓ⳓ쐃噄義⪻셓�鵬ㅴ겉ᓡᘺ椉炶탭챂颤⡜";for(o=8;o-->0;)p[o]=[];for(f=0;256>f;f++){n=s.charCodeAt(f/2),a=0==(1&f)?n>>>8:255&n,e=a<<1,e>=256&&(e^=285),u=e<<1,u>=256&&(u^=285),l=u^a,h=u<<1,h>=256&&(h^=285),v=h^a,p[0][f]=[0,0],p[0][f][0]=a<<24|a<<16|u<<8|a,p[0][f][1]=h<<24|l<<16|e<<8|v;for(var o=1;8>o;o++)p[o][f]=[0,0],p[o][f][0]=p[o-1][f][0]>>>8|p[o-1][f][1]<<24,p[o][f][1]=p[o-1][f][1]>>>8|p[o-1][f][0]<<24}for(d[0]=[0,0],t=1;c>=t;t++)i=8*(t-1),d[t]=[0,0],d[t][0]=4278190080&p[0][i][0]^16711680&p[1][i+1][0]^65280&p[2][i+2][0]^255&p[3][i+3][0],d[t][1]=4278190080&p[4][i+4][1]^16711680&p[5][i+5][1]^65280&p[6][i+6][1]^255&p[7][i+7][1];var g=[],y=[],A=0,C=0,z=[],W=[],b=[],q=[],B=[],D=function(){var r,o,f,n,t;for(r=0,o=0;8>r;r++,o+=8)q[r]=[0,0],q[r][0]=(255&y[o])<<24^(255&y[o+1])<<16^(255&y[o+2])<<8^255&y[o+3],q[r][1]=(255&y[o+4])<<24^(255&y[o+5])<<16^(255&y[o+6])<<8^255&y[o+7];for(r=0;8>r;r++)B[r]=[0,0],W[r]=[0,0],B[r][0]=q[r][0]^(W[r][0]=z[r][0]),B[r][1]=q[r][1]^(W[r][1]=z[r][1]);for(f=1;c>=f;f++){for(r=0;8>r;r++)for(b[r]=[0,0],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][W[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][W[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)W[r][0]=b[r][0],W[r][1]=b[r][1];for(W[0][0]^=d[f][0],W[0][1]^=d[f][1],r=0;8>r;r++)for(b[r][0]=W[r][0],b[r][1]=W[r][1],t=0,n=56,o=0;8>t;t++,n-=8,o=32>n?1:0)b[r][0]^=p[t][B[r-t&7][o]>>>n%32&255][0],b[r][1]^=p[t][B[r-t&7][o]>>>n%32&255][1];for(r=0;8>r;r++)B[r][0]=b[r][0],B[r][1]=b[r][1]}for(r=0;8>r;r++)z[r][0]^=B[r][0]^q[r][0],z[r][1]^=B[r][1]^q[r][1]};r=Whirlpool=function(o){return r.init().add(o).finalize()},r.version="3.0",r.init=function(){for(var o=32;o-->0;)g[o]=0;for(A=C=0,y=[0],o=8;o-->0;)z[o]=[0,0];return r};var E=function(r){var o,f,n=r.toString();for(r=[],o=0;o<n.length;o++)f=n.charCodeAt(o),f>=256&&r.push(f>>>8&255),r.push(255&f);return r};r.add=function(o,f){if(!o)return r;f||(o=E(o),f=8*o.length);var n,t,i,a=0,e=8-(7&f)&7,u=7&A,l=f;for(n=31,i=0;n>=0;n--)i+=(255&g[n])+l%256,g[n]=255&i,i>>>=8,l=Math.floor(l/256);for(;f>8;){if(t=o[a]<<e&255|(255&o[a+1])>>>8-e,0>t||t>=256)return"Whirlpool requires a byte array";y[C++]|=t>>>u,A+=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=u,f-=8,a++}return f>0?(t=o[a]<<e&255,y[C]|=t>>>u):t=0,8>u+f?A+=f:(C++,A+=8-u,f-=8-u,512==A&&(D(),A=C=0,y=[]),y[C]=t<<8-u&255,A+=f),r},r.finalize=function(){var r,o,f,n="",t=[],i="0123456789ABCDEF".split("");if(y[C]|=128>>>(7&A),C++,C>32){for(;64>C;)y[C++]=0;D(),C=0,y=[]}for(;32>C;)y[C++]=0;for(y.push.apply(y,g),D(),r=0,o=0;8>r;r++,o+=8)f=z[r][0],t[o]=f>>>24&255,t[o+1]=f>>>16&255,t[o+2]=f>>>8&255,t[o+3]=255&f,f=z[r][1],t[o+4]=f>>>24&255,t[o+5]=f>>>16&255,t[o+6]=f>>>8&255,t[o+7]=255&f;for(r=0;r<t.length;r++)n+=i[t[r]>>>4],n+=i[15&t[r]];return n}}();
+				// End Whirlpool
+				var app = angular.module('app', ['ngSanitize']);
+		        app.controller('cont',['$scope', function($scope){
+		            $scope.rando = Math.random();
+		            $scope.test = "this is a test";
+		            $scope.transitionTable = {
+		            	0:[1,2,3],
+		            	1:[4,5,6],
+		            	2:[7,8,9],
+		            	3:[10,11,12],
+		            	4:[13,14,15],
+		            	5:[13,14,15],
+		            	6:[13,14,15],
+		            	7:[16,17,18],
+		            	8:[16,17,18],
+		            	9:[16,17,18],
+		            	10:[19,20,21],
+		            	11:[19,20,21],
+		            	12:[19,20,21],
+		            	13:[22],
+		            	14:[22],
+		            	15:[22],
+		            	16:[23],
+		            	17:[23],
+		            	18:[23],
+		            	19:[24],
+		            	20:[24],
+		            	21:[24],
+		            	22:[25],
+		            	23:[25],
+		            	24:[25],
+		            	25:[26,27,28],
+		            	26:[29,30,31],
+		            	27:[32,33,34],
+		            	28:[35,36,37],
+		            	29:[38,39,40],
+		            	30:[38,39,40],
+		            	31:[38,39,40],
+		            	32:[41,42,43],
+		            	33:[41,42,43],
+		            	34:[41,42,43],
+		            	35:[44,45,46],
+		            	36:[44,45,46],
+		            	37:[44,45,46],
+		            	38:[47],
+		            	39:[47],
+		            	40:[47],
+		            	41:[48],
+		            	42:[48],
+		            	43:[48],
+		            	44:[49],
+		            	45:[49],
+		            	46:[49],
+		            	47:[50],
+		            	48:[50],
+		            	49:[50],
+		            	50:[51,52,53],
+		            	51:[54,55,56],
+		            	52:[57,58,59],
+		            	53:[60,61,62],
+		            	54:[63,64,65],
+		            	55:[63,64,65],
+		            	56:[63,64,65],
+		            	57:[66,67,68],
+		            	58:[66,67,68],
+		            	59:[66,67,68],
+		            	60:[69,70,71],
+		            	61:[69,70,71],
+		            	62:[69,70,71],
+		            	63:[72],
+		            	64:[72],
+		            	65:[72],
+		            	66:[73],
+		            	67:[73],
+		            	68:[73],
+		            	69:[74],
+		            	70:[74],
+		            	71:[74],
+		            	72:[75],
+		            	73:[75],
+		            	74:[75],
+		            	75:[76,77,78],
+		            	76:[79,80,81],
+		            	77:[82,83,84],
+		            	78:[85,86,87],
+		            	79:[88,89,90],
+		            	80:[88,89,90],
+		            	81:[88,89,90],
+		            	82:[91,92,93],
+		            	83:[91,92,93],
+		            	84:[91,92,93],
+		            	85:[94,95,96],
+		            	86:[94,95,96],
+		            	87:[94,95,96],
+		            	88:[97],
+		            	89:[97],
+		            	90:[97],
+		            	91:[98],
+		            	92:[98],
+		            	93:[98],
+		            	94:[99],
+		            	95:[99],
+		            	96:[99],
+		            	97:[100],
+		            	98:[100],
+		            	99:[100],
+		            	100:[-1]
+		            }
+		          	var plotPointArray = [
+		       /* 0   */{description:'<h4>ACT I:</h4><div>After having developed ARC Tech,'   ,x:0,y:0},
+		       /* 1   */{description:'your civilization detects a nearby Anomoly'   ,x:0,y:0},
+		       /* 2   */{description:'your civilization detects nearby ARC activity'   ,x:0,y:0},
+		       /* 3   */{description:'your civilization detects a nearby black hole'   ,x:0,y:0},
+		       /* 4   */{description:'and decides to send fleets to it.'   ,x:0,y:0},
+		       /* 5   */{description:'and decides to explore it.'   ,x:0,y:0},
+		       /* 6   */{description:'and decides to build ARC Base at it.'   ,x:0,y:0},
+		       /* 7   */{description:'and decides to send fleets to it.'   ,x:0,y:0},
+		       /* 8   */{description:'and decides to explore it.'   ,x:0,y:0},
+		       /* 9   */{description:'and decides to build ARC Base at it.'   ,x:0,y:0},
+		       /* 10  */{description:'and decides to send fleets to it.'  ,x:0,y:0},
+		       /* 11  */{description:'and decides to explore it.'  ,x:0,y:0},
+		       /* 12  */{description:'and decides to build ARC Base at it.'  ,x:0,y:0},
+		       /* 13  */{description:'The Anomoly destroys your fleets/ARCBase'  ,x:0,y:0},
+		       /* 14  */{description:'The Anomoly explodes'  ,x:0,y:0},
+		       /* 15  */{description:'The Anomoly sends you data'  ,x:0,y:0},
+		       /* 16  */{description:'You discover the remains of long dead civilization'  ,x:0,y:0},
+		       /* 17  */{description:'You discover an ancient alien civilization'  ,x:0,y:0},
+		       /* 18  */{description:'You make contact with an alien civilization'  ,x:0,y:0},
+		       /* 19  */{description:'Your fleet/ARCBase is pulled into the black hole and is lost'  ,x:0,y:0},
+		       /* 20  */{description:'The black hole erupts in an explosion and your fleet/ARCBase is scattered'  ,x:0,y:0},
+		       /* 21  */{description:'Your fleet/ARCBase falls into the black hole and emerge elsewhere'  ,x:0,y:0},
+		       /* 22  */{description:'resulting in your scientists making a discovery about gravity waves.'  ,x:0,y:0},
+		       /* 23  */{description:'which teach you about gravity waves.'  ,x:0,y:0},
+		       /* 24  */{description:'resulting in your civilization learning about gravity waves in relation to black holes.'  ,x:0,y:0},
+		       /* 25  */{description:'Your Civilization reaches Level 2.</div><h4>ACT II:</h4><div>'  ,x:0,y:0},
+		       // ACT II
+		       /* 26  */{description:'Your Civilization suspects connection to black hole,'  ,x:0,y:0},
+		       /* 27  */{description:'Your Civilization decides to examine G-Wave'  ,x:0,y:0},
+		       /* 28  */{description:'Your Civilization thinks maybe aliens can help'  ,x:0,y:0},
+		       /* 29  */{description:'so explore black hole'  ,x:0,y:0},
+		       /* 30  */{description:'so place 10 explorers on black hole'  ,x:0,y:0},
+		       /* 31  */{description:'so build ARC Base on black hole'  ,x:0,y:0},
+		       /* 32  */{description:'explore G-Wave sector'  ,x:0,y:0},
+		       /* 33  */{description:'place explorers in 5 different G-Wave sectors'  ,x:0,y:0},
+		       /* 34  */{description:'Place 5 explorers on ARC Base when G-Wave hits'  ,x:0,y:0},
+		       /* 35  */{description:'so explore space on other side of G_Wave'  ,x:0,y:0},
+		       /* 36  */{description:'so place 5 explorers on axis sector after G-Wave passes'  ,x:0,y:0},
+		       /* 37  */{description:'37'  ,x:0,y:0},
+		       /* 38  */{description:'38'  ,x:0,y:0},
+		       /* 39  */{description:'39'  ,x:0,y:0},
+		       /* 40  */{description:'40'  ,x:0,y:0},
+		       /* 41  */{description:'41'  ,x:0,y:0},
+		       /* 42  */{description:'42'  ,x:0,y:0},
+		       /* 43  */{description:'43'  ,x:0,y:0},
+		       /* 44  */{description:'44'  ,x:0,y:0},
+		       /* 45  */{description:'45'  ,x:0,y:0},
+		       /* 46  */{description:'46'  ,x:0,y:0},
+		       /* 47  */{description:'47'  ,x:0,y:0},
+		       /* 48  */{description:'48'  ,x:0,y:0},
+		       /* 49  */{description:'49'  ,x:0,y:0},
+		       /* 50  */{description:'50</div><h4>ACT III:</h4><div>'  ,x:0,y:0},
+		       //  ACT III
+		       /* 51  */{description:'51'  ,x:0,y:0},
+		       /* 52  */{description:'52'  ,x:0,y:0},
+		       /* 53  */{description:'53'  ,x:0,y:0},
+		       /* 54  */{description:'54'  ,x:0,y:0},
+		       /* 55  */{description:'55'  ,x:0,y:0},
+		       /* 56  */{description:'56'  ,x:0,y:0},
+		       /* 57  */{description:'57'  ,x:0,y:0},
+		       /* 58  */{description:'58'  ,x:0,y:0},
+		       /* 59  */{description:'59'  ,x:0,y:0},
+		       /* 60  */{description:'60'  ,x:0,y:0},
+		       /* 61  */{description:'61'  ,x:0,y:0},
+		       /* 62  */{description:'62'  ,x:0,y:0},
+		       /* 63  */{description:'63'  ,x:0,y:0},
+		       /* 64  */{description:'64'  ,x:0,y:0},
+		       /* 65  */{description:'65'  ,x:0,y:0},
+		       /* 66  */{description:'66'  ,x:0,y:0},
+		       /* 67  */{description:'67'  ,x:0,y:0},
+		       /* 68  */{description:'68'  ,x:0,y:0},
+		       /* 69  */{description:'69'  ,x:0,y:0},
+		       /* 70  */{description:'70'  ,x:0,y:0},
+		       /* 71  */{description:'71'  ,x:0,y:0},
+		       /* 72  */{description:'72'  ,x:0,y:0},
+		       /* 73  */{description:'73'  ,x:0,y:0},
+		       /* 74  */{description:'74'  ,x:0,y:0},
+		       /* 75  */{description:'75</div><h4>Epilogue:</h4><div>'  ,x:0,y:0},
+		       // EPILOGUE
+		       /* 76  */{description:'76'  ,x:0,y:0},
+		       /* 77  */{description:'77'  ,x:0,y:0},
+		       /* 78  */{description:'78'  ,x:0,y:0},
+		       /* 79  */{description:'79'  ,x:0,y:0},
+		       /* 80  */{description:'80'  ,x:0,y:0},
+		       /* 81  */{description:'81'  ,x:0,y:0},
+		       /* 82  */{description:'82'  ,x:0,y:0},
+		       /* 83  */{description:'83'  ,x:0,y:0},
+		       /* 84  */{description:'84'  ,x:0,y:0},
+		       /* 85  */{description:'85'  ,x:0,y:0},
+		       /* 86  */{description:'86'  ,x:0,y:0},
+		       /* 87  */{description:'87'  ,x:0,y:0},
+		       /* 88  */{description:'88'  ,x:0,y:0},
+		       /* 89  */{description:'89'  ,x:0,y:0},
+		       /* 90  */{description:'90'  ,x:0,y:0},
+		       /* 91  */{description:'91'  ,x:0,y:0},
+		       /* 92  */{description:'92'  ,x:0,y:0},
+		       /* 93  */{description:'93'  ,x:0,y:0},
+		       /* 94  */{description:'94'  ,x:0,y:0},
+		       /* 95  */{description:'95'  ,x:0,y:0},
+		       /* 96  */{description:'96'  ,x:0,y:0},
+		       /* 97  */{description:'97'  ,x:0,y:0},
+		       /* 98  */{description:'98'  ,x:0,y:0},
+		       /* 99  */{description:'99'  ,x:0,y:0},
+		       /* 100 */{description:'100</div>' ,x:0,y:0}
+		          	];
+		       //      var plotPointArray = [
+					    // // ACT I
+					    // {description:"Develop ARC Tech",x:0,y:0},                                     //0
+					    // {description:"Detect anomaly",x:0,y:0},                                       //1
+					    // {description:"Detect ARC activity",x:0,y:0},                                  //2
+					    // {description:"Detect black hole",x:0,y:0},                                    //3
+					    // {description:"explore anomaly",x:0,y:0},                                      //4
+					    // {description:"build ARC Base on anomaly",x:0,y:0},                            //5
+					    // {description:"explore ARC activity",x:0,y:0},                                 //6
+					    // {description:"Aliens discover you",x:0,y:0},                                  //7
+					    // {description:"send fleet to black hole",x:0,y:0},                             //8
+					    // {description:"explore sector adjacent to black hole",x:0,y:0},                //9
+					    // {description:"Discover principle behind anomaly",x:0,y:0},                    //10
+					    // {description:"find larger anomaly",x:0,y:0},                                  //11
+					    // {description:"place 10 explorer fleets in alien ARC Base",x:0,y:0},           //12
+					    // {description:"upgrade alien ARC Base",x:0,y:0},                               //13
+					    // {description:"place one explorer on each alien ARC Base",x:0,y:0},            //14
+					    // {description:"place 10 explorers in sector adjacent to black hole",x:0,y:0},  //15
+					    // {description:"explore sectors surrounding black hole",x:0,y:0},               //16
+					    // {description:"build ARC Base adjacent to black hole",x:0,y:0},                //17
+					    // {description:"Go to Civ Lvl 2",x:0,y:0},                                      //18
+					    
+					    // // ACT II
+					    // {description:"Discover G-Waves",x:0,y:0},                                     //19
+					    // {description:"suspect connection to black hole",x:0,y:0},                     //20
+					    // {description:"decide to examine G-Wave",x:0,y:0},                             //21
+					    // {description:"discuss with aliens",x:0,y:0},                                  //22
+					    // {description:"explore black hole",x:0,y:0},                                   //23
+					    // {description:"place 10 explorers on black hole",x:0,y:0},                     //24
+					    // {description:"build ARC Base on black hole",x:0,y:0},                         //25
+					    // {description:"explore G-Wave sector",x:0,y:0},                                 //26
+					    // {description:"place explorers in 5 different G-Wave sectors",x:0,y:0},         //27
+					    // {description:"learn that G-Waves are caused by black holes",x:0,y:0},         //28
+					    // {description:"discover black hole travel",x:0,y:0},                           //29
+					    // {description:"learn how to blunt G-Waves",x:0,y:0},                           //30
+					    // {description:"learn how to ARC in G-Waves",x:0,y:0},                          //31
+					    // {description:"Learn how to ARC through nucleus",x:0,y:0},                     //32
+					    // {description:"Go to Civ Lvl 3",x:0,y:0},                                      //33
+					    
+					    // // ACT III
+					    // {description:"learn that G-Waves come from central black hole",x:0,y:0},      //34
+					    // {description:"make a bee line for the core",x:0,y:0},                         //35
+					    // {description:"seek a shortcut",x:0,y:0},                                      //36
+					    // {description:"consult an ancient race",x:0,y:0},                              //37
+					    // {description:"central black hole destroys fleet",x:0,y:0},                    //38
+					    // {description:"build ARC Bases on 5 black holes",x:0,y:0},                     //39
+					    // {description:"discover location of ancient tech",x:0,y:0},                    //40
+					    // {description:"explore sector with ancient tech",x:0,y:0},                     //41
+					    // {description:"discover location of ancient aliens",x:0,y:0},                  //42
+					    // {description:"build 4 ARC Bases around central black hole",x:0,y:0},          //43
+					    // {description:"discover means to survive central black hole",x:0,y:0},         //44
+					    // {description:"build ARC Base on central black hole",x:0,y:0},                 //45
+					    // {description:"stop G-Waves",x:0,y:0},                                         //46
+					    // {description:"build ARC Base on sector with ancient tech",x:0,y:0},           //47
+					    // {description:"can't ARC through core",x:0,y:0}                                //48
+		       //      ];
+		            $scope.generateNextPlotPoint = function(plotPoint,ran){
+		            	var transitionArray = $scope.transitionTable[plotPoint];
+		            	var p = ran % transitionArray.length;
+		            	return transitionArray[p];
+		            }
+		            $scope.randomPlotPoint = function(ran){
+		            	var keys = Object.keys($scope.transitionTable);
+		            	var ranA = keys[ran % keys.length];
+		            	return ranA;
+		            }
+		            var minPlotLength = 2;
+		            var maxPlotLength = 25;
+		            var plotArray = [];
+		            $scope.result = '';
+		            $scope.seed = 0;
+		            $scope.generatePlot = function(ran){
+		            	plotArray = [];
+		            	plotArray.push(0);
+		            	var currentPlotPoint = 0;
+		            	$scope.result = plotPointArray[currentPlotPoint].description;
+		            	for (var i = 0; i < maxPlotLength; i++) {
+		            		currentPlotPoint = $scope.generateNextPlotPoint(currentPlotPoint,ran[i]);
+		            		if(currentPlotPoint == -1){
+		            			if(i>minPlotLength){
+		            				return $scope.result;
+		            			}else{
+		            				currentPlotPoint = $scope.randomPlotPoint(ran[i]);
+		            			}
+		            		}
+		            		$scope.result += " "+plotPointArray[currentPlotPoint].description+" ("+currentPlotPoint+")";
+		            		plotArray.push(currentPlotPoint);
+		            	}
+		            	console.log(plotArray);
+		            }
+		            $scope.generateRandomPlot = function(){
+		            	var ran = [];
+		            	var square = Date.now();
+		            	var squareString = square.toString().replace('0','');
+		            	var pp = squareString;
+		            	for (var i = 0; i < maxPlotLength; i++) {
+		            		square = (pp * 2);
+		            		squareString = square.toString().replace('0','');
+		            		pp = squareString; 
+		            		ran.push(randomIntFromInterval(0,25));
+		            	}
+		            	$scope.generatePlot(ran);
+		            }
+		            $scope.plotPointActive = function(p){
+		            	return plotArray.indexOf(p) > -1?'badge':'';
+		            }
+		        }]);
+				function randomIntFromInterval(min,max){
+				    return Math.floor(Math.random()*(max-min+1)+min);
+				}
+		    </script> 
+		    <style>
+				.box{
+					padding: 2px;
+					border: 1px solid #E4E0E0;
+				}				
+	            @font-face {
+	                font-family: 'ARCFleet';
+	                src: url("{!URLFOR($Resource.ARCFleetResources,'/fonts/SFAlienEncountersSolid.ttf')}");
+	            }
+	            @font-face {
+	                font-family: 'ARCFleetLined';
+	                src: url("{!URLFOR($Resource.ARCFleetResources,'/fonts/SFAlienEncounters.ttf')}");
+	            }
+		    </style>
+    	</head>
+    	<body>
+	    	<div class="container">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <h2 class="panel-title">
+	                        Markov Chains
+	                    </h2>
+	                </div>
+	                <div class="panel-body">
+					    <div id="ng-app" ng-app="app" ng-controller="cont" ng-cloak="true">
+							<input class="form-control" ng-model="seed" type="number"/>
+							<button class="btn btn-default" ng-click="generateRandomPlot()">Generate Random</button>
+							<button class="btn btn-default" ng-click="generatePlot(seed)">Generate</button>
+							
+					    	<div class="row">
+					    		<div class="col-xs-5" ng-bind-html="result"></div>
+					    		<div class="col-xs-7">
+						    		<div class="row text-center">
+							    		<div class="col-xs-12">
+										    <div class="row text-center">
+										    	<div class="col-xs-9 box"><div ng-class="plotPointActive(0)">0</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(1)">1</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(2)">2</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(3)">3</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(4)">4</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(5)">5</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(6)">6</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(7)">7</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(8)">8</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(9)">9</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(10)">10</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(11)">11</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(12)">12</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(13)">13</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(14)">14</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(15)">15</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(16)">16</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(17)">17</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(18)">18</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(19)">19</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(20)">20</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(21)">21</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(22)">22</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(23)">23</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(24)">24</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-9 box"><div ng-class="plotPointActive(25)">25</div></div>
+										    </div>
+							    		</div>
+							    	</div>
+							    	<div class="row text-center">
+							    		<div class="col-xs-12">
+										    <div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(26)">26</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(27)">27</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(28)">28</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(29)">29</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(30)">30</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(31)">31</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(32)">32</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(33)">33</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(34)">34</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(35)">35</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(36)">36</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(37)">37</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(38)">38</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(39)">39</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(40)">40</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(41)">41</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(42)">42</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(43)">43</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(44)">44</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(45)">45</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(46)">46</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(47)">47</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(48)">48</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(49)">49</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-9 box"><div ng-class="plotPointActive(50)">50</div></div>
+										    </div>
+							    		</div>
+							    	</div>
+							    	<div class="row text-center">
+							    		<div class="col-xs-12">
+										    <div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(51)">51</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(52)">52</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(53)">53</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(54)">54</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(55)">55</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(56)">56</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(57)">57</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(58)">58</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(59)">59</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(60)">60</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(61)">61</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(62)">62</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(63)">63</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(64)">64</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(65)">65</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(66)">66</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(67)">67</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(68)">68</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(69)">69</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(70)">70</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(71)">71</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(72)">72</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(73)">73</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(74)">74</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-9 box"><div ng-class="plotPointActive(75)">75</div></div>
+										    </div>
+							    		</div>
+							    	</div>
+							    	<div class="row text-center">
+							    		<div class="col-xs-12">
+										    <div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(76)">76</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(77)">77</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(78)">78</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(79)">79</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(80)">80</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(81)">81</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(82)">82</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(83)">83</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(84)">84</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(85)">85</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(86)">86</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(87)">87</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-1 xcol-xs-offset-1 box"><div ng-class="plotPointActive(88)">88</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(89)">89</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(90)">90</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(91)">91</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(92)">92</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(93)">93</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(94)">94</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(95)">95</div></div>
+												<div class="col-xs-1 box"><div ng-class="plotPointActive(96)">96</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(97)">97</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(98)">98</div></div>
+												<div class="col-xs-3 box"><div ng-class="plotPointActive(99)">99</div></div>
+										    </div>
+											<div class="row text-center">
+												<div class="col-xs-9 box"><div ng-class="plotPointActive(100)">100</div></div>
+										    </div>
+							    		</div>
+						    		</div>
+					    		</div>
+					    	</div>
+					    </div>
+                	</div>
+	                <div class="panel-footer clearfix">
+	                    <apex:insert name="footer"/>
+	                </div>
+	            </div>
+	        </div>    
+	    </body>
+	</html>
+</apex:page>

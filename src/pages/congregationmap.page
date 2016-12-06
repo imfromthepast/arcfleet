@@ -1,0 +1,249 @@
+<apex:page controller="congregationmapController" action="{!init}" tabStyle="Congregation__c" showHeader="false" standardStylesheets="false">
+    <html>
+        <head>    
+            <link rel="apple-touch-icon" href="{!URLFOR($Resource.mapfavicon)}"/>
+            <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black"/ >
+        </head>
+  <body>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBdZE4dKrPhs5Jp08-edTlK-D23yF0Ppg0&sensor=true"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
+    <apex:includeScript value="{!$Resource.shortcut}"/>
+    <script type="text/javascript"> 
+        var color;
+        var mapOptions;
+        var map;
+        var kingdomHall;
+        var mapBounds;
+        var address;
+        var geocoder;
+        var point;
+        
+        $j = jQuery.noConflict();
+        $j(document).ready(function(){
+            $j('.maplegend').click(function(){
+                $j(this).toggleClass("openLegend");
+            });
+            var linkLocation = '';
+            $j("body").css("display", "none");
+            $j("body").fadeIn(2000);
+            $j("a").click(function(event){
+                event.preventDefault();
+                linkLocation = this.href;
+                $j("body").fadeOut(1000, redirectPage);
+            });
+            function redirectPage() {
+                window.location = linkLocation;
+            }
+            var i = 0;
+            var char = '';
+            document.onkeypress=function(e){
+                i++;
+                var e=window.event || e;
+                char = char + String.fromCharCode(e.charCode);
+                e.preventDefault();
+                if(i == 2){
+                    linkLocation = '../apex/territorymap?id={!id}&ks=' + char;
+                    $j("body").fadeOut(1000, redirectPage);
+                    i=0;
+                }
+            }
+            mapOptions = {
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                scrollwheel: false,
+                streetViewControl: false,
+                mapTypeControl: true,
+                zoomControl: false,
+                draggable: true,
+                navigationControl: false
+            };
+            if (navigator.geolocation) { 
+                navigator.geolocation.getCurrentPosition(function(position) {  
+                    point = new google.maps.LatLng(
+                                    position.coords.latitude, 
+                                    position.coords.longitude
+                    );
+                    new google.maps.Marker({
+                        position: point,
+                        map: map
+                    });
+                }); 
+            }else {
+              alert('W3C Geolocation API is not available');
+            } 
+
+            map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            kingdomHall = new google.maps.Marker({
+                title: "Kingdom Hall",
+                icon: 'https://chart.googleapis.com/chart?chst=d_simple_text_icon_below&chld=Kingdom+Hall|12|0000ff|books|16|0000ff|ffffff'
+            });
+            mapBounds = new google.maps.LatLngBounds();
+            address = "{!kingdomhall.Address__c}";
+            geocoder = new google.maps.Geocoder();
+            geocoder.geocode( { address:address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK && results.length){
+                    if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                        map.setCenter(results[0].geometry.location);
+                        kingdomHall.setPosition(results[0].geometry.location);
+                        kingdomHall.setMap(map);
+                    }
+                } else {
+                    $j('#map').css({'height' : '150px'});
+                    $j('#map').html("Oops! {!congregation.Name}'s Kingdom Hall address could not be found, please make sure the address is correct.");
+                }
+                
+                color = "#FF0000";
+                var territorystring = $j("[id$='territories']").val();
+                var splitTerritoryArray = territorystring.split('|');
+                var territories = new Array();
+                for (var i =0; i < splitTerritoryArray.length; i++) {
+                    var n = splitTerritoryArray[i].split('/');
+                    plotTerritory(n[0], n[1]);
+                }
+                //map.setCenter(mapBounds.getCenter());
+                map.fitBounds(mapBounds);
+            });
+            function plotTerritory(name, coords){
+                var territory;
+                var territoryCoords = new Array();
+                var coordsArray = coords.split(';');
+                for (var i =0; i < coordsArray.length; i++) {
+                    var coordArray = coordsArray[i].split(',');
+                    territoryCoords.push(new google.maps.LatLng(coordArray[0],coordArray[1]));
+                }
+                var territoryId = name.split(':')[0];
+                var territoryname = name.split(':')[1];
+                //var coveredandcheckedout = name.split('-')[1];
+                var covered = name.split(':')[2];
+                var checkedout = name.split(':')[3];
+                var markercoord = name.split(':')[4];
+                if(covered == 'true'){
+                    color='Green';
+                }else{
+                    if(checkedout == 'true'){
+                        color = 'blue';
+                    }else{
+                        color='red';
+                    }
+                }
+                
+                territory = new google.maps.Polygon({
+                    paths: territoryCoords,
+                    strokeColor: color,
+                    strokeOpacity: 0.5,
+                    strokeWeight: 3,
+                    fillColor: color,
+                    fillOpacity: 0.1,
+                    editable: false
+                });
+                territory.setMap(map);
+                google.maps.event.addListener(territory, 'click', function() {
+                    window.location = '../apex/territorymap?id={!id}&ks=' + territoryname;
+                });
+                var terrbounds = new google.maps.LatLngBounds();
+                for (i = 0; i < territoryCoords.length; i++) {
+                    mapBounds.extend(territoryCoords[i]);
+                    terrbounds.extend(territoryCoords[i]);
+                }
+                
+                if(markercoord == 'none'){
+                    markercoord = terrbounds.getCenter();
+                }else{
+                    var coords = new google.maps.LatLng(markercoord.split(',')[0],markercoord.split(',')[1],true);
+                    markercoord = coords;
+                }
+                var terrmarker = new google.maps.Marker({
+                    position: markercoord,
+                    title: ""+territoryname,
+                    icon: 'https://chart.googleapis.com/chart?chst=d_text_outline&chld=000000|12|h|ffffff|_|'+territoryname
+                });
+                terrmarker.setMap(map);
+            }
+        });
+        //icon: 'https://chart.googleapis.com/chart?chst=d_bubble_text_small&chld=bbT|'+territoryname+'|FFff00|000000'
+    </script>
+
+    <style>
+        #toolbar{
+            padding: 5px;
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#7d828c),color-stop(0.5, #303749), color-stop(0.5, #121a2e), to(#121a2e));
+            border: solid 1px rgba(79, 79, 79, 0.75);
+            color: #fff;
+            height: 15px;
+            font-weight: bold; 
+            font-family: arial; 
+            font-size: 14px; 
+        }
+        #wrapper{
+            width: 100%; 
+            height: 100%; 
+            background: #000000; 
+            padding: 0px; 
+            border:1px black solid;
+        }
+        #map {
+            font-family: Arial;
+            font-size:12px;
+            line-height:normal !important;
+            height:100%;
+            background:transparent;
+            width: 100%; 
+            border-left:1px black solid;
+        }
+        #header{
+            background: #e7e7de; 
+            text-align: left; 
+            font-weight: bold; 
+            font-family: arial; 
+            font-size: 14px; 
+            padding:5px; 
+            border:1px black solid; 
+            border-top-left-radius: 5px; 
+            border-top-right-radius: 5px;
+        }
+        html{ 
+            height: 100%;
+            background-color: #000000;
+        }
+        body{ 
+            height: 100%; 
+            margin: 0; 
+            padding: 0;
+            font-family: Arial;
+            font-size: 12px;
+        }
+        .maplegend{
+            position: absolute; 
+            top: 35px; 
+            left: 8px; 
+            z-index: 10; 
+            text-align: center; 
+            background-color: rgba(255,255,255,0.75); 
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+        }
+        .openLegend{
+            height: 120px;
+        }
+    </style>
+        <apex:form >
+            <apex:inputhidden id="territories" value="{!territoriesCoords}"/>
+        </apex:form>
+    
+            <div id="wrapper" style="height:100%">
+                <div id="toolbar">{!congregation.name} Congregation Map{!if(ismobile,'',' - Enter two digit number on keypad to view territory. (Ex: 03)')}</div>
+                <div class="maplegend {!if(!ismobile,'openLegend','')}">
+                    <div style="margin: 5px; padding: 2px;">Legend</div>
+                    <div style="margin: 5px; border:2px solid red; background-color: rgba(255,0,0,0.25); color: black; padding: 2px;">Unassigned ({!round(congregation.unassigned_territories__c,0)})</div>
+                    <div style="margin: 5px; border:2px solid blue; background-color: rgba(0,0,255,0.25); color: black; padding: 2px;">Assigned ({!round(congregation.assigned_territories__c,0)})</div>
+                    <div style="margin: 5px; border:2px solid green; background-color: rgba(0,255,0,0.25); color: black; padding: 2px;">Covered ({!round(congregation.percentage_covered__c,0)}%)</div>
+                </div>
+                
+                <div id="map" style="height:100%"></div>
+            </div>
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,189 @@
+<apex:page showheader="false" standardstylesheets="false" controller="territorytemplatecontroller">
+	<style>
+                #map_edit {
+                  font-family: Arial;
+                  font-size:12px;
+                  line-height:normal !important;
+                  height:100%;
+                  background:transparent;
+                }
+                #search {
+                    width: 220px;
+                    transition: width 0.7s ease 0s;
+                    -moz-transition: width 0.7s ease 0s; /* Firefox 4 */
+                    -webkit-transition: width 0.7s ease 0s; /* Safari and Chrome */
+                    -o-transition: width 0.7s ease 0s; /* Opera */
+                    
+                }
+                body{
+                    background: #e7e7de;
+                }
+                .button{
+                    color: #fff;
+                    text-decoration: none;
+                    display: inline-block;
+                    padding: 4px 10px;
+                    -webkit-border-radius: 5px;
+                    font: normal 12px/14px Helvetica, Arial, sans-serif;
+                    //margin-left: 20px;
+                }
+                .toolbar{
+                    padding: 5px 0 12px 0;
+                    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#7d828c),color-stop(0.5, #303749), color-stop(0.5, #121a2e), to(#121a2e));
+                    border: solid 1px rgba(79, 79, 79, 0.75);
+                    color: #fff;
+                    height: 15px;
+                }
+                .button.black {
+                    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#7d828c),color-stop(0.5, #303749), color-stop(0.5, #121a2e), to(#121a2e));
+                    border: solid 1px rgba(79, 79, 79, 0.75);
+                }
+                .button.black:hover {
+                    color: #fff;
+                    text-decoration: none;
+                    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, 
+                        from(#4286f5), 
+                        color-stop(0.5, #4286f5),
+                        color-stop(0.5, #194fdb),
+                        to(#194fdb));
+                }
+                .button.back {
+                    position: relative;
+                    padding-left: 5px;
+                    margin-left: 8px;
+                }
+                .back.black > span {
+                    background-image: -webkit-gradient(linear, left top, right bottom, from(#7d828c),color-stop(0.5, #303749), color-stop(0.5, #121a2e), to(#121a2e));
+                    border-left: solid 1px rgba(79, 79, 79, 0.75);
+                    border-bottom: solid 1px rgba(79, 79, 79, 0.75);
+                    -webkit-border-top-left-radius: 6px;
+                    -webkit-border-bottom-right-radius: 6px;
+                    height: 19px;
+                    width: 19px;
+                    display: inline-block;
+                    -webkit-transform: rotate(45deg);
+                    -webkit-mask-image: -webkit-gradient(linear, left bottom, right top, 
+                        from(#000000), 
+                        color-stop(0.5,#000000), 
+                        color-stop(0.5, transparent), 
+                        to(transparent));
+                    position: absolute;
+                    left: -7px;
+                    top: 1px;
+                    -webkit-background-clip: content;
+                }
+                .back:hover > span {
+                    background-image: -webkit-gradient(linear, left top, right bottom, 
+                        from(#4286f5), 
+                        color-stop(0.5, #4286f5),
+                        color-stop(0.5, #194fdb),
+                        to(#194fdb));
+                }
+                .title{
+                    font-weight: bold; 
+                    font-size: 14px; 
+                    //padding-left: 15px;
+                }
+                .wrapper{
+                    //height:{!if(ismobile,'400px','600px')};
+                    //width:98%; 
+                    //padding: 1%; 
+                    //border: 1px black solid; 
+                    //border-radius: 5px; 
+                    //background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#7d828c),color-stop(0.5, #303749), color-stop(0.5, #121a2e), to(#121a2e));
+                }
+                .innerwrapper{
+                    height:100%; 
+                    width:100%; 
+                    border: 1px black solid; 
+                    background-color: #e7e7de;
+                }
+                .touchscrollable{
+                    overflow-y: scroll;
+                    -webkit-overflow-scrolling: touch;
+                }
+                .plotted{
+                    background-image: url('{!URLFOR($Resource.plotted)}');
+                    background-position:center; 
+                    background-size: 60px;
+                    
+                }
+                .notplotted{
+                    background-image: url('{!URLFOR($Resource.notplotted)}');
+                    background-position:center; 
+                    background-size: 60px;
+                }
+                
+                .delete{
+                    position: fixed; 
+                    //margin:-20px 0 0 -135px; 
+                    border-radius: 20px; 
+                    width:15px; 
+                    padding:2px; 
+                    background:red; 
+                    color: white;
+                    border: 2px #fff solid;
+                }
+                .css3-button {
+                    padding: 10px; 
+                    height: 40px; 
+                    width: 40px;  
+                    position:relative;
+                    margin: 2px 0px 0px 2px;
+                    display:inline-block;
+                    text-align:center;
+                    cursor:pointer;
+                    border:2px solid #999;
+                    background-color:#666;
+                    background-color:rgba(128,128,128,0.75);
+                    -moz-border-radius:16px;
+                    -webkit-border-radius:16px;
+                    -opera-border-radius:16px;
+                    -khtml-border-radius:16px;
+                    border-radius:15px;
+                    font-size: 36px;
+                    color:#000;
+                    font-weight:bold;
+                }
+                 
+                .css3-button span {
+                    position:absolute;
+                    display:block;
+                    width:94%;
+                    left:3.5%;
+                    top:0px;
+                    height:50%;
+                    -webkit-border-radius:8px;
+                    -moz-border-radius:8px;
+                    background-color:rgba(255,255,255,0.25);
+                    background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,0.75)), to(rgba(255,255,255,0)));
+                    background-image:-moz-linear-gradient(top,bottom,from(rgba(255,255,255,0.75)), to(rgba(255,255,255,0)));
+                }
+                .mobile{
+                    background-size: 40px; width: 20px; height:20px; margin: 0px; font-size: 20px;
+                }
+        .maplegend{
+            position: absolute; 
+            top: 65px; 
+            left: 100px; 
+            z-index: 10; 
+            text-align: center; 
+            background-color: rgba(255,255,255,0.75); 
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+        }
+        .openLegend{
+            height: 120px;
+        }
+        .legendUnassigned{
+        	margin: 5px; border:2px solid red; background-color: rgba(255,0,0,0.25); color: black; padding: 2px;
+        }
+        .legendAssigned{
+        	margin: 5px; border:2px solid blue; background-color: rgba(0,0,255,0.25); color: black; padding: 2px;
+        }
+        .legendCovered{
+        	margin: 5px; border:2px solid green; background-color: rgba(0,255,0,0.25); color: black; padding: 2px;
+        }
+    </style>
+</apex:page>

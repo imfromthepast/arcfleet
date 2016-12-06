@@ -1,0 +1,28 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000003IfspIAC",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000003IfspIAC",
+    "methods": [],
+    "name": "OrdersController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "OrdersController",
+        "references": [],
+        "type": "OrdersController"
+    },
+    "variables": []
+}

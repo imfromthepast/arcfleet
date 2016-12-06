@@ -1,0 +1,132 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000002hlaLIAQ",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002hlaLIAQ",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 4
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "save",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 12
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "newCongregation",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 26,
+                "line": 21
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "deleteKH",
+            "parameters": [],
+            "references": [],
+            "returnType": "PageReference",
+            "type": null
+        }
+    ],
+    "name": "KingdomHallController",
+    "namespace": "ARCFleet",
+    "parentClass": "ARCFleet.territorytemplatecontroller",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 19,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "cName",
+            "references": [],
+            "type": "String"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "KingdomHallController",
+        "references": [],
+        "type": "KingdomHallController"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 6
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 25,
+                "line": 13
+            },
+            "modifiers": [],
+            "name": "c",
+            "references": [],
+            "type": "ARCFleet__Congregation__c"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 15
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 23
+            },
+            "modifiers": [],
+            "name": "pr",
+            "references": [],
+            "type": "PageReference"
+        }
+    ]
+}

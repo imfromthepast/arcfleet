@@ -1,0 +1,57 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000002hjTdIAI",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002hjTdIAI",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 17,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "init",
+            "parameters": [],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        }
+    ],
+    "name": "TerritoryCardController",
+    "namespace": "ARCFleet",
+    "parentClass": "ARCFleet.territorytemplatecontroller",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 19,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "coordinates",
+            "references": [],
+            "type": "String"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "TerritoryCardController",
+        "references": [],
+        "type": "TerritoryCardController"
+    },
+    "variables": []
+}

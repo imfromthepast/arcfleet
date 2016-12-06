@@ -1,0 +1,735 @@
+<apex:page showHeader="false" sidebar="false" standardstylesheets="false" controller="headShapeEditor" action="{!init}">
+	<!-- Include CSS -->
+    <!-- Bootstrap -->
+    <link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+    
+    <!-- Include JS -->
+    <!-- is.js -->
+    <script src="{! $Resource.ISJS}"/>
+    <!-- jQuery -->
+    <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+    <!-- Bootstrap JS -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"/>
+    <!-- AngularJS CDN -->
+    <script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+    <!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-growl.min.js')}" type="text/javascript"/> -->
+    <!-- <script src="http://www.sunsean.com/Whirlpool.js" type="text/javascript"/> -->
+    <!-- <script src="{! $Resource.ProcGenGalaxy}"/>  -->
+    <apex:includeScript value="https://code.createjs.com/easeljs-0.8.2.min.js"/>
+    <apex:includeScript value="{!$Resource.EaseljsClip}"/>
+	<apex:form >
+		<nav class="navbar navbar-inverse">
+			<div class="container">
+				<div class="navbar-header">
+					<div class="navbar-brand">Shape Editor</div>
+				</div>
+				<!-- <ul class="nav navbar-nav">
+					<li class="dropdown" id="shapeType">
+			          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="typeLabel">Type</span> <span class="caret"></span></a>
+			          	<ul class="dropdown-menu">
+				            <li><a href="#" onclick="pickType('Neck')">Neck</a></li>
+				            <li><a href="#" onclick="pickType('Head')">Head</a></li>
+				            <li><a href="#" onclick="pickType('Part')">Part</a></li>
+			          	</ul>
+			        </li>
+				</ul> -->
+
+                <!-- Nav tabs -->
+                <ul class="nav navbar-nav" >
+                    <li role="presentation" class="active"><a id="headsTab" href="#heads" data-toggle="pill">Heads</a></li>
+                    <li role="presentation"><a id="partsTab" href="#parts" data-toggle="pill">Parts</a></li>
+                    <!-- <li role="presentation"><a href="#necks" data-toggle="pill">Necks</a></li> -->
+                </ul>
+			</div>
+		</nav>
+		<div class="container">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="heads">
+                    <div class="row">
+        	            <div class="col-md-6 col-xs-12"> 
+        	    			<h4>CANVAS</h4> 
+        	    			<div class="padded">
+        	    				<div class="btn-group" role="group" aria-label="...">
+        						  	<button id="symmetryNoneButton" type="button" class="btn btn-default symmetryButton " onclick="toggleSymmetry('')">None</button>
+        						  	<button id="symmetryRadialButton" type="button" class="btn btn-default symmetryButton" onclick="toggleSymmetry('Radial')">Radial</button>
+        						  	<button id="symmetryHorizontalButton" type="button" class="btn btn-default symmetryButton active" onclick="toggleSymmetry('Horizontal')">Horizontal</button>
+        						  	<button id="symmetryVerticalButton" type="button" class="btn btn-default symmetryButton" onclick="toggleSymmetry('Vertical')">Vertical</button>
+        						</div>	
+        						<div class="btn-group pull-right" role="group" aria-label="...">						
+        							<apex:commandbutton styleclass="btn btn-default" action="{!saveHead}" value="Save"/>
+        							<button type="button" onclick="clearShape()" class="btn btn-default">Clear</button>
+        						</div>
+        					</div>          	
+        	            	<canvas id="headShapeCanvas" height="400px" width="400px"></canvas> 
+        		            <div><apex:inputhidden id="headSymmetry" value="{!head.Symmetry__c}"/></div>
+        		            <div><apex:inputfield id="headjson" value="{!head.Shape__c}"/></div>
+                            <div><apex:inputtext id="headId" value="{!headId}"/></div>
+        		            <div><apex:inputfield id="headanchors" value="{!head.Anchors__c}"/></div>
+        	            </div>
+        	            <div class="col-md-6 col-xs-12">  
+        	    			<h4>PREVIEW</h4>         
+        	    			<div class="padded">
+        						<input id="jitter" type="number" step="10" style="width: 100px;" class="form-control"/>   	
+        						<button id="pauseButton" type="button" onclick="pauseTicker()" class="btn btn-default pull-right">Pause</button>
+        					</div>  
+        	            	<canvas id="headPreviewCanvas" height="400px" width="400px"></canvas> 	            
+        	            </div>
+        	        </div>
+        	        <div class="row">
+        	            <div class="col-xs-12">  
+        	    			<h4>LIBRARY</h4>              	
+        	            	<div id="Div1" style=" float: left; width: 1000px; height: 600px; overflow:scroll; border: 1px solid black;">
+        	                    <canvas id="headLibraryCanvas" class="img-responsive" height="2000px" width="1000px"></canvas> 	  
+        	            	</div>          
+        	            </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="parts">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12"> 
+                            <h4>CANVAS</h4> 
+                            <div class="padded">
+                                <!-- <div class="btn-group"> -->
+                                    
+                                <!-- </div>   -->
+                                <div class="btn-group pull-right">                        
+                                    <apex:commandbutton styleclass="btn btn-default" action="{!savePart}" value="Save"/>
+                                    <button type="button" onclick="clearShape()" class="btn btn-default">Clear</button>
+                                </div>
+                            </div>              
+                            <canvas id="partShapeCanvas" height="400px" width="400px"></canvas> 
+                            <div><apex:inputhidden id="partjson" value="{!part.JSON__c}"/></div>
+                            <!-- <div><apex:inputhidden id="headanchors" value="{!head.Anchors__c}"/></div> -->
+                        </div>
+                        <div class="col-md-6 col-xs-12">  
+                            <h4>PREVIEW</h4>         
+                            <div class="padded">
+                                <!-- <input id="jitter" type="number" step="10" style="width: 100px;" class="form-control" placeholder="Jitter Factor"/>     
+                                <button id="pauseButton" type="button" onclick="pauseTicker()" class="btn btn-default pull-right">Pause</button> -->
+                            </div>  
+                            <canvas id="partPreviewCanvas" height="400px" width="400px"></canvas>               
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">  
+                            <h4>LIBRARY</h4>                
+                            <div id="Div1" style=" float: left; width: 1000px; height: 600px; overflow:scroll; border: 1px solid black;">
+                                <canvas id="partLibraryCanvas" class="img-responsive" height="2000px" width="1000px"></canvas>    
+                            </div>          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </apex:form>
+    <style>
+		canvas{
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+			//border: solid 1px #999;
+		}
+		#headShapeCanvas,#partShapeCanvas,#neckShapeCanvas{
+			border: solid 2px #999;
+		}
+		#headPreviewCanvas,#partPreviewCanvas,#neckPreviewCanvas{
+			border: dotted 1px #999;
+		}
+		.padded{
+			padding:10px 0;
+		}
+    </style>
+    <script type="text/javascript">
+        var __sfdcSessionId = '{!GETSESSIONID()}';
+    </script>
+    <script src="/soap/ajax/37.0/connection.js" type="text/javascript"></script>
+    <script>        
+        function randomIntFromInterval(min,max){
+            return Math.floor(Math.random()*(max-min+1)+min);
+        } 
+        function rifi(min,max){
+            return randomIntFromInterval(min,max);
+        }           
+        function randomArrayElem(arr){              
+            return arr[randomIntFromInterval(0,arr.length-1)];
+        } 
+        function rae(arr){
+            return randomArrayElem(arr);
+        } 
+        function rdfi(min,max){
+        	return Math.random()*(max-min+1)+min;
+        }
+    </script>
+    <script src="{!$Resource.alienHeadShapesJS}" type="text/javascript"/>
+    <script>
+        $('#jitter').val(10);
+        var symmetry = 'Horizontal';
+        $('[id$=headSymmetry]').val(symmetry);
+        var headShapeCanvas = new createjs.Stage('headShapeCanvas');
+        var headPreviewCanvas = new createjs.Stage('headPreviewCanvas');
+        var headLibraryCanvas = new createjs.Stage('headLibraryCanvas');
+        var partShapeCanvas = new createjs.Stage('partShapeCanvas');
+        var partPreviewCanvas = new createjs.Stage('partPreviewCanvas');
+        var partLibraryCanvas = new createjs.Stage('partLibraryCanvas');
+        var tkr = createjs.Ticker;
+        tkr.framerate = 20;
+        tkr.addEventListener("tick", handleTick);
+		tkr.setPaused(true);
+        drawGrid(); 
+    	var headShapes = [];
+        var headShapeIds = [];
+        var anchorPointArray = [];
+    	getShapes()
+		var scale = 20;
+        var partX = 0;
+        var partY = 0;
+        var startX = 0;
+        var startY = 0; 
+        var partShapes1='',partShapes2='';
+        var anchorPoints = '';
+        var partShapeArray = [];
+        var lineFinished = false;
+        var curveType = 'curveTo';
+        headShapeCanvas.on("stagemousedown", function(evt) {                   	
+        	var x = Math.round(evt.stageX/scale)*scale;
+        	var y = Math.round(evt.stageY/scale)*scale;
+        	if(!lineFinished){	        	
+        		// shape mode
+                drawOutline(x,y,headShapeCanvas);
+            }else{
+	        	// anchor Mode
+                var c = new createjs.Shape();
+                c.graphics.setStrokeStyle(1).beginStroke('#f00').drawCircle(x,y,20);
+                headShapeCanvas.addChild(c);
+                if(symmetry == 'Horizontal'){
+                	if(x<200){
+                		c.graphics.setStrokeStyle(1).beginStroke('#933').drawCircle(mirrorX(x),mirrorY(y),20);
+                		headShapeCanvas.addChild(c);
+                	}
+                }else if(symmetry == 'Vertical'){
+                	if(y<200){
+                		c.graphics.setStrokeStyle(1).beginStroke('#933').drawCircle(mirrorX(x),mirrorY(y),20);
+                		headShapeCanvas.addChild(c);
+                	}
+                }else if(symmetry == 'Radial'){
+                	if(y<200 && x<200){
+                		c.graphics.setStrokeStyle(1).beginStroke('#933').drawCircle(radialMirror(x,y).x2,radialMirror(x,y).y2,20);
+                		headShapeCanvas.addChild(c);
+                		c.graphics.setStrokeStyle(1).beginStroke('#933').drawCircle(radialMirror(x,y).x3,radialMirror(x,y).y3,20);
+                		headShapeCanvas.addChild(c);
+                		c.graphics.setStrokeStyle(1).beginStroke('#933').drawCircle(radialMirror(x,y).x4,radialMirror(x,y).y4,20);
+                		headShapeCanvas.addChild(c);
+                	}
+                }                
+                headShapeCanvas.update();
+                anchorPoints += '{x:'+Math.round(evt.stageX/scale)+',y:'+Math.round(evt.stageY/scale)+'},';
+	        }	        
+        	$('[id$=headjson]').val(partShapes1);
+            $('[id$=headanchors]').val(anchorPoints);
+        });
+        partShapeCanvas.on("stagemousedown", function(evt) {
+            var x = Math.round(evt.stageX/scale)*scale;
+            var y = Math.round(evt.stageY/scale)*scale;
+            symmetry='';
+            drawOutline(x,y,partShapeCanvas);
+
+            $('[id$=partjson]').val(partShapes1);
+        });
+        function drawOutline(x,y,stage){
+            var l = new createjs.Shape();
+            var l2 = new createjs.Shape();
+            var l3 = new createjs.Shape();
+            var l4 = new createjs.Shape();
+            tkr.setPaused(false);
+            if(partX==0 && partY==0){                           
+                partX = symmetry=='Radial'||symmetry=='Horizontal'?200:x;
+                partY = symmetry=='Vertical'?200:y; 
+                startX = partX; 
+                startY = partY;
+                partShapeArray.push(
+                    {
+                        x:Math.round(partX/scale),
+                        y:Math.round(partY/scale),
+                        f:'moveTo'
+                    }
+                ); 
+                partShapes1 = '{x:'+Math.round(partX/scale)+',y:'+Math.round(partY/scale)+',f:\'moveTo\'},';
+            }else{ 
+                
+                l.graphics.setStrokeStyle(1).beginStroke('#999').moveTo(partX,partY);
+                if(symmetry == 'Radial'){
+                    l2.graphics.setStrokeStyle(1).beginStroke('#ccc').moveTo(radialMirror(partX,partY).x2,radialMirror(partX,partY).y2);
+                    l3.graphics.setStrokeStyle(1).beginStroke('#ccc').moveTo(radialMirror(partX,partY).x3,radialMirror(partX,partY).y3);
+                    l4.graphics.setStrokeStyle(1).beginStroke('#ccc').moveTo(radialMirror(partX,partY).x4,radialMirror(partX,partY).y4);
+                }else if(symmetry != ''){
+                    l2.graphics.setStrokeStyle(1).beginStroke('#ccc').moveTo(mirrorX(partX),mirrorY(partY));
+                }
+                partX = x;
+                partY = y;
+                l.graphics.lineTo(partX,partY);            
+                if(symmetry == 'Radial'){
+                    l2.graphics.lineTo(radialMirror(partX,partY).x2,radialMirror(partX,partY).y2);
+                    l3.graphics.lineTo(radialMirror(partX,partY).x3,radialMirror(partX,partY).y3);
+                    l4.graphics.lineTo(radialMirror(partX,partY).x4,radialMirror(partX,partY).y4);
+                }else if(symmetry != ''){
+                    l2.graphics.lineTo(mirrorX(partX),mirrorY(partY));
+                }
+                stage.addChild(l);
+                stage.addChild(l2);
+                stage.addChild(l3);
+                stage.addChild(l4);
+                stage.update();
+                partShapes1 += '{x:'+Math.round(partX/scale)+',y:'+Math.round(partY/scale)+',cx1:rifi(0,1),cy1:rifi(0,1),cx2:rifi(0,1),cy2:rifi(0,1),f:\''+curveType+'\'},';
+                var cprange = [0,1];
+                partShapeArray.push(
+                    {
+                        x:Math.round(partX/scale),
+                        y:Math.round(partY/scale),
+                        cx1:rifi(cprange[0],cprange[1]),cy1:rifi(cprange[0],cprange[1]),cx2:rifi(cprange[0],cprange[1]),cy2:rifi(cprange[0],cprange[1]),f:curveType
+                    }
+                );
+                if(symmetry == 'Horizontal'){                       
+                    if(partX == 200){
+                        lineFinished = true;
+                        generatePreview();
+                    }
+                }else if(symmetry == 'Vertical'){
+                    if(partY == 200){
+                        lineFinished = true;
+                        generatePreview();
+                    }
+                }else if(symmetry == 'Radial'){
+                    if(partY == 200 || partX == 200){
+                        lineFinished = true;
+                        generatePreview();
+                    }
+                }else{
+                    if(partX == startX && partY == startY){
+                        lineFinished = true;
+                        generatePreview();
+                    }
+                }
+            }
+        }
+        function mirrorX(x){
+        	if(symmetry == 'Horizontal'){
+            	return 400-x;
+            }else if(symmetry == 'Vertical'){
+            	return x;
+            }
+        }
+        function mirrorY(y){
+		    if(symmetry == 'Horizontal'){
+            	return y;
+            }else if(symmetry == 'Vertical'){
+            	return 400-y;
+            }
+        }
+        function radialMirror(x,y){
+        	var x2,x3,x4,y2,y3,y4;
+        	var mid = 200;
+			var dx = mid-x;
+			var dy = mid-y;
+        	x2 = mid-dy;
+        	y2 = mid+dx;
+        	x3 = mid+dx;
+        	y3 = mid+dy;
+        	x4 = mid+dy;
+        	y4 = mid-dx;
+        	return {x2:x2,y2:y2,x3:x3,y3:y3,x4:x4,y4:y4};
+        }
+        sforce.connection.query( 
+            "SELECT Id, Body FROM StaticResource WHERE Name = 'alienHeadShapesJS'", 
+            { 
+                onSuccess : handleUpdate,
+                onFailure: handleFailure 
+            }
+        );
+        function toggleSymmetry(symType){
+        	$('.symmetryButton').removeClass('active');
+        	symmetry = symType;
+        	$('[id$=headSymmetry]').val(symmetry);
+        	if(symType == 'Radial'){
+        		// Radial
+        		$('#symmetryRadialButton').addClass('active');
+        	}else if(symType == 'Horizontal'){
+        		// Horizontal
+        		$('#symmetryHorizontalButton').addClass('active');
+        	}else if(symType == 'Vertical'){
+        		// Vertical
+        		$('#symmetryVerticalButton').addClass('active');
+        	}else{
+        		//None
+        		$('#symmetryNoneButton').addClass('active');
+        	}
+        }
+        // Create Base64 Object
+        var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/\r\n/g,"\n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
+
+        function handleFailure(result) {
+            console.log('didnt work');
+            result = result.getArray('records');
+            console.log(result[0]);
+        }
+        function handleUpdate(result) {
+            //console.log('ajax');
+            result = result.getArray('records');
+            var cs = 'var c=0.5522847498307933984022516322796;\n var colorSchemes = ['+
+                <apex:repeat value="{!colorSchemes}" var="cs">
+                    '[{!JSencode(cs.Primary_Color__c)},{!JSencode(cs.Secondary_Color__c)},{!JSencode(cs.Primary_Accent__c)},{!JSencode(cs.Secondary_Accent__c)}],'+
+            // this is not a comment    </apex:repeat>
+                ']; \n';             
+            var ps = 'var partShapes = ['+
+                <apex:repeat value="{!partShapes}" var="ps">
+                    '[{!JSencode(ps.JSON__c)}], \n'+
+            // this is not a comment    </apex:repeat>           
+                ']; \n';
+            var hs = "var headLayouts = ["+
+                <apex:repeat value="{!headLayouts}" var="hl">
+                    "{"+
+                        "id:'{!JSencode(hl.Id)}',"+
+                        "name:'{!JSencode(hl.Name)}',"+
+                        "symmetry: {"+
+                            "mirrorX: {!hl.Symmetry__c=='Horizontal'},"+
+                            "mirrorY: {!hl.Symmetry__c=='Vertical'},"+
+                            "radial: {!hl.Symmetry__c=='Radial'}"+
+                        "},"+
+                        "anchors:[{!JSencode(hl.Anchors__c)}],"+
+                        "shape:[{!JSencode(hl.Shape__c)}]"+
+                    "},\n"+
+            // this is not a comment    </apex:repeat>    
+            "];";   
+            var arrays = cs+ps+hs;
+            result[0].Body = Base64.encode(arrays);
+            sforce.connection.update(result);
+        }
+        function handleTick(event) {
+		    if (!event.paused) {
+		        generatePreview();
+		    }
+		}
+        function clearShape(){
+        	console.log('clear');
+        	partX = 0;
+        	partY = 0;
+        	partShapes1='';
+        	partShapes2='';
+        	partShapeArray = [];
+        	tkr.setPaused(true);
+        	headShapeCanvas.removeAllChildren();
+        	headPreviewCanvas.removeAllChildren();
+            partShapeCanvas.removeAllChildren();
+            partPreviewCanvas.removeAllChildren();
+        	drawGrid();
+        	lineFinished = false;
+        	headShapeCanvas.update();
+        	headPreviewCanvas.update();
+            partShapeCanvas.update();
+            partPreviewCanvas.update();
+            $('[id$=headjson]').val('');
+            $('[id$=headanchors]').val('');
+            $('[id$=headid]').val('');
+        }
+        function generatePreview(){
+			headPreviewCanvas.removeAllChildren();
+            partPreviewCanvas.removeAllChildren();
+			var jitter = parseInt($('#jitter').val());
+			var shape1 = drawPolygon(20,'grey',partShapeArray,jitter,false);
+            var partshape = drawPolygon(20,'grey',partShapeArray,0,false);
+			headPreviewCanvas.addChild(shape1);
+            partPreviewCanvas.addChild(partshape);
+			if(symmetry == 'Horizontal'){
+				headPreviewCanvas.addChild(flipX(shape1));
+			}else if(symmetry == 'Vertical'){
+				headPreviewCanvas.addChild(flipY(shape1));
+			}else if(symmetry == 'Radial'){				
+				var shape2 = flipY(shape1);
+				var shape3 = flipX(shape2);
+				var shape4 = flipX(shape1);
+				headPreviewCanvas.addChild(shape2);
+				headPreviewCanvas.addChild(shape3);
+				headPreviewCanvas.addChild(shape4);
+			}
+			headPreviewCanvas.update();
+            partPreviewCanvas.update();
+        }
+        function pauseTicker(){
+        	$('#pauseButton').html(tkr.paused?'Play':'Pause');
+        	tkr.setPaused(!tkr.paused);
+        }
+        function drawGrid(){
+        	var lines = 20;
+	    	var dist = 20; 
+	        for (var i = 1; i < lines; i++) { 
+	            var hhl = new createjs.Shape();
+                var phl = new createjs.Shape();
+                var nhl = new createjs.Shape();
+	            var y = dist*i;
+	            var color = i==lines/2?'#999':'#eee';
+	            hhl.graphics.setStrokeStyle(1).beginStroke(color).moveTo(0,y).lineTo(400,y);
+                phl.graphics.setStrokeStyle(1).beginStroke(color).moveTo(0,y).lineTo(400,y);
+                nhl.graphics.setStrokeStyle(1).beginStroke(color).moveTo(0,y).lineTo(400,y);
+	            headShapeCanvas.addChild(hhl);
+                partShapeCanvas.addChild(phl);
+	            var hvl = new createjs.Shape();
+                var pvl = new createjs.Shape();
+                var nvl = new createjs.Shape();
+	            var x = dist*i;	            
+                hvl.graphics.setStrokeStyle(1).beginStroke(color).moveTo(x,0).lineTo(x,400);
+                pvl.graphics.setStrokeStyle(1).beginStroke(color).moveTo(x,0).lineTo(x,400);
+                nvl.graphics.setStrokeStyle(1).beginStroke(color).moveTo(x,0).lineTo(x,400);
+	            headShapeCanvas.addChild(hvl);
+                partShapeCanvas.addChild(pvl);
+	        }
+        }
+        function drawPolygon(size,fillColor,points,modifier,hilight){
+            var polygon = new createjs.Shape();
+            polygon.graphics.beginFill(fillColor).setStrokeStyle(2).beginStroke('black');
+            var xs = 500;
+            var xb = 0;
+            var ys = 500;
+            var yb = 0;
+    		var previousCx = 0;
+    		var previousCy = 0;
+    		var previousX = 0;
+    		var previousY = 0;
+            for (var i = 0; i < points.length; i++) {
+            	var x = points[i].x*size;
+                var y = points[i].y*size;
+                var cx1 = (points[i].x+points[i].cx1)*size;
+                var cy1 = (points[i].y+points[i].cy1)*size;
+                var cx2 = (points[i].x+points[i].cx2)*size;
+                var cy2 = (points[i].y+points[i].cy2)*size;
+                if(modifier>0){
+                    x = points[i].x;
+	                y = points[i].y;
+		            cx1 = x;
+		            cy1 = y;
+		            cx2 = x;
+		            cy2 = y;
+                    if(i==0){
+     					if(symmetry=='Vertical' || symmetry=='') x = rdfi(x-(modifier/size),x);
+    		            if(symmetry=='Horizontal' || symmetry=='') y = rdfi(y-(modifier/size),y);
+    		        }else if(i==points.length-1){
+    		            if(symmetry=='Vertical' || symmetry=='') x = rdfi(x,x+(modifier/size));
+    		            if(symmetry=='Horizontal' || symmetry=='') y = rdfi(y,y+(modifier/size));
+    		        }else{
+    		        	x = rdfi(x-(modifier/size),x);
+    		        	y = rdfi(y-(modifier/size),y);
+    		        }
+    		            cx1+=1;
+    		            cy1+=1;
+    		            cx2+=1;
+    		            cy2+=1;
+    		            if(previousCx==0) previousCx = x;
+    		            if(previousCy==0) previousCy = y;
+    		            if(previousX==0) previousX = x;
+    		            if(previousY==0) previousY = y;
+    		            var dx = 0;
+    					var dy = 0;    		        
+    		        if(i>0){
+    		        	dx = (previousX - previousCx);
+    		        	dy = (previousY - previousCy);
+    		        }
+    		        if(i>1){
+    		            cx1 = ( previousX+dx );
+    		            cy1 = ( previousY+dy );
+    		        	cx2 = x+-0.5;
+    		        	cy2 = y+-0.5;
+    		        }
+    		        if(i==1){
+    		        	cx1 = previousX+-0.5;
+    		            cy1 = previousY+-0.5;
+    		        	cx2 = x+-0.5;
+    		        	cy2 = y+-0.5;
+    		        } 
+		            previousCx = cx2;
+		            previousCy = cy2;
+    		        xb=x>xb?x:xb;
+    		        xs=x<xs?x:xs;
+    		        yb=y>yb?y:yb;
+    		        ys=y<ys?y:ys;
+    		        x=x*size;
+    		        y=y*size;
+    		        cx1=cx1*size;
+    		        cy1=cy1*size;
+    		        cx2=cx2*size;
+    		        cy2=cy2*size;
+                }
+		        if(points[i].f=='moveTo') polygon.graphics.mt(x,y);
+		        if(points[i].f=='lineTo') polygon.graphics.lt(x,y);
+		        if(points[i].f=='curveTo') polygon.graphics.qt(cx1,cy1,x,y);
+		        if(points[i].f=='bezierTo') polygon.graphics.bt(cx1,cy1,cx2,cy2,x,y);
+		        previousX = points[i].x;
+		        previousY = points[i].y;
+            }
+            polygon.setBounds(xs,ys,(xb-xs),(yb-ys));
+            return polygon;
+        }
+        function flipX(part){
+            var newPart = part.clone(true);
+            newPart.rotation = part.rotation * -1;
+            newPart.scaleX = -1;
+            newPart.x = (part.x*-1)+400;
+            return newPart;
+        }
+		function flipY(part){
+		    var newPart = part.clone(true);
+		    newPart.rotation = part.rotation * -1;
+		    newPart.scaleY = -1;
+		    newPart.y = part.y +400;
+		    return newPart;
+		}
+		function getShapes(){
+            console.log('getshapes()')
+	    	headShapes = [];
+            anchorPointArray = [];
+            headShapeIds = [];
+	    	for (var i = 0; i < headLayouts.length; i++) {
+	    		headShapes.push(headLayouts[i].shape);
+                anchorPointArray.push(headLayouts[i].anchors);
+                headShapeIds.push(headLayouts[i].id);
+	    	}
+            console.log(headShapeIds);
+            console.log(anchorPointArray);
+		    drawAllShapes('Head',headShapes);
+            drawAllShapes('Part',partShapes);
+		}
+        function handleClick(elem,shapeType){
+        	elem.addEventListener("click", function(event){     
+                console.log(anchorPointArray);           
+                clearShape()
+                console.log(event.target);
+                var anchorArray = [];
+                if(shapeType == 'Head'){
+                    partShapeArray = headShapes[event.target.id];
+                    anchorArray = anchorPointArray[event.target.id];
+                }
+                if(shapeType == 'Part') partShapeArray = partShapes[event.target.id];                
+                var stringPartsArray = JSON.stringify(partShapeArray);
+                stringPartsArray = stringPartsArray.substring(1,stringPartsArray.length-1);
+                partShapes1 = stringPartsArray;
+                var stringAnchorArray = JSON.stringify(anchorArray);
+                stringAnchorArray = stringAnchorArray.substring(1,stringAnchorArray.length-1);
+                $('[id$=headjson]').val(stringPartsArray);
+                $('[id$=headanchors]').val(stringAnchorArray);
+                $('[id$=headId]').val(event.target.name)
+                var size = 20;                    
+                var l = new createjs.Shape();
+                var l2 = new createjs.Shape();
+                l.graphics.setStrokeStyle(1).beginStroke('#999');
+                l2.graphics.setStrokeStyle(1).beginStroke('#ccc');
+                for (var i = 0; i < partShapeArray.length; i++) {
+                    var point = partShapeArray[i];
+                    var x = point.x*size;
+                    var y = point.y*size;
+                    if(point.f == 'moveTo'){                        
+                        l.graphics.mt(x,y);
+                        l2.graphics.mt(mirrorX(x),mirrorY(y));
+                    }else{
+                        l.graphics.lt(x,y);
+                        l2.graphics.lt(mirrorX(x),mirrorY(y));
+                    }
+                }
+                console.log(anchorArray);
+                for (var i = 0; i < anchorArray.length; i++) {
+                    var point = anchorArray[i];
+                    var x = point.x*size;
+                    var y = point.y*size;
+                    var c = new createjs.Shape();
+                    c.graphics.setStrokeStyle(1).beginStroke('#f00').drawCircle(x,y,20);
+                    headShapeCanvas.addChild(c);
+                    if(x<200){
+                        c.graphics.setStrokeStyle(1).beginStroke('#933').drawCircle(mirrorX(x),mirrorY(y),20);
+                        headShapeCanvas.addChild(c);
+                    }
+
+                }
+                if(shapeType=='Head'){
+                    lineFinished = true;
+                    headShapeCanvas.addChild(l);
+                    headShapeCanvas.addChild(l2);
+                    headShapeCanvas.update();
+                }else if(shapeType == 'Part'){
+                    partShapeCanvas.addChild(l);
+                    partShapeCanvas.update();
+                }
+                tkr.setPaused(false);
+                
+            });
+        }
+        function drawAllShapes(shapeType,shapes){
+	    	//console.log(shapeType+' Shapes')
+            //console.log(shapes)
+            if(shapeType == 'Head') headLibraryCanvas.removeAllChildren();
+            if(shapeType == 'Part') partLibraryCanvas.removeAllChildren();
+	    	for (var ii = 0; ii < shapes.length; ii++) {
+	    		var points = shapes[ii];
+	    		var polygon = new createjs.Shape();
+	            polygon.graphics.beginFill('grey').setStrokeStyle(1).beginStroke('black');
+	            var size=10;
+	            var scale=10;
+	            var canvasWidth = $('#headLibraryCanvas').width(); 
+	            polygon.x = ((((ii+0)*size)*scale) % (canvasWidth/2))*2;
+	            polygon.y = (Math.floor(ii/(canvasWidth/200))*size)*(scale*2);
+                //console.log(polygon.x+','+polygon.y);
+	            for (var i = 0; i < points.length; i++) {
+	                var x = points[i].x*size;
+	                var y = points[i].y*size;
+	                var cx1 = (points[i].x+points[i].cx1)*size;
+	                var cy1 = (points[i].y+points[i].cy1)*size;
+	                var cx2 = (points[i].x+points[i].cx2)*size;
+	                var cy2 = (points[i].y+points[i].cy2)*size;
+	                if(points[i].f=='moveTo') polygon.graphics.mt(x,y);
+			        if(points[i].f=='lineTo') polygon.graphics.lt(x,y);
+			        if(points[i].f=='curveTo') polygon.graphics.qt(cx1,cy1,x,y);
+			        if(points[i].f=='bezierTo') polygon.graphics.bt(cx1,cy1,cx2,cy2,x,y);
+	            }
+	            polygon.id = ii;
+                polygon.name = headShapeIds[ii];
+	            handleClick(polygon,shapeType);
+	            if(shapeType=='Head'){
+                    var polygonM = flip(polygon);
+                    polygonM.id = ii;
+                    handleClick(polygonM,shapeType);
+                    headLibraryCanvas.addChild(polygon);
+    	            headLibraryCanvas.addChild(polygonM);
+                }else if(shapeType == 'Part'){
+                    partLibraryCanvas.addChild(polygon);
+                }
+	    	}
+		}
+        function flip(part){
+            var newPart = part.clone(true);
+            newPart.rotation = part.rotation * -1;
+            newPart.scaleX = -1;
+            newPart.x = (part.x*1)+200;
+            return newPart;
+        }
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };     
+        headShapeCanvas.update();
+        partShapeCanvas.update();
+        headPreviewCanvas.update();
+        partPreviewCanvas.update();
+        headLibraryCanvas.update();
+        partLibraryCanvas.update();
+        var mode=getUrlParameter('m')=='p'?'parts':'heads';
+        //console.log(mode);
+        $('#'+mode+'Tab').tab('show');
+        $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+            clearShape();
+        })   
+    </script>
+</apex:page>

@@ -1,0 +1,792 @@
+<apex:page showHeader="false" standardStylesheets="false" >
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+        <!-- AngularJS CDN -->
+        <script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+        <!-- jQuery -->
+        <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+        <!-- Bootstrap -->
+        <!-- <link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/> -->
+        <!-- Bootstrap JS -->
+        <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
+        <!-- is.js -->
+        <script src="{! $Resource.ISJS}"/>
+       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <!-- Fonts -->
+        <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/ionicons/css/ionicons.min.css')}" rel="stylesheet" type="text/css"/>
+        <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/font_awesome/css/font-awesome.min.css')}" rel="stylesheet" type="text/css"/>
+        <link href="{!URLFOR($Resource.ARCFleetResources, 'fonts/arcfleet/style.css')}" rel="stylesheet" type="text/css"/>
+        <!-- <link href="{!$Resource.lcarscss}" rel="stylesheet" type="text/css"/> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-sanitize.js"></script>
+        <!-- velocify.js -->
+        <script src="https://raw.githubusercontent.com/julianshapiro/velocity/master/velocity.min.js"></script>
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/flexboxgrid/6.3.0/flexboxgrid.min.css" type="text/css" />   -->
+    </head>
+    <style>
+        body{
+            background-color: #000;
+        }
+        #lcars{
+            font-family: okuda;
+            font-size: 20px;
+            color: #FFDB15;
+            text-transform: uppercase;
+
+            /*display: -ms-flexbox;
+            -ms-flex-direction: column;
+            -ms-flex-wrap: wrap;*/
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            /*align-items: flex-end;*/
+            align-content: flex-start;
+            height: 100vh;
+            width: 100vw;
+        }
+        /*#lcars > .row{
+            margin: 15px 0;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            display: flex;
+            flex-flow: row;
+            height: 720px;
+        }*/
+        /*.container{
+            height: 700px;
+        }*/
+        @font-face {
+            font-family: okuda;
+            src: url('{!URLFOR($Resource.OkudaFonts,'Okuda.otf')}');
+        }
+        @font-face {
+            font-family: okuda-italic;
+            src: url('{!URLFOR($Resource.OkudaFonts,'Okuda_Italic.otf')}');
+        }
+        @font-face {
+            font-family: okuda-bold-italic;
+            src: url('{!URLFOR($Resource.OkudaFonts,'Okuda_Bold_Italic.otf')}');
+        }
+        @font-face {
+            font-family: okuda-bold;
+            src: url('{!URLFOR($Resource.OkudaFonts,'Okuda_Bold.otf')}');
+        }
+        .button{
+            display: inline-block;
+            margin: 5px;
+            text-align: right;
+            white-space: nowrap;
+            vertical-align: bottom;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            min-width: 80px;
+            color: #000;
+        }
+        .button-pill-all{
+            border-radius: 500px;
+            padding: 6px 20px 0 6px !important;
+        }
+        .button-pill-left{
+            border-top-left-radius: 500px;
+            border-bottom-left-radius: 500px;
+            padding: 6px 6px 0 20px !important;
+        }
+        .button-pill-right{
+            border-top-right-radius: 500px;
+            border-bottom-right-radius: 500px;
+            padding: 6px 20px 0 6px !important;
+        }
+        .orange {
+          background-color: #f90 !important;
+        }
+        .gray{
+          background-color: #99c !important;
+        }
+        .salmon{
+          background-color: #c66 !important;
+        }
+        .tan{
+          background-color: #fc8 !important;
+        }
+        .blue{
+          background-color: #99f !important;
+        }
+        .peach{
+          background-color: #f96 !important;
+        }
+        .purple{
+          background-color: #c69 !important;
+        }
+        .pink{
+          background-color: #c9c !important;
+        }
+        .white{
+          background-color: #fff !important;
+        }
+        .red{
+          background-color: #f55 !important;
+        }
+        .yellow{
+            background-color: #FFDB15 !important;
+        }
+        .pale-yellow{
+            background-color: #e1efa5 !important;
+        }
+        .gold{
+            background-color: #CC9900 !important;
+        }
+        .spine-xs,.spine-sm,.spine-md,.spine-lg{
+            height: 500px;
+            display: inline-block;
+            float: left !important
+        }
+        .spine-xs{width: 20px;}
+        .spine-sm{width: 40px;}
+        .spine-md{width: 80px;}
+        .spine-lg{width: 160px;}
+        /*.sider-xs{flex:1;}*/
+        .spine-section
+        .button-left-circle{
+            border-radius: 0 5px 5px 0;
+        }
+        ul.button-list{
+            list-style: none;
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+        }
+        ul.button-list>li{
+            background-color: #FFDB15;
+            width: 100%;
+            display: block;
+            margin: 5px;
+            padding-right: 6px;
+            text-align: right;
+            white-space: nowrap;
+            vertical-align: bottom;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            min-width: 80px;
+            color: #000;
+            margin-left: 0;
+        }
+        ul.pills-left>li{
+            border-top-left-radius: 500px;
+            border-bottom-left-radius: 500px;
+            padding: 6px 6px 0 20px !important;
+        }
+        ul.pills-all>li{
+            border-radius: 500px;
+            padding: 6px 20px 0 6px !important;
+        }
+        ul.pills-right>li{
+            border-top-right-radius: 500px;
+            border-bottom-right-radius: 500px;
+            padding: 6px 20px 0 6px !important;
+        }
+
+        .control-xs,.control-sm,.control-md,.control-lg{            
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .control-xs{
+            flex: 1;
+            /*width: 100px;*/
+        }
+        .control-sm{
+            flex: 2;
+            /*width: 150px;*/
+        }
+        .control-md{
+            flex:3;
+            /*width: 250px;*/
+        }
+        .control-lg{
+            flex:4;
+        }
+
+        .panel{
+            /*margin-left: 4px;*/
+            display: flex;
+            flex-flow: row;
+            flex:1;
+        }
+
+        .panel.top.left .corner{
+            -webkit-border-top-left-radius: 50%;
+            border-top-left-radius: 50%;
+        }
+        .panel.top.left .corner-footer{
+            -webkit-border-bottom-left-radius: 50%;
+            border-bottom-left-radius: 50%;
+        }
+
+        .panel.top.right .corner{
+            -webkit-border-top-right-radius: 50%;
+            border-top-right-radius: 50%;
+        }
+        .panel.top.right .corner-footer{
+            -webkit-border-bottom-right-radius: 50%;
+            border-bottom-right-radius: 50%;
+        }
+
+        .panel.bottom.left .corner{
+            -webkit-border-bottom-left-radius: 50%;
+            border-bottom-left-radius: 50%;
+        }
+        .panel.bottom.right .corner{
+            -webkit-border-bottom-right-radius: 50%;
+            border-bottom-right-radius: 50%;
+        }
+        .panel .corner:after, .panel .header:after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: #000;
+        }
+        .panel.top .header:after{
+            height: 30px;
+            width: 100%;
+            bottom: 0;
+        }
+        .panel.bottom .header:after{
+            height: 30px;
+            width: 100%;
+            top: 0;
+        }
+        .panel.top.left .corner:after{
+            bottom: 0;
+            right: 0;
+            -webkit-border-top-left-radius: 50%;
+            border-top-left-radius: 50%;
+        }
+        .panel.top.right .corner:after{
+            bottom: 0;
+            left: 0;
+            -webkit-border-top-right-radius: 50%;
+            border-top-right-radius: 50%;
+        }
+        .panel.bottom.left .corner:after{
+            top: 0;
+            right: 0;
+            -webkit-border-bottom-left-radius: 50%;
+            border-bottom-left-radius: 50%;
+        }
+        .panel.bottom.right .corner:after{
+            top: 0;
+            left: 0;
+            -webkit-border-bottom-right-radius: 50%;
+            border-bottom-right-radius: 50%;
+        }
+
+        .panel .corner:after{
+            height: 30px;
+        }
+        .panel .corner:after{
+            width: 30px;
+        }
+        .panel .sider:after{
+            width: 30px;
+        }
+        .sider:after{
+            content: '';
+            display: block;
+            position: absolute;
+            background: #000;
+        }
+        .panel.right.top .sider:after{
+            bottom: 0;
+            /*left: 0;*/
+        }
+        .panel.left.top .sider:after{
+            /*bottom: 0;*/
+            right: 0;
+        }
+        .panel.right.bottom .sider:after{
+            top: 0;
+            /*left: 0;*/
+        }
+        .panel.left.bottom .sider:after{
+            top: 0;
+            right: 0;
+        }
+        .header,.section,.corner{
+            height: 100%;
+            position: relative;
+            min-height: 80px;
+        }
+        
+        .subheader, .footer{
+            height: 30px;
+            width: 100%;
+        }
+        .footer{
+            position: absolute;
+            bottom: 0;
+            color: #000;
+        }
+
+        .panel.header-xs .header,.panel.header-xs .corner{
+            height: 5%;
+        }
+        .panel.header-xs .sider,.panel.header-xs .sider:after{
+            height: 95%;
+        }
+        .panel.header-sm .header,.panel.header-sm .corner{
+            height: 15%;
+        }
+        .panel.header-sm .sider,.panel.header-sm .sider:after{
+            height: 85%;
+        }
+        .panel.header-md .header,.panel.header-md .corner{
+            height: 20%;
+        }
+        .panel.header-md .sider,.panel.header-md .sider:after{
+            height: 80%;
+        }
+        .panel.header-lg .header,.panel.header-lg .corner{
+            height: 30%;
+        }
+        .panel.header-lg .sider,.panel.header-lg .sider:after{
+            height: 70%;
+        }
+        .panel-1 .sider:after{
+            height: 0px !important;
+        }
+        .tiny.section, .panel.sider-xs .spine, .tiny.container{
+            flex:1;
+        }
+        .small.section, .panel.sider-sm .spine, .small.container{
+            flex:2;
+        }
+        .medium.section, .panel.sider-md .spine, .medium.container{
+            flex:3;
+        }
+        .large.section, .panel.sider-lg .spine, .large.container{
+            flex:4;
+        }
+        .container-1{width: 25%;}
+        .container-2{width: 50%;}
+        .container-3{width: 75%;}
+        .container-4{width: 100%;}
+        .container-full{ height: 100%;}
+        .container-half{ height: 50%;}
+        .section{
+            margin-left: 10px;
+            display: flex;
+        }
+        .right .no-gap{
+            margin-left: 0px;
+        }
+        .left .no-gap{
+            margin-left: 0px;
+        }
+        .top  .section{
+            flex-direction: column;
+        }
+        .bottom  .section{
+            flex-direction: column-reverse;
+        }
+        .right{
+            flex-direction: row-reverse;
+        }
+        .left{
+            flex-direction: row;
+        }
+        .content{
+            background: #000;
+            height: 70%;
+            overflow: hidden;
+
+        }
+        .sider > .content{
+            border-radius: 25px;
+            width: 90%;
+        }
+        .sider{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .header > span, .subheader > span, .footer > span{
+            font-family: okuda;
+            position: absolute;
+            right: 6px;
+            color: #000;
+            font-size: 25px;
+            font-weight: 100;
+            text-align: right;
+        }
+        .top .header > span{
+            bottom: 30px;
+        }
+        .bottom .header > span{
+            bottom: 0;
+        }
+        .sider-xs > .spine > .sider > .content{
+            display: none;
+        }
+        .container{
+            display: inline-flex;
+            flex-flow: column;
+            padding: 5px 0;
+            /*flex:1;*/
+            /*height: 700px;*/
+        }
+
+        .button-label{
+            margin-right: 4px;
+
+        }
+        .button-data{
+            background: #000;
+            color: #f00;
+            padding: 0 4px;
+            display: inline-block;
+            vertical-align: bottom;
+            height: 30px;
+            font-size: 42px;
+            line-height: 29px;
+            margin: -10px 0 0 0;
+            width: 50px;
+        }
+
+        .panel-1 {
+          -ms-flex-preferred-size: 8.333%;
+          -webkit-flex-basis: 8.333%;
+          flex-basis: 8.333%;
+          height: 8.333%;
+        }
+
+        .panel-2 {
+          -ms-flex-preferred-size: 16.667%;
+          -webkit-flex-basis: 16.667%;
+          flex-basis: 16.667%;
+          height: 16.667%;
+        }
+
+        .panel-3 {
+          -ms-flex-preferred-size: 25%;
+          -webkit-flex-basis: 25%;
+          flex-basis: 25%;
+          height: 25%;
+        }
+
+        .panel-4 {
+          -ms-flex-preferred-size: 33.333%;
+          -webkit-flex-basis: 33.333%;
+          flex-basis: 33.333%;
+          height: 33.333%;
+        }
+
+        .panel-5 {
+          -ms-flex-preferred-size: 41.667%;
+          -webkit-flex-basis: 41.667%;
+          flex-basis: 41.667%;
+          height: 41.667%;
+        }
+
+        .panel-6 {
+          -ms-flex-preferred-size: 50%;
+          -webkit-flex-basis: 50%;
+          flex-basis: 50%;
+          height: 50%;
+        }
+
+        .panel-7 {
+          -ms-flex-preferred-size: 58.333%;
+          -webkit-flex-basis: 58.333%;
+          flex-basis: 58.333%;
+          height: 58.333%;
+        }
+
+        .panel-8 {
+          -ms-flex-preferred-size: 66.667%;
+          -webkit-flex-basis: 66.667%;
+          flex-basis: 66.667%;
+          height: 66.667%;
+        }
+
+        .panel-9 {
+          -ms-flex-preferred-size: 75%;
+          -webkit-flex-basis: 75%;
+          flex-basis: 75%;
+          height: 75%;
+        }
+
+        .panel-10 {
+          -ms-flex-preferred-size: 83.333%;
+          -webkit-flex-basis: 83.333%;
+          flex-basis: 83.333%;
+          height: 83.333%;
+        }
+
+        .panel-11 {
+          -ms-flex-preferred-size: 91.667%;
+          -webkit-flex-basis: 91.667%;
+          flex-basis: 91.667%;
+          height: 91.667%;
+        }
+
+        .panel-12 {
+          -ms-flex-preferred-size: 100%;
+          -webkit-flex-basis: 100%;
+          flex-basis: 100%;
+          height: 100%;
+        }
+        .arc:after{
+            content: '';
+            display: block;
+            height: 30px;
+            width: 30px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            -webkit-border-top-right-radius: 50%;
+            border-top-right-radius: 100%;
+            background-color: #000;
+        }
+        .align-right{
+            justify-content: flex-end;
+        }
+        .align-left{
+            justify-content: flex-start;
+        }
+        .data-stream, .data-list{
+            color: #fff;
+            font-size: 25px;
+            text-align: justify;
+        }
+        .data-list{
+            display: inline-block;
+        }
+        .button-title{
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            font-size: 28px;
+            padding: 4px;
+            margin: -19px 0;
+        }
+    </style>
+    <script>
+            $j = jQuery.noConflict();
+            $j(document).ready(function() {
+                resizePanels();
+                $j(window).resize(function() {
+                    resizePanels();
+                });
+                randomizeButtonLabels();
+                randomizeButtonTitles();
+                changeRandomColors();
+                //setInterval(changeDynamicColors, 1000);
+                //setInterval(streamData, 30);
+                $j('.button').click(function(){
+                    changeDynamicColors();
+                    streamData();
+                });
+                $j('.data-list').each(function(){
+                    for (var i = 0; i < 10; i++) {
+                        $j(this).append('<div>'+randomIntFromInterval(1,99999)+'</div>');
+                    }
+                })
+            });
+            function resizePanels(){
+                var screenHeight = $j(window).height()-15;
+                var halfScreenHeight = screenHeight/2;
+                $j('.container').css({'height':screenHeight});
+                $j('.container-half').css({'height':halfScreenHeight});
+                $j('.container-half .panel.header-lg .header, .panel.header-lg .corner').css({'height':halfScreenHeight*0.3});
+                $j('.container-half .panel.header-lg .sider, .panel.header-lg .sider:after').css({'height':(halfScreenHeight*0.7)-30});
+
+                $j('.container-full .panel.header-lg .header, .panel.header-lg .corner').css({'height':screenHeight*0.3});
+                $j('.container-full .panel.header-lg .sider, .panel.header-lg .sider:after').css({'height':(screenHeight*0.7)-30});
+                // $j('.footer').css({'height':halfScreenHeight});
+                // $j().css({'height':halfScreenHeight});
+                // $j('.panel-4').css({'height':screenHeight*0.25});
+                // $j('.panel-3').css({'height':screenHeight*0.33});
+                // $j('.panel-2').css({'height':screenHeight*0.5});
+                // $j('.panel-1').css({'height':screenHeight});
+            }
+            var app = angular.module('app', []);
+            var colors = ['orange','gray','salmon','tan','blue','peach','purple','pink','white','red','yellow','pale-yellow','gold'];
+            var buttonLabelType = ['#','a','#,a','a,a'];
+            var letters = ['SDX','NAV','RCNT','COMM','CON','SYS','STR','RVOL','BT','ALPH','TCH','ro','al','luv','lef','mac','pe','lin','jl','pow','an','re'];
+            
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var buttonTitles = ['B1','B4','XX','A6','P5','X1','Y8','Z9'];
+            var con = app.controller('con',['$scope', function ($scope) {
+                $scope.getNumber = function(num) {
+                    return new Array(num);   
+                }                
+            }]);
+            function makeWord(){
+                var word = '';
+                for( var i=0; i < randomIntFromInterval(4,10); i++ ){
+                    word += possible.charAt(randomIntFromInterval(0,possible.length));
+                }
+                return word;
+            }
+            function streamData(){
+                var dataStream = $j('.data-stream').html();
+                if(dataStream.length >500) dataStream = dataStream.substring(400,500);
+                dataStream = dataStream + ' ' + makeWord();
+                $j('.data-stream').html(dataStream);
+            }
+            function randomizeButtonLabels(){
+                $j('.random-button-label').each(function(){
+                    var l = randomIntFromInterval(1,5);
+                    var r = randomIntFromInterval(0,99999);
+                    var t = r.toString();
+                    var bt = t.substr(0,l);
+                    var btnLblTp = randomFromArray(buttonLabelType);
+                    if(btnLblTp == 'a'){
+                        bt = randomFromArray(letters);
+                    }else if(btnLblTp == '#,a'){
+                        bt = bt+' '+randomFromArray(letters);
+                    }else if(btnLblTp == 'a,a'){
+                        bt = randomFromArray(letters)+' '+randomFromArray(letters);
+                    }            
+                    $j(this).html(bt);
+                });
+            }
+            function randomizeButtonTitles(){
+                $j('.random-button-title').each(function(){
+                    $j(this).html(randomFromArray(buttonTitles));
+                });
+            }
+            function changeRandomColors(){  
+                $j('.random-color').each(function(){
+                    changeColor(this);
+                });
+            }
+            function changeDynamicColors(){  
+                $j('.dynamic-color').each(function(){
+                    changeColor(this);
+                });
+            }
+            function changeColor(el){
+                $j(el).removeClass('orange gray salmon tan blue peach purple pink white red yellow pale-yellow gold').addClass(randomColor());
+            }
+            function randomColor(){
+                return colors[randomIntFromInterval(0,(colors.length - 1))];
+            }
+            function randomIntFromInterval(min,max){
+                return Math.floor(Math.random()*(max-min+1)+min);
+            }
+            function randomFromArray(a){
+                return a[randomIntFromInterval(0,(a.length - 1))];
+            }
+    </script>
+    <div id="lcars" ng-app="app" ng-controller="con">        
+        <div class="container container-2 container-full">
+            <c:LCARS_Panel size="12" type="lg" quad="tl">
+                <c:LCARS_Spine nogap="true" cornerfooter="false"/>
+                <c:LCARS_Section title="flight control" showSubheader="false" showfooter="false">
+                    <div class="control-lg align-left">
+                        <c:LCARS_Panel size="12" type="s-lg" quad="tl">
+                            <c:LCARS_Spine nogap="true" cornerfooter="false"/>
+                            <c:LCARS_Section title="Navigation reference" showSubheader="true" showfooter="true">
+                                <!-- <div class="control-lg align-left">
+                                    <c:LCARS_Button style="pill-right" color="random" amount="10"/>
+                                </div> -->
+                            </c:LCARS_Section>
+                        </c:LCARS_Panel>
+                    </div>
+                </c:LCARS_Section>
+            </c:LCARS_Panel>
+                    
+        </div>
+        <!-- <div class="container container-2 container-half">
+            <c:LCARS_Panel size="12" type="h-lg" quad="tr">
+                <c:LCARS_Spine nogap="true" cornerfooter="true"/>
+                <c:LCARS_Section title="Navigation reference" showSubheader="true" showfooter="true">
+                    <div class="control-lg align-left">
+                        <c:LCARS_Button style="pill-right" color="random" amount="10"/>
+                    </div>
+                </c:LCARS_Section>   
+                <c:LCARS_Section title="warp core control" color="random" showSubheader="true" showfooter="true">
+                    <div class="control-lg align-right">
+                        <c:LCARS_Button style="pill-left" color="random" amount="10"/>
+                    </div>
+                </c:LCARS_Section>   
+                <c:LCARS_Section title="flight console" color="random" subtitle="lcars mode select" showSubheader="true" size="medium" showfooter="true">
+                    <div class="control-lg">
+                        <c:LCARS_Button style="pill-all" color="random" amount="17" title="random"/>
+                    </div>
+                </c:LCARS_Section>   
+                <c:LCARS_Section color="random" showSubheader="true" size="large" showfooter="true">
+                    <div class="control-lg">
+                        <c:LCARS_Button style="pill-all" color="random" amount="13"/>
+                    </div>
+                </c:LCARS_Section>   
+                <c:LCARS_Section color="random" showSubheader="true" showfooter="true" footertitle="Options">
+                    <div class="control-lg">
+                        <c:LCARS_Button style="pill-right" color="random" amount="8"/> 
+                    </div>   
+                </c:LCARS_Section>             
+            </c:LCARS_Panel>
+        </div>
+        <div class="container container-2 container-half">
+            <c:LCARS_Panel size="12" type="h-lg" quad="tl">
+                <c:LCARS_Spine cornerfooter="true"/>
+                <c:LCARS_Section size="medium" nogap="true" showfooter="true">
+                    <div class="control-lg">
+                        <c:LCARS_Button style="pill-right" color="random" amount="10"/>
+                    </div>
+                </c:LCARS_Section>
+                <c:LCARS_Section size="medium" showfooter="true">
+                    <div class="control-lg data-stream">
+                        A54gipN OFGEO sV5lx IrKQoMt7 0K2MB wfTZNa Gawyo XKEAH 9VClYUFs 4r4Af3 YdjQ a3zOy1p K7xHnOXj Qsu6NU eqscl8h rHnaIBkI a3On tfpK 3sY0yz R8BRjY WxL5hR RQd
+                    </div>
+                </c:LCARS_Section>
+                <c:LCARS_Section size="large" showfooter="true">
+                    <div class="control-lg">
+                        <c:LCARS_Button color="random" amount="7"/>
+                    </div>
+                </c:LCARS_Section>                
+            </c:LCARS_Panel>
+        </div>
+        <div class="container container-4 container-half">
+            <c:LCARS_Panel size="12" type="s-md" quad="tl">
+                <c:LCARS_Section corner="true" size="tiny"/>
+                <c:LCARS_Section size="small" nogap="true">
+                    <div class="control-lg">
+                        <c:LCARS_Button style="pill-left" color="random" amount="21"/>
+                    </div>
+                </c:LCARS_Section>
+                <c:LCARS_Section size="medium">
+                    <div class="data-list"></div>
+                    <div class="data-list"></div>
+                    <div class="data-list"></div>
+                </c:LCARS_Section>
+                <c:LCARS_Section size="large">
+                    <div class="control-lg">
+                        <c:LCARS_Button style="pill-all" color="random" amount="3"/>
+                    </div>
+                </c:LCARS_Section> 
+            </c:LCARS_Panel>
+        </div> -->
+    </div>
+</apex:page>

@@ -1,0 +1,85 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01pA0000002fCRkIAM",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01pA0000002fCRkIAM",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 27,
+                "line": 4
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getInstallment",
+            "parameters": [],
+            "references": [],
+            "returnType": "ARCFleet__Installment__c",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 8
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "getimage",
+            "parameters": [],
+            "references": [],
+            "returnType": "Attachment",
+            "type": null
+        }
+    ],
+    "name": "InstallmentController",
+    "namespace": "ARCFleet",
+    "parentClass": "",
+    "properties": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 12,
+                "line": 2
+            },
+            "modifiers": [
+                "private"
+            ],
+            "name": "id",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 27,
+                "line": 3
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "i",
+            "references": [],
+            "type": "ARCFleet__Installment__c"
+        }
+    ],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "public"
+        ],
+        "name": "InstallmentController",
+        "references": [],
+        "type": "InstallmentController"
+    },
+    "variables": []
+}

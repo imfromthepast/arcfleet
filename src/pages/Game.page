@@ -1,0 +1,930 @@
+<apex:page docType="html-5.0" showHeader="false" standardStylesheets="false" controller="GameController" action="{!init}" id="thePage" applyHtmlTag="false" applyBodyTag="false">
+    <html xmlns:ng="http://angularjs.org" id="ngTemplate" ng-app="arcfleetApp" ng-controller="arcfleetCon">
+        <head>
+            <c:ARCFleetHead themed="false"/>
+            <script src="{! $Resource.ProcGenGalaxy}"/>
+            <apex:includeScript value="https://code.createjs.com/easeljs-0.8.2.min.js"/>
+            <apex:includeScript value="{!$Resource.EaseljsClip}"/>
+            <apex:variable value="fa fa-star" var="blackHoleIcon"/>
+            <apex:variable value="fa fa-calculator" var="arcCalcIcon"/>
+            <apex:variable value="ionicons ion-ios-redo" var="arcIcon"/>
+            <apex:variable value="ionicons ion-ios-search-strong" var="exploreIcon"/>
+            <apex:variable value="ionicons ion-flash" var="attackIcon"/>
+            <apex:variable value="arcfleet arc-arcbase" var="siegeIcon"/>
+            <apex:variable value="fa fa-cogs" var="augmentIcon"/>
+            <apex:variable value="glyphicon glyphicon-remove" var="cancelIcon"/>
+            <apex:variable value="fa fa-smile-o" var="friendlyIcon"/>
+            <apex:variable value="fa fa-meh-o" var="neutralIcon"/>
+            <apex:variable value="fa fa-frown-o" var="hostileIcon"/>
+            <apex:variable value="glyphicon glyphicon-th" var="terrainFilterIcon"/>
+            <apex:variable value="{!arcIcon}" var="arcFilterIcon"/>
+            <apex:variable value="{!exploreIcon}" var="explorationFilterIcon"/>
+<!--
+   /$$$$$$$                                      /$$                      /$$$$$$  /$$                                 /$$             
+  | $$__  $$                                    | $$                     /$$__  $$| $$                                | $$             
+  | $$  \ $$  /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$$$$$    /$$$$$$       | $$  \ $$| $$$$$$$  /$$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$$$$$$
+  | $$$$$$$/ /$$__  $$| $$_  $$_  $$ /$$__  $$|_  $$_/   /$$__  $$      | $$  | $$| $$__  $$|__/ /$$__  $$ /$$_____/|_  $$_/  /$$_____/
+  | $$__  $$| $$$$$$$$| $$ \ $$ \ $$| $$  \ $$  | $$    | $$$$$$$$      | $$  | $$| $$  \ $$ /$$| $$$$$$$$| $$        | $$   |  $$$$$$ 
+  | $$  \ $$| $$_____/| $$ | $$ | $$| $$  | $$  | $$ /$$| $$_____/      | $$  | $$| $$  | $$| $$| $$_____/| $$        | $$ /$$\____  $$
+  | $$  | $$|  $$$$$$$| $$ | $$ | $$|  $$$$$$/  |  $$$$/|  $$$$$$$      |  $$$$$$/| $$$$$$$/| $$|  $$$$$$$|  $$$$$$$  |  $$$$//$$$$$$$/
+  |__/  |__/ \_______/|__/ |__/ |__/ \______/    \___/   \_______/       \______/ |_______/ | $$ \_______/ \_______/   \___/ |_______/ 
+                                                                                       /$$  | $$                                       
+                                                                                      |  $$$$$$/                                       
+                                                                                       \______/                                        
+-->
+            <apex:remoteObjects jsNamespace="RemoteObjectModel">
+                <apex:remoteObjectModel name="ARCFleet__Game__c" jsShorthand="Game" fields="Name, Id">
+                    <apex:remoteObjectField name="ARCFleet__Mood__c" jsShorthand="foreignPolicy"/>
+                    <apex:remoteObjectField name="ARCFleet__Civilization_Name__c" jsShorthand="CivilizationName"/>
+                    <apex:remoteObjectField name="ARCFleet__SFX_On__c" jsShorthand="SfxOn"/>
+                    <apex:remoteObjectField name="ARCFleet__Turns__c" jsShorthand="Turn"/>
+                    <apex:remoteObjectField name="ARCFleet__Relationships__c" jsShorthand="Relationships"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_1__c" jsShorthand="SectorJSON1"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_2__c" jsShorthand="SectorJSON2"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_3__c" jsShorthand="SectorJSON3"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_4__c" jsShorthand="SectorJSON4"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_5__c" jsShorthand="SectorJSON5"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_6__c" jsShorthand="SectorJSON6"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_7__c" jsShorthand="SectorJSON7"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_8__c" jsShorthand="SectorJSON8"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_9__c" jsShorthand="SectorJSON9"/>
+                    <apex:remoteObjectField name="ARCFleet__Sector_JSON_10__c" jsShorthand="SectorJSON10"/>
+                    <apex:remoteObjectField name="ARCFleet__Start_X__c" jsShorthand="StartX"/>
+                    <apex:remoteObjectField name="ARCFleet__Start_Y__c" jsShorthand="StartY"/>
+                </apex:remoteObjectModel>
+            </apex:remoteObjects>
+            <c:ngRemoteObjects remoteObjectNamespace="RemoteObjectModel" remoteObjects="Game" />
+            <script>
+                var turn = parseInt('{!game.Turns__c}'); 
+                var SFXon = '{!game.SFX_On__c}';
+                var gameId = '{!game.id}';
+                seed = '{!game.createdDate}';
+                var sectorJSON = '{!sectorJSON}';
+                var isDebug = '{!isDebug}' == 'true';
+                console.log('debug: '+isDebug);
+                var civName = '{!game.Civilization_Name__c}';
+                var civilizationLevel = isDebug?3:'{!game.Civilization_Level__c}'=='0'?1:parseInt('{!game.Civilization_Level__c}');
+                var mood = parseInt('{!game.Mood__c}');
+                var gameStartX = '{!game.Start_X__c}';
+                var gameStartY = '{!game.Start_Y__c}';
+                var relationships = {!game.RelationShips__c}; //'.split(';');
+                //var mapWidth = 100;
+                //var mapHeight = 100;
+                var af = '{!autonomousForces}';
+                var sfxUrl = "{!URLFOR($Resource.Game,'ARCFleetSFX.mp3')}";                
+            </script>
+            <script src="{!$Resource.ARCFleetGameJS}"/>
+        </head>
+        <body style="background: url('{!URLFOR($Resource.ARCFleetResources,'img/mapBG.jpg')}');">
+            <div class="cover">
+                <i class="arcfleet arc-arcbase center-block icon-spin-5" style="margin-left: auto; margin-right: auto; width: 100px; margin-top: 200px; font-size: 100px; color: rgb(41,209,255); "/>
+            </div>
+<!-- 
+     /$$   /$$ /$$$$$$$$ /$$      /$$ /$$      
+    | $$  | $$|__  $$__/| $$$    /$$$| $$      
+    | $$  | $$   | $$   | $$$$  /$$$$| $$      
+    | $$$$$$$$   | $$   | $$ $$/$$ $$| $$      
+    | $$__  $$   | $$   | $$  $$$| $$| $$      
+    | $$  | $$   | $$   | $$\  $ | $$| $$      
+    | $$  | $$   | $$   | $$ \/  | $$| $$$$$$$$
+    |__/  |__/   |__/   |__/     |__/|________/
+-->
+                <div class="container-fluid" ng-style="gameMapStyle">
+                    <div id="bodyRow" class="row">                        
+                        <div id="mapContainer"> 
+                            <div class="mapNavigationWrapper">
+                                <div class="moveButton hor upButton" ng-click="moveView('2')" ng-show="mode == 'Scanner'"><i class="fa fa-chevron-up"></i></div>
+                                <div class="moveButton hor downButton" ng-click="moveView('3')" ng-show="mode == 'Scanner'"><i class="fa fa-chevron-down"></i></div>
+                                <div class="moveButton vert rightButton" ng-click="moveView('4')" ng-show="mode == 'Scanner'"><i class="fa fa-chevron-right"></i></div>
+                                <div class="moveButton vert leftButton" ng-click="moveView('1')" ng-show="mode == 'Scanner'"><i class="fa fa-chevron-left"></i></div>
+                            </div>                           
+<!-- 
+      /$$$$$$                                                                     
+     /$$__  $$                                                                    
+    | $$  \__/  /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$$$$$/$$$$   /$$$$$$   /$$$$$$ 
+    | $$ /$$$$ |____  $$| $$_  $$_  $$ /$$__  $$| $$_  $$_  $$ |____  $$ /$$__  $$
+    | $$|_  $$  /$$$$$$$| $$ \ $$ \ $$| $$$$$$$$| $$ \ $$ \ $$  /$$$$$$$| $$  \ $$
+    | $$  \ $$ /$$__  $$| $$ | $$ | $$| $$_____/| $$ | $$ | $$ /$$__  $$| $$  | $$
+    |  $$$$$$/|  $$$$$$$| $$ | $$ | $$|  $$$$$$$| $$ | $$ | $$|  $$$$$$$| $$$$$$$/
+     \______/  \_______/|__/ |__/ |__/ \_______/|__/ |__/ |__/ \_______/| $$____/ 
+                                                                        | $$      
+                                                                        | $$      
+                                                                        |__/      
+ -->
+                            <div id="gameMap" >
+                                <svg class="mapSVG" style="height: 3500px; width: 3500px">
+                                    <line class="arcLine" ng-show="showArcLine" x1="{{x1+2}}" y1="{{y1}}" x2="{{x2+2}}" y2="{{y2}}" ng-style="{stroke: color}" stroke-width="2"/>
+                                    <circle class="target" ng-show="showArcCircle" cx="{{x2+2}}" cy="{{y2}}" r="{{r}}" ng-style="{stroke: color}" stroke-width="8" fill="none" />
+                                    <text class="arcCalcBadge" ng-show="showArcCircle"  x="{{tx}}" y="{{ty}}" font-family="sans-serif" font-size="9px" fill="{{color}}">{{fleet_arcCalc}}%</text>
+                                </svg>
+                                <div class="arcScanner scannerIndicator hidden-xs" ng-click="showARCScanner = !showARCScanner" ng-show="hasARCScanner">ARC Bases <i class="fa fa-toggle-on pull-right" ng-show="showARCScanner"/><i class="fa fa-toggle-off pull-right" ng-show="!showARCScanner"/></div>
+                                <div class="blackHoleScanner scannerIndicator hidden-xs" ng-click="showBlackHoleScanner = !showBlackHoleScanner" ng-show="hasBlackHoleScanner">Black Holes <i class="fa fa-toggle-on pull-right" ng-show="showBlackHoleScanner"/><i class="fa fa-toggle-off pull-right" ng-show="!showBlackHoleScanner"/></div>
+                                <div class="darkMatterScanner scannerIndicator hidden-xs" ng-click="showDarkMatterScanner = !showDarkMatterScanner" ng-show="hasDarkMatterScanner">Dark Matter <i class="fa fa-toggle-on pull-right" ng-show="showDarkMatterScanner"/><i class="fa fa-toggle-off pull-right" ng-show="!showDarkMatterScanner"/></div>
+                                <div class="col-xs-1" style="position: absolute; top: 35px; left: 37px;">
+                                    <div class="sectorInfo" ng-show="selectedSector.Id != null">                                    
+                                        <div class="arcfleetLogo" ng-click="showAliens(selectedSector.AlienCivName)">
+                                            <c:ARCFleetLogo icon="true">ARCFleet</c:ARCFleetLogo>
+                                        </div>                                        
+                                        <div id="miniMap" class="hidden-xs hidden-sm hidden-md">
+                                            <div ng-repeat="sector in sectors track by $index" class="sector {{sector.Terrain}} minimapSector" ng-click="setView(sector.X,sector.Y);" ng-class="minimapBorder(sector)">
+                                                <div class="sectorFilters">
+                                                    <div ng-show="sector.HasConstructs()" class="construct-minimap minimapSectorFilter"></div>
+                                                    <div ng-show="sector.AlienARCBase > 0 && showARCScanner" class="arc-minimap minimapSectorFilter"></div>
+                                                    <div ng-show="sector.BlackHole > 0 && showBlackHoleScanner" class="blackHole-minimap minimapSectorFilter"></div>
+                                                    <!-- <div ng-show="sector.GWaveSector() && showBlackHoleScanner" class="gwave-minimap minimapSectorFilter"></div> -->
+                                                    <div ng-show="sector.DarkMatter && showDarkMatterScanner" class="darkMatter-minimap minimapSectorFilter"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5 class="galaxyName hidden-xs hidden-sm hidden-md"><b class="orange-text">{{galaxyName}} Galaxy</b></h5>
+                                        <div id="sectorInfo" class="sectorSection">                                        
+                                            {{selectedSector.Terrain}} {{selectedSector.X}}x{{selectedSector.Y}}
+                                            <span class="pull-right">
+                                                <span class="label label-primary" ng-show="selectedSector.Explored">{{selectedSector.ResourceValue}}</span>
+                                                <span class="label label-success" ng-show="hasARCScanner">{{selectedSector.BaseGPot}}</span>
+                                            </span>
+                                        </div>
+                                        <div id="infoBoxes">
+                                            <div id="sectorARCBaseSection" class="sectorSection" ng-class="{'disabledSectorSection':!selectedSector.HasARCBase}">
+                                                <div ng-show="!selectedSector.HasARCBase"><i class="arcfleet arc-arcbase"></i></div>
+                                                <div ng-show="selectedSector.HasARCBase">
+                                                    <div style="margin-bottom: 10px; height: 20px;">
+                                                        <b class="col-xs-6 orange-text">ARC Base</b><span class="col-xs-6"><span class="badge">{{selectedSector.ARCBasePoints}}/{{selectedSector.ResourceValue}}</span></span>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <div ng-show="!selectedSector.ARCBaseIsActive" class="col-xs-12">
+                                                            <p style="padding-top:  10px;">ARC Base is inactive</p>
+                                                        </div>
+                                                        <div class="btn-group btn-group-sm btn-group-justified" ng-show="selectedSector.ARCBaseIsActive">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn panelButton btn-sm" ng-click="ARCFleetSFX('X1'); augment('regular','fleet');" ng-disabled="regularFleetBuildDisabled()">
+                                                                    <i class="ionicons ion-ios7-plus-empty"></i><i class="arcfleet arc-regular"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn panelButton btn-sm" ng-click="ARCFleetSFX('X2'); augment('explorer','fleet');" ng-disabled="explorerFleetBuildDisabled()">
+                                                                    <i class="ionicons ion-ios7-plus-empty"></i><i class="arcfleet arc-explorer"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn panelButton btn-sm" ng-click="ARCFleetSFX('X3'); augment('destroyer','fleet');" ng-disabled="destroyerFleetBuildDisabled()">
+                                                                    <i class="ionicons ion-ios7-plus-empty"></i><i class="arcfleet arc-destroyer"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="sectorFleetsSection" class="sectorSection" ng-class="{'disabledSectorSection':!selectedSector.HasARCFleet()}">
+                                                <div ng-show="!selectedSector.HasARCFleet()"><i class="arcfleet arc-regular"></i></div>
+                                                <div ng-show="selectedSector.HasARCFleet()">
+                                                    <div style="margin-bottom: 10px; height: 20px;">
+                                                        <b class="col-xs-6 orange-text">Fleets</b> <button class="col-xs-6 btn panelButton btn-sm" ng-click="selectAll()">Select All</button>
+                                                    </div>                           
+                                                    <div id="regularSliderDiv" class="col-xs-12">
+                                                        <div class="sliderBody">
+                                                            <div class="col-xs-9">
+                                                                <input id="regularSlider" data-slider-id="regularSliderSlider" data-slider-min="0" data-slider-tooltip="hide" data-slider-handle="custom" type="text" data-slider-step="1" ng-model="regular_fleetsSelected"/>
+                                                            </div>           
+                                                            <div class="col-xs-3 text-right">
+                                                                <span class="badge" ng-show="selectedSector.ActiveRegularCount > 0">{{regular_fleetsSelected}}</span>
+                                                            </div>                             
+                                                        </div>
+                                                    </div>
+                                                    <div id="explorerSliderDiv" class="col-xs-12">
+                                                        <div class="sliderBody">
+                                                            <div class="col-xs-9">
+                                                                <input id="explorerSlider" data-slider-id="explorerSliderSlider" data-slider-min="0" data-slider-tooltip="hide" data-slider-handle="custom" type="text" data-slider-step="1"/>
+                                                            </div>
+                                                            <div class="col-xs-3 text-right">
+                                                                <span class="badge" ng-show="selectedSector.ActiveExplorerCount > 0">{{explorer_fleetsSelected}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="destroyerSliderDiv" class="col-xs-12">
+                                                        <div class="sliderBody">
+                                                            <div class="col-xs-9">
+                                                                <input id="destroyerSlider" data-slider-id="destroyerSliderSlider" data-slider-min="0" data-slider-tooltip="hide" data-slider-handle="custom" type="text" data-slider-step="1"/>
+                                                            </div>
+                                                            <div class="col-xs-3 text-right">
+                                                                <span class="badge" ng-show="selectedSector.ActiveDestroyerCount > 0">{{destroyer_fleetsSelected}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                  
+                                                    <div class="col-xs-12">
+                                                        <div class="btn-group btn-group-justified" ng-show="selectedSector.TotalRegularCount() + selectedSector.TotalExplorerCount() + selectedSector.TotalDestroyerCount() > 0">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn panelButton augmentButton btn-sm" ng-click="ARCFleetSFX('X1'); performFleetAction()" ng-disabled="!regular_actionButtonEnabled && !explorer_actionButtonEnabled && !destroyer_actionButtonEnabled">
+                                                                    <i class="fa fa-question" ng-show="!regular_actionButtonEnabled && !explorer_actionButtonEnabled && !destroyer_actionButtonEnabled"></i>
+                                                                    <i class="{!augmentIcon} augmentIcon" ng-show="regular_actionButtonEnabled"></i>
+                                                                    <i class="{!exploreIcon} exploreIcon" ng-show="explorer_actionButtonEnabled"></i>
+                                                                    <i class="{!siegeIcon} attackIcon" ng-show="destroyer_actionButtonEnabled"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn panelButton btn-sm" data-toggle="modal" href='#combatModal' ng-click="ARCFleetSFX('X3'); recon();" ng-disabled="!attackButtonEnabled">
+                                                                    <i class="{!attackIcon} attackIcon"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn panelButton arcCalcButton btn-sm" ng-click="ARCFleetSFX('X3'); arcCalcMode(); xxperformARCorCalc();" ng-disabled="!arcCalcButtonEnabled">
+                                                                    <i class="{!arcCalcIcon}" xxng-show="!showArcCalcContents"></i>
+                                                                    <!-- <i class="{!arcIcon}" ng-show="showArcCalcContents"></i> -->
+                                                                </button>
+                                                            </div>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn panelButton btn-sm" id="cancelButton" ng-click="ARCFleetSFX('X5'); scannerMode();"><i class="{!cancelIcon}"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <div class="bottomSidebar">
+                                            <apex:form >
+                                                <apex:inputfield id="turns" value="{!game.Turns__c}" style="display: none"/>
+                                                <apex:inputtext value="{!game.Start_X__c}" html-ng-model="setViewX" style="display: none"/>
+                                                <apex:inputtext value="{!game.Start_Y__c}" html-ng-model="setViewY" style="display: none"/>
+                                                <apex:inputtext id="relationships" value="{!game.RelationShips__c}" html-ng-model="relationships" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON1" value="{!game.Sector_JSON_1__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON2" value="{!game.Sector_JSON_2__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON3" value="{!game.Sector_JSON_3__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON4" value="{!game.Sector_JSON_4__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON5" value="{!game.Sector_JSON_5__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON6" value="{!game.Sector_JSON_6__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON7" value="{!game.Sector_JSON_7__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON8" value="{!game.Sector_JSON_8__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON9" value="{!game.Sector_JSON_9__c}" style="display: none"/>
+                                                <apex:inputtext id="sectorJSON10" value="{!game.Sector_JSON_10__c}" style="display: none"/>
+                                                <apex:actionFunction action="{!EndTurn}" name="af__endTurn"/>
+                                                <apex:actionFunction action="{!startOver}" name="af__startOver"/>
+                                                <apex:actionFunction action="{!selfDestruct}" name="af__selfDestruct"/>
+                                                <apex:actionFunction action="{!markExplored}" name="af__markExplored" reRender="nothingAtAll"/>
+                                            </apex:form>
+                                            <div class="btn-group btn-group-justified">
+                                                <div class="btn-group">
+                                                    <div class="btn panelButton btn-sm" ng-click="pausePlayGame();">
+                                                        <i class="fa fa-play" ng-show="gameIsPaused"></i>
+                                                        <i class="fa fa-pause" ng-show="!gameIsPaused"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <div class="btn panelButton btn-sm" ng-click="endTurn();" ng-disabled="!gameIsPaused"><i class="fa fa-step-forward"></i></div>
+                                                </div>
+                                            </div>
+
+                                            <!-- <button type="button" class="btn panelButton btn-sm" ng-click="SFXon = !SFXon; setVolume();">
+                                                <i class="glyphicon glyphicon-volume-off" ng-show="!SFXon"/>
+                                                <i class="glyphicon glyphicon-volume-up" ng-show="SFXon"/>
+                                            </button>
+                                            <a href="#instructionsModal" data-toggle="modal" class="xpull-right btn panelButton btn-sm"><i class="fa fa-book"></i></a>
+                                            <button type="button" class="btn panelButton btn-sm" onclick="startSelfDestruct();"><i class="fa fa-repeat"></i></button>
+                                             -->
+                                        </div>
+                                    </div>
+                                    <div class="sectorInfo xcol-xs-12" ng-show="selectedSector.Id != null" ng-class="{'disabledSectorSection':!selectedSector.HasContacts() || !selectedSector.Explored}">
+                                        <div id="sectorContactsSection" class="sectorSection" style="height: 75px; padding: 10px;">
+                                            <div ng-show="!selectedSector.HasContacts()"><i class="fa fa-rocket"/></div>
+                                            <div ng-show="selectedSector.HasContacts()">
+                                                <div class="spinnerParent">
+                                                    <div id="spinner" style="height: 70px;"/>
+                                                </div> 
+                                                <div class="alienCivName">
+                                                    <b class="orange-text" ng-show="sectorContactInfoDisplayMatrix() == 8">ARC Activity!</b>
+                                                    <b class="orange-text" ng-show="sectorContactInfoDisplayMatrix() != 8"><!-- Aliens! -->{{selectedSector.AlienCivName}}</b>
+                                                </div>   
+                                                <div class="col-xs-12 alienConstructs" ng-show="sectorContactInfoDisplayMatrix() == 3" style="margin-top:10px;">
+                                                    <div class="col-xs-3" ng-show="selectedSector.AlienRegularCount > 0"><i class="arcfleet arc-regular footerIcon"></i><span ng-show="selectedSector.TotalExplorerCount()>0" class="constructCount">{{selectedSector.AlienRegularCount}}</span></div>
+                                                    <div class="col-xs-3" ng-show="selectedSector.AlienExplorerCount > 0"><i class="arcfleet arc-explorer footerIcon" style="font-size: 14px;"></i><span ng-show="selectedSector.TotalExplorerCount()>0" class="constructCount">{{selectedSector.AlienExplorerCount}}</span></div>
+                                                    <div class="col-xs-3" ng-show="selectedSector.AlienDestroyerCount > 0"><i class="arcfleet arc-destroyer footerIcon" style="font-size: 14px;"></i><span ng-show="selectedSector.TotalExplorerCount()>0" class="constructCount">{{selectedSector.AlienDestroyerCount}}</span></div>
+                                                    <div class="col-xs-3" ng-show="selectedSector.HasContactARCBase()"><i class="arcfleet arc-arcbase footerIcon" style="font-size: 14px;"></i><span ng-show="selectedSector.TotalExplorerCount()>0" class="constructCount">{{selectedSector.AlienARCBase}}</span></div>
+                                                </div>                                
+                                                <div class="col-xs-12  btn-group btn-group-justified alienInteractionButtons" style="margin-bottom: 10px; height: 20px;">
+                                                    <!-- <div class="col-xs-12" ng-show="sectorContactInfoDisplayMatrix() == 6"> 
+                                                        <span ng-show="relationshipMap[sectorContactMap[selectedSector.X+'x'+selectedSector.Y].Race].ARCFleet__Race_1_Interaction_Results__c != null">
+                                                            {{sectorContactMap[selectedSector.X+'x'+selectedSector.Y].RaceName}} <small>{{relationshipMap[sectorContactMap[selectedSector.X+'x'+selectedSector.Y].Race].ARCFleet__Race_1_Interaction_Description__c}}</small>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-xs-6" ng-show="sectorContactInfoDisplayMatrix() == 3">                                      
+                                                        <span ng-show="relationshipMap[sectorContactMap[selectedSector.X+'x'+selectedSector.Y].Race].ARCFleet__Race_1_Interaction_Results__c != null">
+                                                            {{sectorContactMap[selectedSector.X+'x'+selectedSector.Y].RaceName}} <br/><small>{{relationshipMap[sectorContactMap[selectedSector.X+'x'+selectedSector.Y].Race].ARCFleet__Race_1_Interaction_Description__c}}</small>
+                                                        </span>
+                                                    </div> -->
+                                                    <div class="btn-group">
+                                                        <button class="btn panelButton btn-sm" ng-click="showAliens(selectedSector.AlienCivName)" ng-hide="madeContactWith(selectedSector.Id)">Make Contact</button>
+                                                        <button class="btn panelButton btn-sm" ng-click="showAliens(selectedSector.AlienCivName)" ng-show="madeContactWith(selectedSector.Id)">Cultural Exchange</button>
+                                                    </div>
+                                                    <!-- <div class="btn-group">
+                                                        <button class="btn panelButton btn-sm" ng-disabled="!selectedSector.HasConstructs()" ng-click="makeContact(1)"><i class="fa fa-smile-o footerIcon text-primary"/></button>                                        
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button class="btn panelButton btn-sm" ng-disabled="!selectedSector.HasConstructs()" ng-click="makeContact(2)"><i class="fa fa-meh-o footerIcon text-warning"/></button>                                        
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button class="btn panelButton btn-sm" ng-disabled="!selectedSector.HasConstructs()" ng-click="makeContact(3)"><i class="fa fa-frown-o footerIcon text-danger"/></button>                                        
+                                                    </div> -->
+                                                </div>                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-repeat="sector in viewSectors track by $index" id="{{sector.X+'x'+sector.Y}}" class="sector gwave-{{sector.GWaveSector()}}" style="height: {{sectorSize}}px; width:{{sectorSize}}px;" ng-click="ARCFleetSFX('C1'); selectSector(sector.X,sector.Y);">
+                                    <div class="constructs">
+<!-- Fleet and ARC Base Icons -->
+                                        <span class="constructCount regularCount" ng-show="sector.TotalRegularCount() > 0" ng-class="sector.RegularPositionClass()">
+                                            <span ng-show="sector.ActiveRegularCount>0">{{sector.ActiveRegularCount}}</span>
+                                            <span ng-show="sector.ActiveRegularCount>0 && sector.InactiveRegularCount>0">|</span>
+                                            <span class="orange-text" ng-show="sector.InactiveRegularCount>0">{{sector.InactiveRegularCount}}</span>
+                                        </span>
+                                        <span class="constructCount explorerCount" ng-show="sector.TotalExplorerCount() > 0" ng-class="sector.ExplorerPositionClass()">
+                                            <span ng-show="sector.ActiveExplorerCount>0">{{sector.ActiveExplorerCount}}</span>
+                                            <span ng-show="sector.ActiveExplorerCount>0 && sector.InactiveExplorerCount>0">|</span>
+                                            <span class="orange-text" ng-show="sector.InactiveExplorerCount>0">{{sector.InactiveExplorerCount}}</span>
+                                        </span>
+                                        <span class="constructCount destroyerCount" ng-show="sector.TotalDestroyerCount() > 0" ng-class="sector.DestroyerPositionClass()">
+                                            <span ng-show="sector.ActiveDestroyerCount>0">{{sector.ActiveDestroyerCount}}</span>
+                                            <span ng-show="sector.ActiveDestroyerCount>0 && sector.InactiveDestroyerCount>0">|</span>
+                                            <span class="orange-text" ng-show="sector.InactiveDestroyerCount>0">{{sector.InactiveDestroyerCount}}</span>
+                                        </span>
+                                        <i class="arc-arcbase   construct-arcbase   arcfleet arcbase icon-spin-{{sector.ARCBasePoints}} construct" ng-show="sector.HasARCBase" ng-class="{'inactive':!sector.ARCBaseIsActive}"/>
+                                        <i class="fa fa-circle-o statusARCBase" ng-show="sector.HasARCBase" ng-class="{'fullARCBase':sector.FullARCBase(),'homeSector':sector.IsHomeSector}"></i>
+                                        <i class="arc-regular   construct-regular   arcfleet fleet construct" ng-show="sector.TotalRegularCount() > 0" ng-class="sector.RegularPositionClass()"/>
+                                        <i class="arc-explorer  construct-explorer  arcfleet fleet construct" ng-show="sector.TotalExplorerCount() > 0" ng-class="sector.ExplorerPositionClass()"/>
+                                        <i class="arc-destroyer construct-destroyer arcfleet fleet construct" ng-show="sector.TotalDestroyerCount() > 0" ng-class="sector.DestroyerPositionClass()"/>
+                                    </div>
+                                    <div class="contacts">
+                                        <span ng-class="foreignPolicyLabelClass">
+                                            <i class="arcfleet arc-arcbase contactARCBase" ng-show="showContactARCBase(sector.X,sector.Y)"/>
+                                        </span>
+                                    </div>
+                                    <div class="badge" style="position:absolute; z-index: 110;" ng-show="beaconFilterShown && sector.BlackHole > 0">
+                                        {{sector.BlackHole}} SX
+                                    </div>
+                                    <div class="sectorFilters">
+                                        <div class="sectorFilter terrain-{{sector.Terrain}}" ng-class="{'fuzzy': fuzzy, 'selected':selectedSectorId == sector.Id}" style="height: {{sectorSize}}px; width:{{sectorSize}}px;"></div>
+                                        <div class="sectorFilter contactSector" ng-show="!showContactARCBase(sector.X,sector.Y) && sector.HasContactARCBase()" style="height: {{sectorSize}}px; width:{{sectorSize}}px;"></div>
+                                        <div class="sectorFilter gPot-{{sector.ARCPot()}} precise" ng-show="arcFilterShown && VisibleInARCSpace[sector.X+'x'+sector.Y]" style="height: {{sectorSize}}px; width:{{sectorSize}}px;" ng-class="{'darkMatter': sector.DarkMatter}"></div>
+                                        <div class="sectorFilter xresource-{{sector.ResourceValue}} precise" ng-class="{'exploredSector':sector.Explored && !sector.HasARCBase}" ng-show="resourceFilterShown" style="height: {{sectorSize}}px; width:{{sectorSize}}px; ">
+                                            <span class="explored" ng-show="sector.Explored && !sector.HasARCBase && !sector.HasContacts()">{{sector.ResourceValue}}</span>
+                                        </div>
+                                        <i class="{!blackHoleIcon} blackhole blackhole-{{sector.BlackHole}}" ng-show="sector.BlackHole > 0" ng-style="{'font-size':(sector.BlackHole+10)+'px', 'xleft':(sector.BlackHole+10)+'px','xtop':(sector.BlackHole+5)+'px'}"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- 
+     /$$$$$$                                                     /$$                        
+    |_  $$_/                                                    | $$                        
+      | $$   /$$$$$$$   /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$ 
+      | $$  | $$__  $$ /$$_____/ /$$__  $$ /$$__  $$ /$$_____/|_  $$_/   /$$__  $$ /$$__  $$
+      | $$  | $$  \ $$|  $$$$$$ | $$  \ $$| $$$$$$$$| $$        | $$    | $$  \ $$| $$  \__/
+      | $$  | $$  | $$ \____  $$| $$  | $$| $$_____/| $$        | $$ /$$| $$  | $$| $$      
+     /$$$$$$| $$  | $$ /$$$$$$$/| $$$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$/| $$      
+    |______/|__/  |__/|_______/ | $$____/  \_______/ \_______/   \___/   \______/ |__/      
+                                | $$                                                        
+                                | $$                                                        
+                                |__/                                                        
+ -->
+                <!-- <div id="showMiniMapButton" class="visible-xs" ng-click="showMiniMap()" ng-show="showMiniMapButton"><i class="fa fa-search"></i></div> -->
+                <!-- <div id="mobileMiniMap" class="visible-xs" ng-click="hideMiniMap()" ng-show="!showMiniMapButton">
+                    <div id="mobileMiniMapContainer">
+                        <div ng-repeat="sector in sectors track by $index" class="sector {{sector.Terrain}} mobileMinimapSector" ng-click="setView(sector.X,sector.Y);" ng-class="minimapBorder(sector)">
+                            <div class="sectorFilters">
+                                <div ng-show="sector.HasConstructs()" class="construct-minimap mobileMinimapSectorFilter"></div>
+                                <div ng-show="sector.AlienARCBase > 0 && showARCScanner" class="arc-minimap mobileMinimapSectorFilter"></div>
+                                <div ng-show="sector.BlackHole > 0 && showBlackHoleScanner" class="blackHole-minimap mobileMinimapSectorFilter"></div>
+                                <div ng-show="sector.DarkMatter && showDarkMatterScanner" class="darkMatter-minimap mobileMinimapSectorFilter"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div id="inspectorPanel" class="hidden-xs">
+                    <div class="gameName logoText">{{civilizationName}}</div> 
+                    <div id="inspectorContent" ng-class="showInspectorPanel?'visibleInspector':'hiddenInspector'">                        
+    <!-- Civ Info -->
+                        <div style="cursor: pointer; padding-top: 5px;" ng-click="showInspectorPanel=!showInspectorPanel"><i class="fa fa-plus" ng-show="!showInspectorPanel"/><i class="fa fa-minus" ng-show="showInspectorPanel"/></div>
+                        <!-- <div class="civilizationLevelControls">
+                            <span class="fa-stack">
+                                <i class="fa fa-circle fa-stack-2x" style="color: #000;"></i>
+                                <i class="fa fa-stack-2x" ng-class="{'fa-circle':civLvl == 1, 'fa-circle-thin':civLvl != 1}"></i>
+                                <strong class="fa-stack-1x fa-stack-text" ng-class="{'fa-inverse':civLvl == 1}">1</strong>
+                            </span>
+                            <span class="fa-stack">
+                                <i class="fa fa-circle fa-stack-2x" style="color: #000;"></i>
+                                <i class="fa fa-stack-2x" ng-class="{'fa-circle':civLvl == 2, 'fa-circle-thin':civLvl != 2}"></i>
+                                <strong class="fa-stack-1x fa-stack-text " ng-class="{'fa-inverse':civLvl == 2}">2</strong>
+                            </span>
+                            <span class="fa-stack">
+                                <i class="fa fa-circle fa-stack-2x" style="color: #000;"></i>
+                                <i class="fa fa-stack-2x" ng-class="{'fa-circle':civLvl == 3, 'fa-circle-thin':civLvl != 3}"></i>
+                                <strong class="fa-stack-1x fa-stack-text " ng-class="{'fa-inverse':civLvl == 3}">3</strong>
+                            </span>
+                        </div> -->
+                        <h5><b class="orange-text">Construction</b></h5>
+                        <!-- <h5><b class="orange-text">{{galaxyName}} Galaxy</b></h5> -->
+                        <div class="inspectorSection">                              
+                            <h5>Civilization Level<span class="label label-default pull-right">{{civLvl}}</span></h5>                         
+                            <h5>Safe ARC Distance<span class="label label-default pull-right">{{civLvl}}</span></h5>
+                            <h5>Maintenance Free Fleets<span class="label label-default pull-right">{{civLvl}}</span></h5>
+                        </div>
+    <!-- Construction -->
+                        <!-- <h5><b class="orange-text">Construction</b></h5> -->
+                        <div class="inspectorSection">                     
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td><i class="arcfleet arc-regular footerIcon"></i></td>
+                                        <td>x{{regularFleetCount}}</td>
+                                        <td><i class="fa fa-arrows"></i> {{regularViewRange()}}</td>
+                                        <td>{{regularCost}} RP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="arcfleet arc-explorer footerIcon"></i></td>
+                                        <td>x{{explorerFleetCount}}</td>
+                                        <td><i class="fa fa-arrows"></i> {{explorerViewRange()}}</td>
+                                        <td>{{explorerCost}} RP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="arcfleet arc-destroyer footerIcon"></i></td>
+                                        <td>x{{destroyerFleetCount}}</td>
+                                        <td><i class="fa fa-arrows"></i> {{destroyerViewRange()}}</td>
+                                        <td>{{destroyerCost}} RP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="arcfleet arc-arcbase footerIcon"></i></td>
+                                        <td>x{{arcbaseCount}}</td>
+                                        <td>-</td>
+                                        <td>2 Regulars</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+    <!-- Resource Points -->
+                        <h5><b class="orange-text">Resource Points</b></h5>
+                        <div class="inspectorSection">                            
+                            <h5>Maintenance<span class="label label-danger pull-right">{{maintenanceCost()}}</span></h5>
+                            <h5>Available<span class="label label-success pull-right">{{availableResourcePoints()}}</span></h5>
+                            <h5>Potential<span class="label label-info pull-right">{{potentialResourcePoints}}</span></h5>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-danger" style="width:{{(maintenanceCost()/potentialResourcePoints)*100}}%"><span class="xsr-only">M</span></div>
+                                <div class="progress-bar progress-bar-success" style="width:{{(availableResourcePoints()/potentialResourcePoints)*100}}%"><span class="xsr-only">A</span></div>
+                                <div class="progress-bar progress-bar-info" style="width:{{100-(((maintenanceCost()/potentialResourcePoints)*100)+((availableResourcePoints()/potentialResourcePoints)*100))}}%"><span class="xsr-only">P</span></div>
+                            </div>
+                        </div> 
+    <!-- Foreign Policy -->
+                        <h5><b class="orange-text">Foreign Policy</b></h5>
+                        <div class="inspectorSection">
+                            <!-- <b class="pull-left">Default</b><span ng-class="{'label-primary':foreignPolicy == 1,'label-warning':foreignPolicy == 2,'label-danger':foreignPolicy == 3}" class="pull-right label ">{{foreignPolicyLabel}}</span> -->
+                            <div class="btn-group btn-group-justified">
+                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 1" ng-click="setMood(1);"><i class="fa fa-smile-o footerIcon text-primary"/></button></div>
+                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 2" ng-click="setMood(2);"><i class="fa fa-meh-o footerIcon text-warning"/></button></div>
+                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 3" ng-click="setMood(3);"><i class="fa fa-frown-o footerIcon text-danger"/></button></div>
+                            </div>
+                        </div>                              
+    <!-- Settings -->
+                        <h5><b class="orange-text">Settings</b><a href="#instructionsModal" data-toggle="modal" class="pull-right"><i class="fa fa-book"></i></a></h5>
+                        <div class="btn-group btn-group-justified">
+                            <div class="btn-group"><a href='../apex/ARCBugTracker?g={!game.Id}'><button type="button" class="btn panelButton btn-sm"><i class="ionicons ion-bug"/></button></a></div>
+                            <div class="btn-group"><button type="button" class="btn panelButton btn-sm" onclick="startSelfDestruct();"><i class="fa fa-bomb text-danger"></i></button></div>
+                            <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-click="SFXon = !SFXon; setVolume();">
+                                <i class="glyphicon glyphicon-volume-off" ng-show="!SFXon"/>
+                                <i class="glyphicon glyphicon-volume-up" ng-show="SFXon"/>
+                            </button></div>            
+                        </div>
+                    </div>
+                </div>
+<!-- 
+     /$$      /$$                 /$$           /$$          
+    | $$$    /$$$                | $$          | $$          
+    | $$$$  /$$$$  /$$$$$$   /$$$$$$$  /$$$$$$ | $$  /$$$$$$$
+    | $$ $$/$$ $$ /$$__  $$ /$$__  $$ |____  $$| $$ /$$_____/
+    | $$  $$$| $$| $$  \ $$| $$  | $$  /$$$$$$$| $$|  $$$$$$ 
+    | $$\  $ | $$| $$  | $$| $$  | $$ /$$__  $$| $$ \____  $$
+    | $$ \/  | $$|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$ /$$$$$$$/
+    |__/     |__/ \______/  \_______/ \_______/|__/|_______/ 
+ -->
+<!-- Instructions -->
+                <c:Instructions />
+<!-- Combat -->
+                <div class="modal fade" id="combatModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="ARCFleetSFX('X5');">&times;</button>
+                                <h4 class="modal-title">Combat Screen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="padding: 0 10px;">
+                                    <div class="col-xs-2 text-center">
+                                        <h4>Attacker</h4>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"></div>                         
+                                    <div class="col-xs-2 text-center">
+                                        <h4>Defender</h4>
+                                    </div>                              
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        <i class="arcfleet arc-regular footerIcon" ng-class="{'disabledIcon':attacker.regulars <= 0}"/>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">                                   
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" style="width: {{ (attacker.regulars / (selectedSector.AlienRegularCount + attacker.regulars)) * 100}}%">
+                                                <span class="xsr-only">{{attacker.regulars}}</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-success" style="width: {{ (selectedSector.AlienRegularCount / (selectedSector.AlienRegularCount + attacker.regulars)) * 100}}%">
+                                                <span class="xsr-only">{{selectedSector.AlienRegularCount}}</span>
+                                            </div>
+                                        </div>
+                                    </div>                              
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        <i class="arcfleet arc-regular footerIcon" ng-class="{'disabledIcon':selectedSector.AlienRegularCount <= 0}"/>
+                                    </div>                              
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        <i class="arcfleet arc-explorer footerIcon" ng-class="{'disabledIcon':attacker.explorers <= 0}"/>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">                                   
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" style="width: {{ (attacker.explorers / (selectedSector.AlienExplorerCount + attacker.explorers)) * 100}}%">
+                                                <span class="xsr-only">{{attacker.explorers}}</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-success" style="width: {{ (selectedSector.AlienExplorerCount / (selectedSector.AlienExplorerCount + attacker.explorers)) * 100}}%">
+                                                <span class="xsr-only">{{selectedSector.AlienExplorerCount}}</span>
+                                            </div>
+                                        </div>
+                                    </div>                              
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        <i class="arcfleet arc-explorer footerIcon" ng-class="{'disabledIcon':selectedSector.AlienExplorerCount <= 0}"/>
+                                    </div>              
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        <i class="arcfleet arc-destroyer footerIcon" ng-class="{'disabledIcon':attacker.destroyers <= 0}"/>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">                                   
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" style="width: {{ (attacker.destroyers / (selectedSector.AlienDestroyerCount + attacker.destroyers)) * 100}}%">
+                                                <span class="xsr-only">{{attacker.destroyers}}</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-success" style="width: {{ (selectedSector.AlienDestroyerCount / (selectedSector.AlienDestroyerCount + attacker.destroyers)) * 100}}%">
+                                                <span class="xsr-only">{{selectedSector.AlienDestroyerCount}}</span>
+                                            </div>
+                                        </div>
+                                    </div>                              
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        <i class="arcfleet arc-destroyer footerIcon" ng-class="{'disabledIcon':selectedSector.AlienDestroyerCount <= 0}"/>
+                                    </div>                      
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        Strength
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">                                   
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" style="width: {{ (attacker.strengthPercentage / (defender.strengthPercentage + attacker.strengthPercentage)) * 100}}%">
+                                                <span class="xsr-only">{{(attacker.strengthPercentage | number : 2)*100}}</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-success" style="width: {{ (defender.strengthPercentage / (defender.strengthPercentage + attacker.strengthPercentage)) * 100}}%">
+                                                <span class="xsr-only">{{(defender.strengthPercentage | number : 2)*100}}</span>
+                                            </div>
+                                        </div>
+                                    </div>                              
+                                    <div class="col-xs-2 text-center" style="height: 40px;">
+                                        Strength
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn panelButton" data-dismiss="modal" ng-click="ARCFleetSFX('X5');">Close</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="ARCFleetSFX('X2'); attack();">Attack</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Crisis -->
+                <div class="modal fade" id="crisisModal">
+                    <div class="modal-dialog" style="width: 550px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="ARCFleetSFX('X5');">&times;</button>
+                                <h4 class="modal-title"><i class="{!currentEvent.Icon__c}" ng-class="currentCrisis.Icon"/> {!currentEvent.Name}{{currentCrisis.Title}} <small>Turn {!Turn}</small></h4>
+                            </div>
+                            <div class="modal-body text-center">
+                                <span ng-bind-html="currentCrisis.Description"></span>
+                                <apex:outputText value="{!currentEvent.Description__c}" escape="false"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn panelButton" data-dismiss="modal" ng-click="ARCFleetSFX('X5');">Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- End Game -->
+                <div class="modal fade" id="gameOverModal">
+                    <div class="modal-dialog" style="width: 550px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="ARCFleetSFX('X5');">&times;</button> -->
+                                <h4 class="modal-title"><i class="fa fa-frown-o"></i> GAME OVER</h4>
+                            </div>
+                            <div class="modal-body text-center">
+                                Oh no! Your civilization has exhausted its resources and can no longer support ARC technology! The slow inevitable march to extinction has begun.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn panelButton" data-dismiss="modal" ng-click="startOver();">New Game</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Contact -->
+                <div class="modal fade" id="contactModal">
+                    <div class="modal-dialog" style="width: 650px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="ARCFleetSFX('X5');">&times;</button>
+                                <h4 class="modal-title">Contact With Alien Civilization</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="xscanlines">
+                                    <b id="contactModalAlienName" class="orange-text">{{selectedSector.AlienCivName}}</b>
+                                    <canvas id="alienCanvas" class="img-responsive" height="350px" width="600px"></canvas>
+                                </div>                                
+                                <!-- <h2 id="name" class="text-uppercase"></h2> -->
+                                <div id="xhistory" class="xtext-capitalize" ng-show="madeContactWith(selectedSector.Id)">
+                                    <h4>{{contactResults.title}}</h4>
+                                    <div>{{contactResults.contactSuceedMessage}}</div>
+                                </div>
+                                <div id="alienChatBox">
+                                    {{selectedSector.AlienCivLvl}}
+                                    <br/>
+                                    {{alienChatText}}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div ng-hide="madeContactWith(selectedSector.Id)">
+                                    <h4 style="text-align: left">Adopt a negotiating posture:</h4>
+                                    <div class="btn-group btn-group-justified">
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="!selectedSector.HasConstructs()" ng-click="makeContact(7)"><i class="fa fa-smile-o footerIcon text-primary"/></button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="!selectedSector.HasConstructs()" ng-click="makeContact(8)"><i class="fa fa-meh-o footerIcon text-warning"/></button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="!selectedSector.HasConstructs()" ng-click="makeContact(9)"><i class="fa fa-frown-o footerIcon text-danger"/></button>                                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="madeContactWith(selectedSector.Id)">
+                                    <h4 style="text-align: left">Ask about:</h4>
+                                    <div class="btn-group btn-group-justified" ng-show="civLvl==1">
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(0)">Themselves</button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(1)">Other Races</button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(2)">The Past</button>                                        
+                                        </div>
+                                    </div>
+                                    <div class="btn-group btn-group-justified" ng-show="civLvl==2">
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(3)">Gravity Waves</button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(4)">Black Holes</button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(5)">The Center</button>                                        
+                                        </div>
+                                    </div>
+                                    <div class="btn-group btn-group-justified" ng-show="civLvl==3">
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(6)">The Timeworn</button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(7)">Dark Matter</button>                                        
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(8)">The Anomoly</button>                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- </div> -->
+        </body>
+<!-- 
+        /$$$$$  /$$$$$$ 
+       |__  $$ /$$__  $$
+          | $$| $$  \__/
+          | $$|  $$$$$$ 
+     /$$  | $$ \____  $$
+    | $$  | $$ /$$  \ $$
+    |  $$$$$$/|  $$$$$$/
+     \______/  \______/ 
+-->
+        
+        <script src="{!$Resource.alienHeadJS}" type="text/javascript"/>
+        <script src="{!$Resource.alienHeadShapesJS}" type="text/javascript"/>
+        <script>
+            $j = jQuery.noConflict();        
+            $j(document).ready(function() {
+                setup();
+                //$j(".cover").fadeOut(2000);
+                if('{!eventTag}' != '0') $j('#crisisModal').modal('show');
+            });
+            function setup(){
+                // var snapSettings = {
+                //     element: document.getElementById('snapContent'),
+                //     dragger: null,
+                //     disable: 'none',
+                //     addBodyClasses: true,
+                //     hyperextensible: true,
+                //     resistance: 0.5,
+                //     flickThreshold: 50,
+                //     transitionSpeed: 0.3,
+                //     easing: 'ease',
+                //     maxPosition: 266,
+                //     minPosition: -266,
+                //     tapToClose: true,
+                //     touchToDrag: true,
+                //     slideIntent: 40,
+                //     minDragDistance: 5
+                // }
+                // var snapper = new Snap(snapSettings);
+
+                // document.getElementById('ol').addEventListener('click', function(){
+
+                //     if( snapper.state().state=="left" ){
+                //         snapper.close();
+                //     } else {
+                //         snapper.open('left');
+                //     }
+
+                // });
+
+                resizePanels();
+                $j(window).resize(function() {
+                    resizePanels();
+                });
+                var opts = {
+                    lines: 11, // The number of lines to draw
+                    length: 0, // The length of each line
+                    width: 7, // The line thickness
+                    radius: 11, // The radius of the inner circle
+                    corners: 1, // Corner roundness (0..1)
+                    rotate: 0, // The rotation offset
+                    direction: 1, // 1: clockwise, -1: counterclockwise
+                    color: '#579dc7', // #rgb or #rrggbb or array of colors
+                    speed: 2.2, // Rounds per second
+                    trail: 50, // Afterglow percentage
+                    shadow: false, // Whether to render a shadow
+                    hwaccel: false, // Whether to use hardware acceleration
+                    className: 'spinner', // The CSS class to assign to the spinner
+                    zIndex: 2e9, // The z-index (defaults to 2000000000)
+                    top: '50%', // Top position relative to parent
+                    left: '50%' // Left position relative to parent
+                };
+                var target = document.getElementById('spinner');
+                var spinner = new Spinner(opts).spin(target);
+
+                var opts2 = {
+                  lines: 5, // The number of lines to draw
+                  length: 0, // The length of each line
+                  width: 2, // The line thickness
+                  radius: 13, // The radius of the inner circle
+                  corners: 0, // Corner roundness (0..1)
+                  rotate: 0, // The rotation offset
+                  direction: 1, // 1: clockwise, -1: counterclockwise
+                  color: '#fff', // #rgb or #rrggbb or array of colors
+                  speed: 0.1, // Rounds per second
+                  trail: 1, // Afterglow percentage
+                  shadow: false, // Whether to render a shadow
+                  hwaccel: false, // Whether to use hardware acceleration
+                  className: 'spinner', // The CSS class to assign to the spinner
+                  zIndex: 100, // The z-index (defaults to 2000000000)
+                  top: '50%', // Top position relative to parent
+                  left: '50%' // Left position relative to parent
+                };
+                var spinner2 = new Spinner(opts2).spin();
+                $j('.contactSector').append(spinner2.el);
+
+                function resizePanels(){
+                    var windowHeight = $j(window).height();
+                    // $j('.snap-content').height(windowHeight);
+                    //var navbarTopHeight = $j('.navbar-fixed-top').height();
+                    //var navbarBottomHeight = $j('.navbar-fixed-bottom').height();
+                    var bodyHeight = windowHeight; // - 90;
+                    // $j('#sectorInfoPanel').height(bodyHeight - 22);
+                    $j('.mapSVG, .xvisibleInspector, #gameMap, .resizeHeight, .mapNavigationWrapper').height(bodyHeight);
+
+                    //$j('#inspectorPanel').height(bodyHeight-90);
+
+                    //$j('.resizeNotifications').height(bodyHeight - 120);
+                    $j('.resizeNotifications').height(200);
+                    // $j('.snap-drawer-content').height(windowHeight-5);
+                    var mapWidth = $j(window).width();
+                    $j('#gameMap,.mapSVG,#mapContainer').width(mapWidth);
+                    $j('.mapNavigationWrapper').width(mapWidth-0);
+                    // $j('#mobileMiniMap').width(mapWidth - 70);
+                    // $j('#mobileMiniMap').height(bodyHeight - 70);
+
+                    $j('.vert').children('i').css({'top':bodyHeight/2});
+                    var scope = angular.element($j("#ngTemplate")).scope();
+                    // console.log('mapWidth: '+mapWidth);
+                    scope.$apply(function(){
+                        scope.viewWidth = $j(window).width();
+                        scope.viewHeight = bodyHeight +29;
+
+                        scope.viewWidthInSectors = Math.ceil(scope.viewWidth / scope.sectorSize);
+                        scope.viewHeightInSectors = Math.ceil(scope.viewHeight / scope.sectorSize)+1;
+                        // console.log('viewWidthInSectors: '+scope.viewWidthInSectors);
+                        scope.renderChunk();
+                        scope.resizeConsoleLog();
+                    });
+                }
+                //makeStars(100);
+            }
+            function startSelfDestruct(){               
+                $j.blockUI({ message: '<div class="self-destruct-clock"></div>',
+                    css: { 
+                        borderRadius: '15px',
+                        border: 'none', 
+                        padding: '15px', 
+                        fontSize: '44px',
+                        backgroundColor: '#fff'
+                    }
+                });
+                var clock = $j('.self-destruct-clock').FlipClock({
+                    countdown: true,
+                    clockFace: 'MinuteCounter',
+                    callbacks: {
+                        stop: function(){
+                            af__selfDestruct();
+                        }
+                    }
+                });
+                clock.setTime(30);
+                clock.start();
+            }
+            function makeStars(starCount){
+                console.log(starCount+' stars');
+                var star = $j('<div>').addClass('stars');
+                $j('#mapContainer').append(star);
+                var starStyle = '';
+                var starSizes = [
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    2,2,2,2,2,2,2,2,2,2,
+                    3,3,3,3,
+                    4,4,
+                    5,
+                    6
+                ];
+                var starX = 0;
+                var starY = 0;
+                var starColors = ['255,255,255','238,238,238','255,255,255','255,153,153','255,255,255','255,255,153','255,255,255','153,153,255','255,255,255'];
+                
+                var screenWidth = $j( window ).width();
+                var screenHeight = $j( window ).height();
+                for (var i = starCount - 1; i >= 0; i--) {
+                    var starSize = starSizes[randomIntFromInterval(0,starSizes.length - 1)];
+                    starX = randomIntFromInterval(0,screenWidth);
+                    starY = randomIntFromInterval(0,screenHeight);
+                    var starColor = starColors[randomIntFromInterval(0,starColors.length-1)];
+                    starStyle += 'radial-gradient('+starSize+'px '+starSize+'px at '+starX+'px '+starY+'px, rgb('+starColor+'), rgba('+starColor+',0)),';
+                }
+                starStyle = starStyle.substr(0,starStyle.length - 1);
+                console.log('starStyle: '+starStyle);
+                $j('.stars').css({backgroundImage:starStyle,backgroundSize:screenWidth+'px '+screenHeight+'px'});
+
+            }   
+            function notification(nTitle,nText,nColor){
+                $j.growl({
+                    title: '<h5>'+nTitle+'</h5> ',
+                    message: nText
+                },{
+                    placement: {
+                        from: "top",
+                        align: "center"
+                    },
+                    type: 'arcfleet',
+                    offset: {
+                        y: 35,
+                        x: 0 //245
+                    },
+                    z_index: 105,
+                    animate: {
+                        enter: 'animated fadeIn',
+                        exit: 'animated fadeOut'
+                    },
+                    delay: 5000,
+                    mouse_over: 'pause',
+                    template: '<div data-growl="container" class="alert alert-arcfleet-'+nColor+'" role="alert"><span data-growl="icon"></span><span data-growl="title"></span><span data-growl="message"></span><a href="#" data-growl="url"></a></div>'
+                });
+                console.log(nTitle+': '+nText);
+            }
+            //fgnass.github.com/spin.js#v2.0.1
+            !function(a,b){"object"==typeof exports?module.exports=b():"function"==typeof define&&define.amd?define(b):a.Spinner=b()}(this,function(){"use strict";function a(a,b){var c,d=document.createElement(a||"div");for(c in b)d[c]=b[c];return d}function b(a){for(var b=1,c=arguments.length;c>b;b++)a.appendChild(arguments[b]);return a}function c(a,b,c,d){var e=["opacity",b,~~(100*a),c,d].join("-"),f=.01+c/d*100,g=Math.max(1-(1-a)/b*(100-f),a),h=j.substring(0,j.indexOf("Animation")).toLowerCase(),i=h&&"-"+h+"-"||"";return l[e]||(m.insertRule("@"+i+"keyframes "+e+"{0%{opacity:"+g+"}"+f+"%{opacity:"+a+"}"+(f+.01)+"%{opacity:1}"+(f+b)%100+"%{opacity:"+a+"}100%{opacity:"+g+"}}",m.cssRules.length),l[e]=1),e}function d(a,b){var c,d,e=a.style;for(b=b.charAt(0).toUpperCase()+b.slice(1),d=0;d<k.length;d++)if(c=k[d]+b,void 0!==e[c])return c;return void 0!==e[b]?b:void 0}function e(a,b){for(var c in b)a.style[d(a,c)||c]=b[c];return a}function f(a){for(var b=1;b<arguments.length;b++){var c=arguments[b];for(var d in c)void 0===a[d]&&(a[d]=c[d])}return a}function g(a,b){return"string"==typeof a?a:a[b%a.length]}function h(a){this.opts=f(a||{},h.defaults,n)}function i(){function c(b,c){return a("<"+b+' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">',c)}m.addRule(".spin-vml","behavior:url(#default#VML)"),h.prototype.lines=function(a,d){function f(){return e(c("group",{coordsize:k+" "+k,coordorigin:-j+" "+-j}),{width:k,height:k})}function h(a,h,i){b(m,b(e(f(),{rotation:360/d.lines*a+"deg",left:~~h}),b(e(c("roundrect",{arcsize:d.corners}),{width:j,height:d.width,left:d.radius,top:-d.width>>1,filter:i}),c("fill",{color:g(d.color,a),opacity:d.opacity}),c("stroke",{opacity:0}))))}var i,j=d.length+d.width,k=2*j,l=2*-(d.width+d.length)+"px",m=e(f(),{position:"absolute",top:l,left:l});if(d.shadow)for(i=1;i<=d.lines;i++)h(i,-2,"progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)");for(i=1;i<=d.lines;i++)h(i);return b(a,m)},h.prototype.opacity=function(a,b,c,d){var e=a.firstChild;d=d.shadow&&d.lines||0,e&&b+d<e.childNodes.length&&(e=e.childNodes[b+d],e=e&&e.firstChild,e=e&&e.firstChild,e&&(e.opacity=c))}}var j,k=["webkit","Moz","ms","O"],l={},m=function(){var c=a("style",{type:"text/css"});return b(document.getElementsByTagName("head")[0],c),c.sheet||c.styleSheet}(),n={lines:12,length:7,width:5,radius:10,rotate:0,corners:1,color:"#000",direction:1,speed:1,trail:100,opacity:.25,fps:20,zIndex:2e9,className:"spinner",top:"50%",left:"50%",position:"absolute"};h.defaults={},f(h.prototype,{spin:function(b){this.stop();{var c=this,d=c.opts,f=c.el=e(a(0,{className:d.className}),{position:d.position,width:0,zIndex:d.zIndex});d.radius+d.length+d.width}if(e(f,{left:d.left,top:d.top}),b&&b.insertBefore(f,b.firstChild||null),f.setAttribute("role","progressbar"),c.lines(f,c.opts),!j){var g,h=0,i=(d.lines-1)*(1-d.direction)/2,k=d.fps,l=k/d.speed,m=(1-d.opacity)/(l*d.trail/100),n=l/d.lines;!function o(){h++;for(var a=0;a<d.lines;a++)g=Math.max(1-(h+(d.lines-a)*n)%l*m,d.opacity),c.opacity(f,a*d.direction+i,g,d);c.timeout=c.el&&setTimeout(o,~~(1e3/k))}()}return c},stop:function(){var a=this.el;return a&&(clearTimeout(this.timeout),a.parentNode&&a.parentNode.removeChild(a),this.el=void 0),this},lines:function(d,f){function h(b,c){return e(a(),{position:"absolute",width:f.length+f.width+"px",height:f.width+"px",background:b,boxShadow:c,transformOrigin:"left",transform:"rotate("+~~(360/f.lines*k+f.rotate)+"deg) translate("+f.radius+"px,0)",borderRadius:(f.corners*f.width>>1)+"px"})}for(var i,k=0,l=(f.lines-1)*(1-f.direction)/2;k<f.lines;k++)i=e(a(),{position:"absolute",top:1+~(f.width/2)+"px",transform:f.hwaccel?"translate3d(0,0,0)":"",opacity:f.opacity,animation:j&&c(f.opacity,f.trail,l+k*f.direction,f.lines)+" "+1/f.speed+"s linear infinite"}),f.shadow&&b(i,e(h("#000","0 0 4px #000"),{top:"2px"})),b(d,b(i,h(g(f.color,k),"0 0 1px rgba(0,0,0,.1)")));return d},opacity:function(a,b,c){b<a.childNodes.length&&(a.childNodes[b].style.opacity=c)}});var o=e(a("group"),{behavior:"url(#default#VML)"});return!d(o,"transform")&&o.adj?i():j=d(o,"animation"),h});
+        </script>
+    </html>
+</apex:page>

@@ -1,0 +1,1072 @@
+<apex:page showHeader="false" standardStylesheets="false">
+	  
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="{!URLFOR($Resource.ARCFleetStartupImage,'apple-touch-startup-image-640x1096.png')}"/>
+    <link rel="apple-touch-icon" href="{!URLFOR($Resource.AppleARCFleetIcon)}" sizes="150x150"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-title" content="ARC Fleet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+
+    <!-- Include CSS -->
+    <!-- Bootstrap -->
+    <link href="{!URLFOR($Resource.ARCFleetResources,'bootstrap/css/bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+    
+    <!-- Include JS -->
+    <!-- is.js -->
+    <script src="{! $Resource.ISJS}"/>
+    <!-- jQuery -->
+    <script src="{!URLFOR($Resource.ARCFleetResources, 'js/jquery-2.1.1.min.js')}"/>
+    <!-- Bootstrap JS -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"/>
+    <!-- AngularJS CDN -->
+    <script src="{!URLFOR($Resource.ARCFleetResources,'js/angular.min.js')}" type="text/javascript"/>
+    <!-- <script src="{!URLFOR($Resource.ARCFleetResources, 'js/bootstrap-growl.min.js')}" type="text/javascript"/> -->
+    <!-- <script src="http://www.sunsean.com/Whirlpool.js" type="text/javascript"/> -->
+    <!-- <script src="{! $Resource.ProcGenGalaxy}"/>  -->
+    <apex:includeScript value="https://code.createjs.com/easeljs-0.8.2.min.js"/>
+    <apex:includeScript value="https://code.createjs.com/tweenjs-0.6.2.min.js"/>
+    <apex:includeScript value="{!$Resource.EaseljsClip}"/>
+    <link href="{!$Resource.ARCFleetGameCSS}" rel="stylesheet" type="text/css"/>
+    <body ng-app="app" ng-controller="con">
+    	<div class="container">
+    		<h1>Alien Dialog Test</h1>    		  
+            <form>
+				<div class="row">
+					<div class="col-xs-12">
+						<button class="btn panelButton btn-sm" ng-click="randomize()">Randomize</button>
+					</div>
+				</div>
+				<p/>
+	            <div class="row"> 
+	                <div class="col-xs-6 col-md-4">
+						<label for="yourCivLvl">Your Civilization Level</label>
+						<select class="form-control" ng-model="yourCivLvl">
+							<option value="1">Beginner</option>
+							<option value="2">Advanced</option>
+							<option value="3">Powerful</option>
+						</select>
+						<label for="yourCivLvl">Your Mood</label>
+						<!-- <input type="text" class="form-control" ng-model="yourMood"/> -->
+						<select class="form-control" ng-model="yourMood">
+							<option value="7">Peaceful</option>
+							<option value="8">Neutral</option>
+							<option value="9">Hostile</option>
+						</select>
+					</div>
+					<!-- <div class="col-xs-12 col-xs-4">
+						<button class="btn panelButton btn-sm" ng-click="randomize()">Randomize</button>  
+					</div> -->
+					<div class="col-xs-6 col-md-4 col-md-offset-4">
+						<label for="yourCivLvl">Their Civilization Level</label>
+						<select class="form-control" ng-model="theirCivLvl">
+							<option value="1">Beginner</option>
+							<option value="2">Advanced</option>
+							<option value="3">Powerful</option>
+						</select>
+						<label for="yourCivLvl">Their Mood</label>
+						<!-- <input type="text" class="form-control" ng-model="theirMood"/> -->
+						<select class="form-control" ng-model="theirMood">
+							<option value="1">Peaceful</option>
+							<option value="2">Neutral</option>
+							<option value="3">Hostile</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+                    <div class="col-xs-12">
+                        <h4 style="text-align: left">Ask about:</h4>
+                        <div class="btn-group btn-group-justified" ng-show="yourCivLvl>=1">
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('themselves')" ng-click="askAbout('themselves')">Themselves</button>                                        
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('others')" ng-click="askAbout('others')">Other Races</button>                                        
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('past')" ng-click="askAbout('past')">The Past</button>                                        
+                            </div>
+                        </div>
+                        <div class="btn-group btn-group-justified" ng-show="yourCivLvl>=2">
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('gwaves')" ng-click="askAbout('gwaves')">Gravity Waves</button>                                        
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('blackholes')" ng-click="askAbout('blackholes')">Black Holes</button>                                        
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('core')" ng-click="askAbout('core')">The Core</button>                                        
+                            </div>
+                        </div>
+                        <div class="btn-group btn-group-justified" ng-show="yourCivLvl==3">
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('timeworn')" ng-click="askAbout('timeworn')">The Timeworn</button>                                        
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('darkmatter')" ng-click="askAbout('darkmatter')">Dark Matter</button>                                        
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn panelButton btn-sm" ng-disabled="isInvalidSubject('anomoly')" ng-click="askAbout('anomoly')">The Anomoly</button>                                        
+                            </div>
+                        </div>
+                    </div>
+					<div class="col-xs-12">
+						<h2 class="hidden-xs">{{alienChatText}}</h2>
+						<h3 class="visible-xs">{{alienChatText}}</h3>
+						In the game, this will be accompanied by additional information and gameplay elements. For instance, asking about other races will produce a title like this accompanied by a list of coordinates to other races.
+						<!-- <p>Experimental text:</p>
+						<p>{{alienChatTextRandom}}</p>
+						<p>All possible Experimental Texts:</p>
+						<p ng-repeat="t in alienChatTextRandomList track by $index">{{t}}</p> -->
+					</div>
+	            </div>
+            </form>
+        </div>
+    </body>
+    <style>		
+        body{
+            background: black;
+            color:rgb(41, 209, 255);
+            padding-top: 10px;
+        }
+        @font-face {
+            font-family: 'ARCFleet';
+            src: url("{!URLFOR($Resource.ARCFleetResources,'/fonts/SFAlienEncountersSolid.ttf')}");
+        }
+        @font-face {
+            font-family: 'ARCFleetLined';
+            src: url("{!URLFOR($Resource.ARCFleetResources,'/fonts/SFAlienEncounters.ttf')}");
+        }
+    </style>
+    <script>
+        function randomIntFromInterval(min,max){
+            return Math.floor(Math.random()*(max-min+1)+min);
+        } 
+        function rifi(min,max){
+            return randomIntFromInterval(min,max);
+        }           
+        function randomArrayElem(arr){              
+            return arr[randomIntFromInterval(0,arr.length-1)];
+        } 
+        function rae(arr){
+            return randomArrayElem(arr);
+        } 
+        function rdfi(min,max){
+            return Math.random()*(max-min+1)+min;
+        }
+        function capitalizeFirstLetter(string) {
+		    return string.charAt(0).toUpperCase() + string.slice(1);
+		}
+		function cap(string){
+			return capitalizeFirstLetter(string)
+		}
+        var you = {
+        	friendly:['you', 'your ambasadors', 'your peace envoys','your explorers','the ambasadors you sent','your cultural attachés'],
+        	neutral:['you','your diplomats','your diplomat corps','your investigators','scientists','diplomats'],
+        	hostile:['you','your warriors','your recon personel','your spies','your explorer fleets','your armies','your espionage teams']
+        };
+        // var actions = {
+        // 	friendly:['were able to learn','discovered','gleaned','found','were told'],
+        // 	neutral:['were able to learn','discovered','gleaned','learned','were able to discover','amassed'],
+        // 	hostile:['gleaned, through tourture,','uncovered','pieced together','gathered']
+        // }
+        var actions = ['were able to learn','discovered','gleaned','found','were told','learned','were able to discover','amassed','uncovered','pieced together','gathered','collected']
+        var yourMoods = ['0','1','2','3','4','5','6','friendly','neutral','hostile'];
+        var theirMoods = ['0','friendly','neutral','hostile'];
+        var amount = {
+        	full:['every piece of','all the','an exhaustive amount of','reams of','petabytes of',''],
+        	lot:['a lot of','a tidal wave of','a ton of','a flood of','gobbs of','a copious amount of'],
+        	little:['appallingly little','a little','very little','barely any','a good bit of','some'],
+        	none:['no','absolutely no']
+        }
+        var disclosure = {
+        	friendly:['0','full','lot','none'],
+        	neutral:['0','lot','little','little'],
+        	hostile:['0','little','none','lot']
+        }
+        var data = ['data','information','intel','intelligence','answers'];
+        var civilizationDelta = [
+        	['much less advanced','not very advanced','backward','unadvanced','primitive','neophyte','weak'],
+        	['less advanced','developing','younger','adolecent','weaker'],
+        	['equally advanced','','contemporary','advanced'],
+        	['more advanced','superior','impressive','older','powerful'],
+        	['much more advanced','magical','much superior','godlike','ancient','super powerful']
+        ]
+        var subjects = {
+        	themselves:['their culture','their species','their civilization','their race','their government','themselves'],
+        	others:['other races','any other civilizations in this area','other civilizations','other spacefaring civilizations','other ARC Users'],
+        	past:['the past','the history of this area','the ancient past','the history of this part of the galaxy','the history of the galaxy'],
+        	gwaves:['G-Waves','the gravity waves','gravity waves'],
+        	blackholes:['black holes','wormholes','the black holes','collapsed stars'],
+        	core:['the core','the galactic core','the nucleus','the galactic nucleus','the center of the galaxy','the center','the core of the galaxy','the nucleus of the galaxy'],
+        	timeworn:['the Timeworn','the extinct race that once ruled the galaxy','the old lords of the galaxy','the ancient race','the Timeworn race','the Timeworn civilization','what happened to the Timeworn'],
+        	darkmatter:['dark matter','what dark matter is','what to do about dark matter','how to ARC through dark matter'],
+        	anomoly:['the anomoly','what the anomoly is','what they know about the anomoly','what the anomoly does']
+
+        }
+	    var subs = Object.keys(subjects);
+        /*
+        var subjects = {
+        	themselves:[
+	        	// much less advanced than you
+	        	{
+	        		// they are friendly
+	        		rel7:'their friendly, burgeoning culture',
+	        		rel8:'their much less advanced civilization',
+	        		rel9:'their pathetic and uneventful history',
+					// they are neutral
+	        		rel14:'their short, timid history',
+	        		rel16:'their much less advanced civilization',
+	        		rel18:'their boring, small-minded race',
+					// they are hostile
+	        		rel21:'their rash little tribe',
+	        		rel24:'their much less advanced civilization',
+	        		rel27:'their aggressive, yet ineffective military history'
+	        	},
+	        	// less advanced than you
+	        	{
+	        		// they are friendly
+	        		rel7:'their recent history',
+	        		rel8:'their less advanced civilization',
+	        		rel9:'this weak race',
+	        		// they are neutral
+	        		rel14:'this rather off-putting people',
+	        		rel16:'their less advanced civilization',
+	        		rel18:'their witholding ways',
+	        		// they are hostile
+	        		rel21:'their disturbing culture and beliefs',
+	        		rel24:'their less advanced civilization',
+	        		rel27:'their laughably small territory'
+	        	},
+	        	// same as you
+	        	{
+	        		// they are friendly
+	        		rel7:'their wonderfully developed culture',
+	        		rel8:'their civilization',
+	        		rel9:'their interesting military conquests',
+	        		// they are neutral
+	        		rel14:'their informative, if not slightly standoffish ways',
+	        		rel16:'their civilization',
+	        		rel18:'',
+	        		// they are hostile
+	        		rel21:'',
+	        		rel24:'their civilization',
+	        		rel27:''
+	        	},
+	        	// more advanced than you
+	        	{
+	        		// they are friendly
+	        		rel7:'',
+	        		rel8:'their more advanced civilization',
+	        		rel9:'',
+	        		// they are neutral
+	        		rel14:'',
+	        		rel16:'their more advanced civilization',
+	        		rel18:'',
+	        		// they are hostile
+	        		rel21:'',
+	        		rel24:'their more advanced civilization',
+	        		rel27:''
+	        	},
+	        	// much more advanced than you
+	        	{
+	        		// they are friendly
+	        		rel7:'',
+	        		rel8:'their much more advanced civilization',
+	        		rel9:'',
+	        		// they are neutral
+	        		rel14:'',
+	        		rel16:'their much more advanced civilization',
+	        		rel18:'',
+	        		// they are hostile
+	        		rel21:'',
+	        		rel24:'their much more advanced civilization',
+	        		rel27:''
+	        	}
+        	]
+        }
+        */
+        var them = {
+        	rel7:['them','the alien ambasadors','our alien brethren','our alien brothers','these enlightened beings'],
+        	rel8:['them','alien ambasadors','overly friendly aliens','enthusiastic emmisaries'],
+        	rel9:['them','the prey','these weak-minded fools','these pitiful cowards','these peace lovers'],
+
+        	rel14:['them','alien diplomats','diplomatic envoy','representatives of their civilization'],
+        	rel16:['them','this alien civilization','these aliens'],
+        	rel18:['them','these uninteresting worms','these spineless dogs'],
+
+        	rel21:['them'],
+        	rel24:['them'],
+        	rel27:['them']
+        }
+        var they = {
+        	rel7:['they','the alien ambasadors','our alien brethren','our alien brothers','these enlightened beings'],
+        	rel8:['they','alien ambasadors','overly friendly aliens','enthusiastic emmisaries'],
+        	rel9:['they','the prey','the weak-minded fools','the pitiful cowards','the peace lovers'],
+
+        	rel14:['they','alien diplomats','diplomatic envoy','representatives of their civilization'],
+        	rel16:['they','this alien civilization',''],
+        	rel18:['they','these uninteresting worms','these spineless dogs'],
+
+        	rel21:['they'],
+        	rel24:['they'],
+        	rel27:['they']
+        }
+        
+	    var alienDialogTree = {
+	        themselves:[
+	            // much less advanced than you
+	            {
+	                // they are friendly
+	                rel7:'The alien ambasadors happily tell you stories all about their much less advanced civilization.',
+	                rel8:'The alien ambasadors provide you with an annoyingly verbose summary of the brief history of their much less advanced civilization.',
+	                rel9:'After a proper beating, you are able to piece together information about these miserable peace lovers from their remains.',
+	                // they are neutral
+	                rel14:'The alien diplomats reluctantly offer you some information on their small civilization.',
+	                rel16:'Your request for basic information on their history is met with a lack luster response.',
+	                rel18:'The prey ignore your demands for intel.',
+	                // they are hostile
+	                rel21:'Your polite requests for a mutual exchange of information are ignored by these mean little trolls.',
+	                rel24:'Your formal request for information is met with a terse, sparse response from these rude aliens.',
+	                rel27:'What their warriors lack in advancement they more than make up for in honor and bravado. Together you sing battle hymns, which shed some light on their history and beliefs.'
+	            },
+	            // less advanced than you
+	            {
+	                // they are friendly
+	                rel7:'The alien ambasadors happily send you information about their less advanced civilization.',
+	                rel8:'The alien ambasadors provide you with an annoyingly thourough summary of the exciting history of their people.',
+	                rel9:'Based on intel gleaned from torturing captives, these weak-minded fools should be a push over.',
+	                // they are neutral
+	                rel14:'The alien diplomats begrudgingly send you some data on their less advanced civilization.',
+	                rel16:'Your request for background on this less advanced civilization is met with an equally lack luster response.',
+	                rel18:'These spineless dogs ignore your demands for intel!',
+	                // they are hostile
+	                rel21:'Your repeated requests for a mutual exchange of information are ignored by this hostile race.',
+	                rel24:'Your formal request for information is met with an angry negative response.',
+	                rel27:'The warriors of this less advanced alien empire share the tales of their exploits, shedding light on their bloody history.'
+	            },
+	            // same as you
+	            {
+	                // they are friendly
+	                rel7:'The alien ambasadors greet you as lost brothers and share with you data about their civilization.',
+	                rel8:'The alien ambasadors provide you with a summary of the impressive history of their people.',
+	                rel9:'After a proper beating, you are able to piece together information about these weak aliens from their remains.',
+	                // they are neutral
+	                rel14:'The alien diplomats offer you little information on their civilization.',
+	                rel16:'Your request for basic information on this alien civilization is met with a lack luster response.',
+	                rel18:'Your demands for intel are met with a subtle suggestion to attend the afterlife of your choosing.',
+	                // they are hostile
+	                rel21:'Your respectful requests for an exchange of information are ignored, and your diplomats are attacked.',
+	                rel24:'Your formal request for cultural information is met with very rude and vulgar response.',
+	                rel27:'Together your warriors and the warriors of this new alien empire swap war stories, which shed some light on their history and beliefs.'
+	            },
+	            // more advanced than you
+	            {
+	            	// they are friendly
+	                rel7:'The alien ambasadors happily share amazing technology and scientific information from their more advanced civilization.',
+	                rel8:'The alien ambasadors provide you with a summary of the very impressive advancements of their people.',
+	                rel9:'After a brutal battle, you are able to glean a little information about these powerful aliens from their tactics.',
+	                // they are neutral
+	                rel14:'The alien diplomats offer you little information on their advanced civilization.',
+	                rel16:'Your request for basic information on this advanced alien civilization is met with a lack luster response.',
+	                rel18:'Your demands for intel are met with indifference from this advanced alien civilization.',
+	                // they are hostile
+	                rel21:'Your respectful requests for an exchange of information are ignored, and your diplomats are brutally attacked.',
+	                rel24:'Your formal request for cultural information is met with a very brutal response.',
+	                rel27:'Your warriors share war stories with the warriors of this advanced civilization, which in turn share some information with you.'
+	            },
+	            // much more advanced than you
+	            {
+	            	rel7:'The alien ambasadors make your head swirl with amazing tales about their much more advanced civilization.',
+	                rel8:'The alien ambasadors provide you with a summary of the very very impressive advancements of their people.',
+	                rel9:'After losing a devistating battle, you manage to glean a little information about these super powerful aliens from their tactics.',
+	                // they are neutral
+	                rel14:'The alien diplomats offer you some information on their much more advanced civilization.',
+	                rel16:'Your request for basic information on this very advanced alien civilization is met with a lackluster response.',
+	                rel18:'Your demands for intel are met with scorn from this very advanced alien civilization.',
+	                // they are hostile
+	                rel21:'Your friendly requests for an exchange of information are ignored, and your diplomats are never seen again.',
+	                rel24:'Your formal request for cultural information is met with a very brutal response.',
+	                rel27:'Your warriors are taught a very valuable lesson in humility by this much more advanced civilization.'
+	            }
+	        ],
+	        others:[
+	            // much less advanced than you
+	            {
+	                // they are friendly
+	                rel7:'The alien ambasadors regretfully inform you that you are infact their first contact.',
+	                rel8:'This alien civilization is new to ARCing and has not yet met any other alien races.',
+	                rel9:'The cringing cowards keep claiming to have met no other races yet, and after their experiences with you, hope to never meet anyone else again.',
+	                // they are neutral
+	                rel14:'The alien diplomats reluctantly inform you that they haven\'t met anyone else and weren\'t really looking anyway.',
+	                rel16:'Your request for basic information on other races in the area yields no results.',
+	                rel18:'These weaklings claim to have no intel on other races.',
+	                // they are hostile
+	                rel21:'Your polite requests for data on other races in this part of the galaxy are ignored by these violent little monsters.',
+	                rel24:'Your formal request for information on other races illicits no response from this mean little species.',
+	                rel27:'These aliens claim to have conqured and subjugated all the other alien races in this quadrant, but it\'s obvious from their patheticly small territory that they are lying.'
+	            },
+	            // less advanced than you
+	            {
+	                // they are friendly
+	                rel7:'The alien ambasadors happily send you all the information they have gathered on other civilizations.',
+	                rel8:'The alien ambasadors provide you with an annoyingly thourough summary of all the other races they have encountered.',
+	                rel9:'Based on intel gleaned from torturing captives, this less advanced civilization has very little information to offer.',
+	                // they are neutral
+	                rel14:'The alien diplomats begrudgingly send you some data on the other civilizations they have encountered.',
+	                rel16:'Your bland request for other civilizations is met with an equally lackluster response.',
+	                rel18:'These indifferent little pests are ignoring your demands for intel on other races!',
+	                // they are hostile
+	                rel21:'Your repeated requests for a information on other races in this area are openly mocked by this hostile race.',
+	                rel24:'Your formal request for information is met with an angry response.',
+	                rel27:'The warriors of this less advanced alien empire claim to have conqured some civilizations and share some intel on them.'
+	            },
+	            // same as you
+	            {
+	                // they are friendly
+	                rel7:'The alien ambasadors offer up to you, as a token of continued good relations, data about all the civilizations they have encountered among their travels.',
+	                rel8:'The alien ambasadors insist on providing you with a summary of the other inhabitants of the galaxy.',
+	                rel9:'After a curiously one-sided traditional First Attack, your victims express gratitude that the other races they have encountered are not quite like you.',
+	                // they are neutral
+	                rel14:'The alien diplomats offer you little information on other civilization.',
+	                rel16:'Your request for basic information on the alien civilizations in the area is met with an indifferent response.',
+	                rel18:'Your demands for intel on other races are met with a vulgar disbelief in the marital status of your parents at the time of your conception.',
+	                // they are hostile
+	                rel21:'Your respectful requests for the location of other races are ignored, and your ambassadors are assaulted.',
+	                rel24:'Your formal request for information on other races is rebuffed with a vulgar, and frankly biologically impossible, response.',
+	                rel27:'After the traditional First Attack, your worthy opponents share some stories of other beings they have assaulted.'
+	            },
+	            // more advanced than you
+	            {
+	            	// they are friendly
+	                rel7:'The alien ambasadors happily share detailed dossiers on the many spacefaring races encountered by their more advanced civilization.',
+	                rel8:'The alien ambasadors provide you with a summary of the many spacefaring races encountered by their people.',
+	                rel9:'After feigning a surrender in battle, you are able to fool these more powerful aliens into divulging some of their knowledge of other aliens in the region.',
+	                // they are neutral
+	                rel14:'The alien diplomats offer you little information on other civilizations.',
+	                rel16:'Your request for basic information on other alien civilizations in the region is met with a dubious response.',
+	                rel18:'Your demands for intel on the other spacefarers in the region are met with indifference from this advanced alien civilization.',
+	                // they are hostile
+	                rel21:'Your respectful requests for a list of coordinates for other civilizations are ignored, and your diplomats are returned in pieces.',
+	                rel24:'Your polite request for intel on other spacefarers is met with a very rude gesture.',
+	                rel27:'Your warriors share tales of battle and the warriors of this advanced civilization reciprocate with information concerning the others they have fought in the region.'
+	            },
+	            // much more advanced than you
+	            {
+	            	rel7:'The alien ambasadors make your head spin with tales of all the different races they have encountered throughout the galaxy.',
+	                rel8:'The alien ambasadors provide you with a list of coordinates for a lot of the races throughout the galaxy.',
+	                rel9:'After losing a humiliating battle, your betters reveal a weakness, kindness and tell you about other races that could also teach you a lesson.',
+	                // they are neutral
+	                rel14:'The alien diplomats offer you some highly sophisticated information on some other civilizations in the galaxy.',
+	                rel16:'Your request for location information on other civilizations is met with dull indifference.',
+	                rel18:'Your demands for intel are met with scorn from this very advanced alien civilization.',
+	                // they are hostile
+	                rel21:'Your friendly requests for an exchange of information are dismissed, and your diplomats are never seen again.',
+	                rel24:'Your formal request for location information on other civilizations is met with a very brutal response.',
+	                rel27:'Your warriors proove completely ineffective against this much more advanced civilization and are thus forced to listen to long boring poems about the other races in the galaxy.'
+	            }
+	        ],
+	        past:[
+	            // much less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'Your new friends inform you that they have just begun exploring beyond their sector and do not know very much about the history of the region.',
+	        		rel8:'This race has not spent much time exploring the surrounding region and thus do not know much about its history.',
+	        		rel9:'Despite your insistent demands for knowledge of the past, these worthless vermin claim to know nothing.',
+	        		// they are neutral
+	                rel14:'You politely ask this neutral race of beings for any knowledge of the past, but they know very little.',
+	        		rel16:'Your questions regarding the history of this area reaps very little reward, as this race has not been spacefaring for as long as you.',
+	        		rel18:'These worthless swine know nothing, or else know very little of value.',
+	        		// they are hostile
+	                rel21:'Your good-natured request for information regarding the past is quite rudely rebuffed.',
+	        		rel24:'These aliens have not been around long enough to know anything of the distant past, and even if they were, their uncouth manner suggests they would share very little of what they knew.',
+	        		rel27:'Your howls of frustration at the lack of information this civilization has on the military history of this area are a source of amusement to them.',
+	        	},
+	            // less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'These friendly alien ambasadors are hapy to share all they know about the ancient past. Which unfortunately isn\'t a whole lot.',
+	        		rel8:'The alien ambasadors do not claim to know much about the past, but they tell you what they know.',
+	        		rel9:'After a few threats your new friends divulge what little they know of the events of the past.',
+	        		// they are neutral
+	                rel14:'The alien diplomats share what they know about the history of this part of the galaxy.',
+	        		rel16:'The aliens share with you what they have learned about the history of this part of the galaxy.',
+	        		rel18:'Your show of force does the trick and the aliens are persuaded to divulge what they know about the history of this part of the galaxy.',
+	        		// they are hostile
+	                rel21:'Your friendly overtures are rebuffed as these warlike brutes begin telling about their many campaigns.',
+	        		rel24:'The warlike aliens provide you with a list of all the planets they\'ve conquered with evidence of extinct civilizations.',
+	        		rel27:'These proper brutes brag to you about all the records they\'ve recovered from other races they\'ve conqured and a picture of the past appears.',
+	        	},
+	            // same as you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // much more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	}
+	        ],
+	        gwaves:[
+	            // much less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // same as you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // much more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	}
+	        ],
+	        blackholes:[
+	            // much less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // same as you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // much more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	}
+	        ],
+	        core:[
+	            // much less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // same as you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // much more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	}
+	        ],
+	        timeworn:[
+	            // much less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // same as you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // much more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	}
+	        ],
+	        darkmatter:[
+	            // much less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // same as you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // much more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	}
+	        ],
+	        anomoly:[
+	            // much less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // less advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // same as you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	},
+	            // much more advanced than you
+	        	{
+	        		// they are friendly
+	                rel7:'',
+	        		rel8:'',
+	        		rel9:'',
+	        		// they are neutral
+	                rel14:'',
+	        		rel16:'',
+	        		rel18:'',
+	        		// they are hostile
+	                rel21:'',
+	        		rel24:'',
+	        		rel27:'',
+	        	}
+	        ]
+	    };
+        // Angular
+		var app = angular.module('app', []);
+		var con = app.controller('con',['$scope','$filter','$interval','$sce', function ($scope, $filter, $interval,$sce) {
+		    $scope.hide = true;
+		    $scope.isInvalidSubject = function(subject){
+		    	return is.undefined(alienDialogTree[subject]);
+		    }
+		    console.log($scope.isInvalidSubject('themselves'));
+		    $scope.randomize = function(){
+		    	$scope.yourCivLvl = rifi(1,3);
+		    	$scope.theirCivLvl = rifi(1,3);
+		    	$scope.yourMood = rifi(7,9);
+		    	$scope.theirMood = rifi(1,3);
+		    	$scope.askAbout(rae(subs))
+		    }
+		    $scope.askAbout = function(subject){
+		    	var dCiv = ($scope.theirCivLvl-$scope.yourCivLvl)+2;
+		    	var relCode = 'rel'+$scope.yourMood*$scope.theirMood;
+		        var cv = 'civLvl'+$scope.yourCivLvl;
+		        console.log('Delta Civ: '+dCiv);
+		        console.log('Relationship Code: '+relCode)
+		        $scope.alienChatText = genRandomSentence(subject); //alienDialogTree[subject][dCiv][relCode];
+		        var yourMood = yourMoods[$scope.yourMood];
+		    	//$scope.alienChatTextRandom = cap(rae(you[yourMood])+' '+rae(actions[yourMood])+' '+rae(amount[disclosure[yourMood][$scope.theirMood]])+' '+rae(data)+' from '+rae(them[relCode])+' about '+subject); //subjects[subject][dCiv][relCode])
+		    	//$scope.alienChatTextRandom = cap(rae(you[yourMood])+' '+rae(actions[yourMood])+' '+rae(amount[disclosure[yourMood][$scope.theirMood]])+' '+rae(data)+' about '+rae(subjects[subject])+' from this '+rae(civilizationDelta[dCiv])+' '+theirMoods[$scope.theirMood]+' civilization.'); //subjects[subject][dCiv][relCode])
+		    	$scope.alienChatTextRandom = genRandomSentence(subject)
+		    }
+		    function genRandomSentence(subject){
+				var dCiv = ($scope.theirCivLvl-$scope.yourCivLvl)+2;
+		    	var relCode = 'rel'+$scope.yourMood*$scope.theirMood;
+		        var cv = 'civLvl'+$scope.yourCivLvl;
+		        //console.log('Delta Civ: '+dCiv);
+		        //console.log('Relationship Code: '+relCode)
+		        //$scope.alienChatText = alienDialogTree[subject][dCiv][relCode];
+		        var yourMood = yourMoods[$scope.yourMood];
+		    	//$scope.alienChatTextRandom = cap(rae(you[yourMood])+' '+rae(actions[yourMood])+' '+rae(amount[disclosure[yourMood][$scope.theirMood]])+' '+rae(data)+' from '+rae(them[relCode])+' about '+subject); //subjects[subject][dCiv][relCode])
+		    	return cap(rae(you[yourMood])+' '+rae(actions)+' '+rae(amount[disclosure[yourMood][$scope.theirMood]])+' '+rae(data)+' from this '+rae(civilizationDelta[dCiv])+' '+theirMoods[$scope.theirMood]+' civilization '+' about '+rae(subjects[subject]))+'.'; //subjects[subject][dCiv][relCode])
+		    
+		    }
+			$scope.alienChatTextRandomList = [];
+		    for (var yourCiv = 1; yourCiv <= 3; yourCiv++) {
+		    	$scope.yourCivLvl = yourCiv;
+		    	$scope.alienChatTextRandomList.push('Your CivLvl: '+yourCiv)
+		    	for (var theirCiv = 1; theirCiv <= 3; theirCiv++) {
+		    		$scope.theirCivLvl = theirCiv;
+		    		$scope.alienChatTextRandomList.push('Their CivLvl: '+theirCiv)
+		    		for (var yourMood = 7; yourMood <= 9; yourMood++) {
+		    			$scope.yourMood = yourMood;
+		    			$scope.alienChatTextRandomList.push('Your mood: '+yourMood)
+		    			for (var theirMood = 1; theirMood <= 3; theirMood++) {
+			    			$scope.theirMood = theirMood;
+			    			// console.log('your civlvl: '+yourCiv+' | their civlvl: '+theirCiv)
+			    			// console.log('your mood: '+yourMood+' | their mood: '+theirMood)
+							$scope.alienChatTextRandomList.push('Their mood: '+theirMood)
+			    			for (var i = 0; i < subs.length; i++) {
+			    				$scope.alienChatTextRandomList.push(genRandomSentence(subs[i]))
+			    			}			    			
+			    		}
+		    		}		    			
+		    	}
+		    }
+		    $scope.randomize();
+		}]);
+    </script>
+</apex:page>

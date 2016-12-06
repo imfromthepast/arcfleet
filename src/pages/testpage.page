@@ -1,0 +1,26 @@
+<apex:page controller="testpagecontroller" action="{!init}">
+         
+    <apex:includeScript value="{!URLFOR($Resource.jQueryUILibrary, '/js/jquery-1.6.2.min.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.jQueryUILibrary, '/js/jquery-ui-1.8.16.custom.min.js')}"  />
+    <apex:stylesheet value="{!URLFOR($Resource.jQueryUILibrary, '/css/smoothness/jquery-ui-1.8.16.custom.css')}"  />
+            
+    
+    <script>
+        $j = jQuery.noConflict();
+        $j(document).ready(function() {
+            var householders = $j("[id$='householders']");
+            //alert(householders[0].length);
+            $j('#hh').html(householders[0]);
+        });
+    </script>
+    <ul>
+        <apex:repeat value="{!householders}" var="h">
+            <li>{!h.name}</li>
+        </apex:repeat>
+    </ul>
+    <p/>HH:
+    <span id="hh"></span>
+    <apex:form >
+        <apex:inputHidden id="householders" value="{!householders}"/>
+    </apex:form>
+</apex:page>
