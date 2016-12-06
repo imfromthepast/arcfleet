@@ -169,13 +169,18 @@
         // 	neutral:['were able to learn','discovered','gleaned','learned','were able to discover','amassed'],
         // 	hostile:['gleaned, through tourture,','uncovered','pieced together','gathered']
         // }
-        var actions = ['were able to learn','discovered','gleaned','found','were told','learned','were able to discover','amassed','uncovered','pieced together','gathered','collected']
+        var actions = ['were able to learn','discovered','gleaned','recieved','learned','were able to discover','amassed','uncovered','pieced together','gathered','collected']
         var yourMoods = ['0','1','2','3','4','5','6','friendly','neutral','hostile'];
         var theirMoods = ['0','friendly','neutral','hostile'];
+        var moods = {
+            friendly:['friendly','pacifist','affable','amiable','amicable','attentive','cordial','helpful','neighborly','receptive','peaceful','sympathetic','welcoming','kind','sociable','benign','benevolent','genial','solicitous','consilliatory','convivial','civil'],
+            neutral:['neutral','evenhanded','fair-minded','indifferent','aloof','clinical','stoic','detached','dispassionate','impersonal','easy-going','antisocial'],
+            hostile:['hostile','beligerent','antagonistic','warlike','aggressive','contentious','bitter','hateful','inhospitable','inimical','nasty','unfriendly','militant','bellicose','dour','malevolent','malicious','malignant','ornery','pugnacious','rancorous','spiteful','vitriolic','viperous','combatative']
+        }
         var amount = {
-        	full:['every piece of','all the','an exhaustive amount of','reams of','petabytes of',''],
+        	full:['all the','an exhaustive amount of','reams of','petabytes of',''],
         	lot:['a lot of','a tidal wave of','a ton of','a flood of','gobbs of','a copious amount of'],
-        	little:['appallingly little','a little','very little','barely any','a good bit of','some'],
+        	little:['appallingly little','little','very little','barely any','a good bit of','some'],
         	none:['no','absolutely no']
         }
         var disclosure = {
@@ -187,13 +192,13 @@
         var civilizationDelta = [
         	['much less advanced','not very advanced','backward','unadvanced','primitive','neophyte','weak'],
         	['less advanced','developing','younger','adolecent','weaker'],
-        	['equally advanced','','contemporary','advanced'],
-        	['more advanced','superior','impressive','older','powerful'],
+        	['equally advanced','','contemporary','advanced','progressive'],
+        	['more advanced','superior','impressive','older','powerful','more progressive'],
         	['much more advanced','magical','much superior','godlike','ancient','super powerful']
         ]
         var subjects = {
         	themselves:['their culture','their species','their civilization','their race','their government','themselves'],
-        	others:['other races','any other civilizations in this area','other civilizations','other spacefaring civilizations','other ARC Users'],
+        	others:['other races','the other civilizations in this area','other civilizations','other spacefaring civilizations','other ARC Users'],
         	past:['the past','the history of this area','the ancient past','the history of this part of the galaxy','the history of the galaxy'],
         	gwaves:['G-Waves','the gravity waves','gravity waves'],
         	blackholes:['black holes','wormholes','the black holes','collapsed stars'],
@@ -1041,7 +1046,7 @@
 		        //$scope.alienChatText = alienDialogTree[subject][dCiv][relCode];
 		        var yourMood = yourMoods[$scope.yourMood];
 		    	//$scope.alienChatTextRandom = cap(rae(you[yourMood])+' '+rae(actions[yourMood])+' '+rae(amount[disclosure[yourMood][$scope.theirMood]])+' '+rae(data)+' from '+rae(them[relCode])+' about '+subject); //subjects[subject][dCiv][relCode])
-		    	return cap(rae(you[yourMood])+' '+rae(actions)+' '+rae(amount[disclosure[yourMood][$scope.theirMood]])+' '+rae(data)+' from this '+rae(civilizationDelta[dCiv])+' '+theirMoods[$scope.theirMood]+' civilization '+' about '+rae(subjects[subject]))+'.'; //subjects[subject][dCiv][relCode])
+		    	return cap(rae(you[yourMood])+' '+rae(actions)+' '+rae(amount[disclosure[yourMood][$scope.theirMood]])+' '+rae(data)+' from this '+rae(civilizationDelta[dCiv])+', yet '+rae(moods[theirMoods[$scope.theirMood]])+', civilization about '+rae(subjects[subject]))+'.'; //subjects[subject][dCiv][relCode])
 		    
 		    }
 			$scope.alienChatTextRandomList = [];
