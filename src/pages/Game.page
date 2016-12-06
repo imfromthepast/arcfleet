@@ -67,7 +67,7 @@
                 var mood = parseInt('{!game.Mood__c}');
                 var gameStartX = '{!game.Start_X__c}';
                 var gameStartY = '{!game.Start_Y__c}';
-                var relationships = {!game.RelationShips__c}; //'.split(';');
+                var relationships = {!game.Relationships__c}; //'.split(';');
                 //var mapWidth = 100;
                 //var mapHeight = 100;
                 var af = '{!autonomousForces}';
@@ -245,7 +245,7 @@
                                                 <apex:inputfield id="turns" value="{!game.Turns__c}" style="display: none"/>
                                                 <apex:inputtext value="{!game.Start_X__c}" html-ng-model="setViewX" style="display: none"/>
                                                 <apex:inputtext value="{!game.Start_Y__c}" html-ng-model="setViewY" style="display: none"/>
-                                                <apex:inputtext id="relationships" value="{!game.RelationShips__c}" html-ng-model="relationships" style="display: none"/>
+                                                <apex:inputtext id="relationships" value="{!game.Relationships__c}" html-ng-model="relationships" style="display: none"/>
                                                 <apex:inputtext id="sectorJSON1" value="{!game.Sector_JSON_1__c}" style="display: none"/>
                                                 <apex:inputtext id="sectorJSON2" value="{!game.Sector_JSON_2__c}" style="display: none"/>
                                                 <apex:inputtext id="sectorJSON3" value="{!game.Sector_JSON_3__c}" style="display: none"/>

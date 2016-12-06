@@ -1,5 +1,0 @@
-<apex:page controller="testcontroller">
-  <apex:repeat value="{!activities}" var="a">
-      <div>{!a.subject}</div>
-  </apex:repeat>
-</apex:page>

@@ -1,7 +1,0 @@
-<apex:page showHeader="false" standardStylesheets="false">
-    <apex:composition template="territorytemplate">
-        <apex:define name="content">
-            <c:map />
-        </apex:define>
-    </apex:composition>
-</apex:page>

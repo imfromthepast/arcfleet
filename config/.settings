@@ -1,19 +1,16 @@
 {
+    "projectName": "arcfleet",
     "username": "jim@49demo.com",
-    "environment": "developer",
-    "project_name": "Personal",
-    "workspace": "/Users/jboudreaux/Documents/workspaces/mavensmate",
-    "org_url": "",
+    "id": "72e1d3e0-bbc6-11e6-82d7-7b143f57cd80",
     "namespace": "ARCFleet",
-    "id": "CEPPYHSFQ3ROWE3JBS6776GKNM7XO6J5",
-    "metadata_container": "1dcA00000004VcNIAU",
+    "environment": "developer",
+    "loginUrl": "https://login.salesforce.com/",
+    "workspace": "/Users/jboudreaux/Documents/workspaces/mavensmate",
     "subscription": [
         "ApexClass",
         "ApexComponent",
         "ApexPage",
         "ApexTrigger",
-        "CustomObject",
         "StaticResource"
-    ],
-    "loginUrl": ""
+    ]
 }
