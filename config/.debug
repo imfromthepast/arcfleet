@@ -1,15 +1,16 @@
 {
-    "levels": {
-        "Workflow": "INFO", 
-        "Callout": "INFO", 
-        "System": "DEBUG", 
-        "Database": "INFO", 
-        "ApexCode": "DEBUG", 
-        "Validation": "INFO", 
-        "Visualforce": "DEBUG"
-    }, 
     "users": [
         "005A0000001oUcDIAU"
-    ], 
+    ],
+    "levels": {
+        "Workflow": "INFO",
+        "Callout": "INFO",
+        "System": "DEBUG",
+        "Database": "INFO",
+        "ApexCode": "DEBUG",
+        "ApexProfiling": "INFO",
+        "Validation": "INFO",
+        "Visualforce": "DEBUG"
+    },
     "expiration": 480
 }

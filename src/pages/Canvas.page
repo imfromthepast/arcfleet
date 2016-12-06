@@ -271,6 +271,7 @@
             
             dataCont.x=10;
             dataCont.y=0;
+            widgets.removeAllChildren();
             widgets.addChild(stats,dna,lineGraphCont,dataCont,dashes);
             widgets.x = 405;
             widgets.y = 30;

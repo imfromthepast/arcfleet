@@ -1,8 +1,0 @@
-<apex:page renderAs="pdf" showHeader="false" cache="false" controller="TerritoryCardController" action="{!init}">
-    <head>
-        <style type="text/css">
-            @page{margin-top: 1cm; size: portrait;}
-        </style>
-    </head>
-    <c:territorycard cname="{!congregation.name}" householders="{!householders}" zoom="" tname="{!territory.name}" coords="{!coordinates}" notes="{!territory.Notes__c}"/>  
-</apex:page>

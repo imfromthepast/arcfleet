@@ -1,5 +1,0 @@
-<apex:component >
-    <apex:attribute name="type" description="todo" type="string"/>
-    <apex:attribute name="body" description="todo" type="string"/>
-    <c:popover arrowposition="{!if(type='setup','218px',if(type='add','108px',if(type='open','165px','113px')))}" body="{!body}"/>
-</apex:component>
