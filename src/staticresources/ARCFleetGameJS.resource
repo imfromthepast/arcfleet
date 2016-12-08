@@ -47,11 +47,6 @@ createjs.Graphics.prototype.dashedLineTo = function( x1 , y1 , x2 , y2 , dashLen
     this[q % 2 == 0 ? 'moveTo' : 'lineTo'](x2, y2);
     return this;
 }
-// function distance(p1, p2){
-//    dx = p2.x - p1.x; dx *= dx;
-//    dy = p2.y - p1.y; dy *= dy;
-//    return Math.sqrt( dx + dy );
-// }
 /*
     /$$$$$$                                /$$                       /$$$$$  /$$$$$$ 
    /$$__  $$                              | $$                      |__  $$ /$$__  $$
@@ -83,67 +78,12 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     $scope.turn						= turn;
     $scope.alienChatText            = '';
     $scope.talkedToAliens           = false;
-    // console.log('Turn '+$scope.turn);
-/*
-    /$$$$$$  /$$                                     /$$$$$$                                                     /$$                        
-   /$$__  $$| $$                                    |_  $$_/                                                    | $$                        
-  | $$  \__/| $$$$$$$   /$$$$$$  /$$  /$$  /$$        | $$   /$$$$$$$   /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$ 
-  |  $$$$$$ | $$__  $$ /$$__  $$| $$ | $$ | $$        | $$  | $$__  $$ /$$_____/ /$$__  $$ /$$__  $$ /$$_____/|_  $$_/   /$$__  $$ /$$__  $$
-   \____  $$| $$  \ $$| $$  \ $$| $$ | $$ | $$        | $$  | $$  \ $$|  $$$$$$ | $$  \ $$| $$$$$$$$| $$        | $$    | $$  \ $$| $$  \__/
-   /$$  \ $$| $$  | $$| $$  | $$| $$ | $$ | $$        | $$  | $$  | $$ \____  $$| $$  | $$| $$_____/| $$        | $$ /$$| $$  | $$| $$      
-  |  $$$$$$/| $$  | $$|  $$$$$$/|  $$$$$/$$$$/       /$$$$$$| $$  | $$ /$$$$$$$/| $$$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$/| $$      
-   \______/ |__/  |__/ \______/  \_____/\___/       |______/|__/  |__/|_______/ | $$____/  \_______/ \_______/   \___/   \______/ |__/      
-                                                                                | $$                                                        
-                                                                                | $$                                                        
-                                                                                |__/                                                        
-*/
-    // $scope.showInspector = function(t){
-    //     if($scope.inspectorType == t){
-    //         $scope.showInspectorPanel   = false;
-    //         $scope.inspectorType        = '';
-    //     }else{
-    //         $scope.showInspectorPanel   = false;
-    //         $scope.inspectorType = t;
-    //         $scope.showInspectorPanel   = true;
-    //     }
-    //     $scope.settingsTabActive        = "";
-    //     $scope.infoTabActive            = "";
-    //     $scope.foreignPolicyTabActive   = "";
-    //     $scope.civLevelTabActive        = "";
-    //     $scope.resourcePointsTabActive  = "";
-    //     $scope.regularTabActive         = "";
-    //     $scope.explorerTabActive        = "";
-    //     $scope.destroyerTabActive       = "";
-    //     $scope.arcbaseTabActive         = "";
-    //     if(t == 'Settings') $scope.settingsTabActive = "active";
-    //     if(t == 'Info') $scope.infoTabActive = "active";
-    //     if(t == 'ForeignPolicy') $scope.foreignPolicyTabActive = "active";
-    //     if(t == 'CivLevel') $scope.civLevelTabActive = "active";
-    //     if(t == 'ResourcePoints') $scope.resourcePointsTabActive = "active";
-    //     if(t == 'Regular') $scope.regularTabActive = "active";
-    //     if(t == 'Explorer') $scope.explorerTabActive = "active";
-    //     if(t == 'Destroyer') $scope.destroyerTabActive = "active";
-    //     if(t == 'ARCBase') $scope.arcbaseTabActive = "active";
-    // }
-/*
-  /$$$$$$              /$$           /$$    /$$          /$$                                  
- /$$__  $$            | $$          | $$   | $$         | $$                                  
-| $$  \__/  /$$$$$$  /$$$$$$        | $$   | $$ /$$$$$$ | $$ /$$   /$$ /$$$$$$/$$$$   /$$$$$$ 
-|  $$$$$$  /$$__  $$|_  $$_/        |  $$ / $$//$$__  $$| $$| $$  | $$| $$_  $$_  $$ /$$__  $$
- \____  $$| $$$$$$$$  | $$           \  $$ $$/| $$  \ $$| $$| $$  | $$| $$ \ $$ \ $$| $$$$$$$$
- /$$  \ $$| $$_____/  | $$ /$$        \  $$$/ | $$  | $$| $$| $$  | $$| $$ | $$ | $$| $$_____/
-|  $$$$$$/|  $$$$$$$  |  $$$$/         \  $/  |  $$$$$$/| $$|  $$$$$$/| $$ | $$ | $$|  $$$$$$$
- \______/  \_______/   \___/            \_/    \______/ |__/ \______/ |__/ |__/ |__/ \_______/
-*/
     $scope.setVolume = function(){            
         if($scope.SFXon){
             Howler.unmute();
-            // console.log('Turn on volume');
         }else{
             Howler.mute();
-            // console.log('Turn off volume');
         }   
-    	// console.log('setVolume('+$scope.SFXon+')'); 
         if($scope.SFXon != SFXon){                    
             var game = new RemoteObjectModel.Game();
             var gameIds = [];
@@ -167,16 +107,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         }       
     }
     $scope.setVolume();
-/*
-      /$$$$$$              /$$           /$$      /$$                           /$$
-     /$$__  $$            | $$          | $$$    /$$$                          | $$
-    | $$  \__/  /$$$$$$  /$$$$$$        | $$$$  /$$$$  /$$$$$$   /$$$$$$   /$$$$$$$
-    |  $$$$$$  /$$__  $$|_  $$_/        | $$ $$/$$ $$ /$$__  $$ /$$__  $$ /$$__  $$
-     \____  $$| $$$$$$$$  | $$          | $$  $$$| $$| $$  \ $$| $$  \ $$| $$  | $$
-     /$$  \ $$| $$_____/  | $$ /$$      | $$\  $ | $$| $$  | $$| $$  | $$| $$  | $$
-    |  $$$$$$/|  $$$$$$$  |  $$$$/      | $$ \/  | $$|  $$$$$$/|  $$$$$$/|  $$$$$$$
-     \______/  \_______/   \___/        |__/     |__/ \______/  \______/  \_______/
-*/
     $scope.setMood = function(m){		                
         $scope.foreignPolicy=m;  
         $scope.foreignPolicyColor($scope.foreignPolicy);
@@ -201,19 +131,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     $scope.friendlyContactDescription = 'Attempt First Contact';
     $scope.neutralContactDescription = 'Accertain Intentions';
     $scope.hostileContactDescription = 'Declare War!';
-/*
-     /$$$$$$$$                            /$$                           /$$$$$$$           /$$ /$$                            /$$$$$$            /$$                    
-    | $$_____/                           |__/                          | $$__  $$         | $$|__/                           /$$__  $$          | $$                    
-    | $$     /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$  /$$$$$$$       | $$  \ $$ /$$$$$$ | $$ /$$  /$$$$$$$ /$$   /$$      | $$  \__/  /$$$$$$ | $$  /$$$$$$   /$$$$$$ 
-    | $$$$$ /$$__  $$ /$$__  $$ /$$__  $$| $$ /$$__  $$| $$__  $$      | $$$$$$$//$$__  $$| $$| $$ /$$_____/| $$  | $$      | $$       /$$__  $$| $$ /$$__  $$ /$$__  $$
-    | $$__/| $$  \ $$| $$  \__/| $$$$$$$$| $$| $$  \ $$| $$  \ $$      | $$____/| $$  \ $$| $$| $$| $$      | $$  | $$      | $$      | $$  \ $$| $$| $$  \ $$| $$  \__/
-    | $$   | $$  | $$| $$      | $$_____/| $$| $$  | $$| $$  | $$      | $$     | $$  | $$| $$| $$| $$      | $$  | $$      | $$    $$| $$  | $$| $$| $$  | $$| $$      
-    | $$   |  $$$$$$/| $$      |  $$$$$$$| $$|  $$$$$$$| $$  | $$      | $$     |  $$$$$$/| $$| $$|  $$$$$$$|  $$$$$$$      |  $$$$$$/|  $$$$$$/| $$|  $$$$$$/| $$      
-    |__/    \______/ |__/       \_______/|__/ \____  $$|__/  |__/      |__/      \______/ |__/|__/ \_______/ \____  $$       \______/  \______/ |__/ \______/ |__/      
-                                              /$$  \ $$                                                      /$$  | $$                                                  
-                                             |  $$$$$$/                                                     |  $$$$$$/                                                  
-                                              \______/                                                       \______/                                                   
-*/
     $scope.foreignPolicyColor = function(m){
         if(m===1){
             $scope.foreignPolicyLabelClass = 'text-primary';
@@ -234,28 +151,11 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             $scope.contactButtonClass = 'btn-danger';
         }
     }
-/*
-                               /$$    /$$                    /$$           /$$       /$$                    
-                              | $$   | $$                   |__/          | $$      | $$                    
-     /$$$$$$$   /$$$$$$       | $$   | $$ /$$$$$$   /$$$$$$  /$$  /$$$$$$ | $$$$$$$ | $$  /$$$$$$   /$$$$$$$
-    | $$__  $$ /$$__  $$      |  $$ / $$/|____  $$ /$$__  $$| $$ |____  $$| $$__  $$| $$ /$$__  $$ /$$_____/
-    | $$  \ $$| $$  \ $$       \  $$ $$/  /$$$$$$$| $$  \__/| $$  /$$$$$$$| $$  \ $$| $$| $$$$$$$$|  $$$$$$ 
-    | $$  | $$| $$  | $$        \  $$$/  /$$__  $$| $$      | $$ /$$__  $$| $$  | $$| $$| $$_____/ \____  $$
-    | $$  | $$|  $$$$$$$         \  $/  |  $$$$$$$| $$      | $$|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$ /$$$$$$$/
-    |__/  |__/ \____  $$          \_/    \_______/|__/      |__/ \_______/|_______/ |__/ \_______/|_______/ 
-               /$$  \ $$                                                                                    
-              |  $$$$$$/                                                                                    
-               \______/                                                                                     
-*/
     $scope.relationshipList = [];
     $scope.relationshipMap = new Object();
-    //$scope.relationships = relationships;
     $scope.fuzzy = false;
     var raceId = gameId.substr(0,15);
-    $scope.civLvl = civilizationLevel;
-    $scope.hasARCScanner = $scope.civLvl > 1;
-    $scope.hasBlackHoleScanner = $scope.civLvl > 1;
-    $scope.hasDarkMatterScanner = $scope.civLvl > 1;
+    
     $scope.showARCScanner = false;
     $scope.showBlackHoleScanner = false;
     $scope.showDarkMatterScanner = false;
@@ -274,9 +174,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     $scope.regularCost = 5;
     $scope.explorerCost = 7;
     $scope.destroyerCost = 9;
-    $scope.regularCost = $scope.regularCost - $scope.civLvl < 1?1:$scope.regularCost - $scope.civLvl;
-    $scope.explorerCost = $scope.explorerCost - $scope.civLvl < 1?1:$scope.explorerCost - $scope.civLvl;
-    $scope.destroyerCost = $scope.destroyerCost - $scope.civLvl < 1?1:$scope.destroyerCost - $scope.civLvl;
     
     $scope.arcCalcButtonEnabled = false;
     $scope.regular_fleetsSelected = 0;
@@ -303,39 +200,11 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     $scope.destroyerFleetCount = 0;
     $scope.arcbaseCount = 0;
     $scope.potentialResourcePoints = 0;
-    $scope.explorerViewRange = function(){return Math.floor(12*($scope.civLvl/2))};
-    $scope.regularViewRange = function(){return Math.floor(8*($scope.civLvl/2))};
-    $scope.destroyerViewRange = function(){return Math.floor(4*($scope.civLvl/2))};
-    console.log('$scope.explorerViewRange: '+$scope.explorerViewRange())
-/*
-     /$$$$$$$            /$$ /$$       /$$        /$$$$$$                                          /$$      /$$                    
-    | $$__  $$          |__/| $$      | $$       /$$__  $$                                        | $$$    /$$$                    
-    | $$  \ $$ /$$   /$$ /$$| $$  /$$$$$$$      | $$  \__/  /$$$$$$  /$$$$$$/$$$$   /$$$$$$       | $$$$  /$$$$  /$$$$$$   /$$$$$$ 
-    | $$$$$$$ | $$  | $$| $$| $$ /$$__  $$      | $$ /$$$$ |____  $$| $$_  $$_  $$ /$$__  $$      | $$ $$/$$ $$ |____  $$ /$$__  $$
-    | $$__  $$| $$  | $$| $$| $$| $$  | $$      | $$|_  $$  /$$$$$$$| $$ \ $$ \ $$| $$$$$$$$      | $$  $$$| $$  /$$$$$$$| $$  \ $$
-    | $$  \ $$| $$  | $$| $$| $$| $$  | $$      | $$  \ $$ /$$__  $$| $$ | $$ | $$| $$_____/      | $$\  $ | $$ /$$__  $$| $$  | $$
-    | $$$$$$$/|  $$$$$$/| $$| $$|  $$$$$$$      |  $$$$$$/|  $$$$$$$| $$ | $$ | $$|  $$$$$$$      | $$ \/  | $$|  $$$$$$$| $$$$$$$/
-    |_______/  \______/ |__/|__/ \_______/       \______/  \_______/|__/ |__/ |__/ \_______/      |__/     |__/ \_______/| $$____/ 
-                                                                                                                         | $$      
-                                                                                                                         | $$      
-                                                                                                                         |__/      
-*/					
+// Build Game Map 
 	generate();
-    // $scope.relationships = JSON.stringify(relationships);
-    // console.log(relationships);
-    // console.log($scope.relationships);
 	$scope.galaxyName = galaxyName;
 	$scope.civilizationName = civName == ''?civilizationName:civName;
-/*
-     /$$$$$$$            /$$ /$$       /$$        /$$$$$$                        /$$                        
-    | $$__  $$          |__/| $$      | $$       /$$__  $$                      | $$                        
-    | $$  \ $$ /$$   /$$ /$$| $$  /$$$$$$$      | $$  \__/  /$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$ 
-    | $$$$$$$ | $$  | $$| $$| $$ /$$__  $$      |  $$$$$$  /$$__  $$ /$$_____/|_  $$_/   /$$__  $$ /$$__  $$
-    | $$__  $$| $$  | $$| $$| $$| $$  | $$       \____  $$| $$$$$$$$| $$        | $$    | $$  \ $$| $$  \__/
-    | $$  \ $$| $$  | $$| $$| $$| $$  | $$       /$$  \ $$| $$_____/| $$        | $$ /$$| $$  | $$| $$      
-    | $$$$$$$/|  $$$$$$/| $$| $$|  $$$$$$$      |  $$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$/| $$      
-    |_______/  \______/ |__/|__/ \_______/       \______/  \_______/ \_______/   \___/   \______/ |__/      
-*/
+// Build Sector
     $scope.showMiniMapButton = true;
    	$scope.showMiniMap = function(){
    		$scope.showMiniMapButton = false;
@@ -354,12 +223,10 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
    	var sectorJSON8Field = $j('[id$=sectorJSON8]');
    	var sectorJSON9Field = $j('[id$=sectorJSON9]');
    	var sectorJSON10Field = $j('[id$=sectorJSON10]');
-
 	$scope.save = function(){
         console.log(JSON.stringify(relationships));
 		var saveGame = new RemoteObjectModel.Game();    
         var gameIds = [];
-        // console.log('gameid:'+gameId);
         gameIds.push(gameId);                    
         saveGame.update(
             gameIds,
@@ -374,8 +241,9 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             	SectorJSON8: sectorJSON8Field.val(),
             	SectorJSON9: sectorJSON9Field.val(),
             	SectorJSON10: sectorJSON10Field.val(),
-                Relationships: JSON.stringify(relationships), //$scope.relationships, //relationshipsField.val(),
+                Relationships: JSON.stringify(relationships),
             	CivilizationName: $scope.civilizationName,
+                CivilizationLevel: $scope.civLvl,
             	Turn: $scope.turn,
                 StartX:$scope.setViewX,
                 StartY:$scope.setViewY
@@ -383,19 +251,14 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             function(err,ids){
                 if(err){
                     notification('Save Error',err,'red');
-                }else{ 		
-                	//notification('Game Saved','','green');
                 }
             }
         );
 	}
-    //$scope.save();
     $scope.sectors=sectors;
-
 	var TotalRegularCount = 0;
 	var TotalExplorerCount = 0;
 	var TotalDestroyerCount = 0;
-	//var TotalResourcePoints = 0;
 	var editedSectors = {};
     populateGalaxy(sectorJSON);
 	function populateGalaxy(sjson){
@@ -419,18 +282,15 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].HasARCBase = p[populationName['a']] == 't';
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].ARCBasePoints = parseInt(p[populationName['ap']]);
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].Explored = p[populationName['ex']] == 't';
-
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].AlienARCBase = parseInt(p[populationName['aa']]);
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].AlienRegularCount = parseInt(p[populationName['ar']]);
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].AlienExplorerCount = parseInt(p[populationName['ae']]);
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].AlienDestroyerCount = parseInt(p[populationName['ad']]);
 				sectors[getIndex(p[populationName['x']],p[populationName['y']])].AlienMood = parseInt(p[populationName['am']]);
-
 				$scope.regularFleetCount+=parseInt(p[populationName['r']]);
 				$scope.explorerFleetCount+=parseInt(p[populationName['e']]);
 				$scope.destroyerFleetCount+=parseInt(p[populationName['d']]);
 				$scope.resourcePoints+=parseInt(p[populationName['ap']]);
-
 				if(p[populationName['a']] == 't'){
 					$scope.arcbaseCount++;
 					$scope.potentialResourcePoints += sectors[getIndex(p[populationName['x']],p[populationName['y']])].ResourceValue;
@@ -447,11 +307,42 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             $scope.setViewY = is.empty(gameStartY)?50:gameStartY;
         }
         console.log('Start Coords: '+$scope.setViewX+','+$scope.setViewY);
-		// console.log('editedSectors: ');
-		// console.log(editedSectors);
 		$scope.save();
-		// $j('[id$=sectorJSON2]').val(JSON.stringify(sectors).length);
 	}
+
+    $scope.hasCivLvl2McGuffin = false;
+    $scope.hasCivLvl3McGuffin = false;
+    $scope.civLvl = 1;
+    function checkCivLvl(){
+        var civLvlThreshold = 10;
+        var civilizationLevel = 0;                    
+        if($scope.hasCivLvl3McGuffin || $scope.resourcePoints>(civLvlThreshold*2)){
+            console.log('make civ 3')
+            civilizationLevel = 3;
+        }else if($scope.hasCivLvl2McGuffin || $scope.resourcePoints>civLvlThreshold){
+            console.log('make civ 2')
+            civilizationLevel = 2;
+        }else{
+            console.log('make civ 1')
+            civilizationLevel = 1;
+        }
+        civilizationLevel = isDebug?3:civilizationLevel;
+        $scope.civLvl = civilizationLevel;
+    }
+    checkCivLvl();
+    $scope.hasARCScanner = $scope.civLvl > 1;
+    $scope.hasBlackHoleScanner = $scope.civLvl > 1;
+    $scope.hasDarkMatterScanner = $scope.civLvl > 1;
+
+    $scope.regularCost = $scope.regularCost - $scope.civLvl < 1?1:$scope.regularCost - $scope.civLvl;
+    $scope.explorerCost = $scope.explorerCost - $scope.civLvl < 1?1:$scope.explorerCost - $scope.civLvl;
+    $scope.destroyerCost = $scope.destroyerCost - $scope.civLvl < 1?1:$scope.destroyerCost - $scope.civLvl;
+
+    $scope.explorerViewRange = function(){return Math.floor(12*($scope.civLvl/2))};
+    $scope.regularViewRange = function(){return Math.floor(8*($scope.civLvl/2))};
+    $scope.destroyerViewRange = function(){return Math.floor(4*($scope.civLvl/2))};
+    console.log('$scope.explorerViewRange: '+$scope.explorerViewRange())
+
 	function sectorShouldBeSaved(s){
 		var decision = false;
 		if(!decision) decision = parseInt(s[populationName['r']]) > 0; 	//ActiveRegularCount
@@ -466,113 +357,7 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 		if(!decision) decision = parseInt(s[populationName['am']]) > 0; //AlienDestroyerCount
 		return decision;
 	}
-	var eventMatrix = [
-		['0','0','0','0','0','0'],	// 0
-		['A','0','0','0','0','0'],	// 1
-		['B','A','0','0','0','0'],	// 2
-		['C','B','A','0','0','0'],	// 3
-		['D','C','B','A','0','0'],	// 4
-		['E','D','C','B','A','0'],	// 5
-		['F','E','D','C','B','A'],	// 6
-	];
-	var event = {
-		'0':{
-			name:'Nothing',
-			desc:'',
-			dissolution:0,
-			civLvl:0,
-			icon:'',
-			color:''
-		},
-		'A':{
-			name:'Seccession Crisis',
-			desc:'After years of becoming increasingly seperatist, a sector of your civilization comprised mostly of one particular species severs all ties with the main body. EFFECT: 10% Dissolution',
-			dissolution:0.1,
-			civLvl:0,
-			icon:'fa fa-exclamation-circle text-danger',
-			color:'red'
-		},
-		'B':{
-			name:'Holy War!',
-			desc:'A charasmatic and fanatical religious leader rises to prominence in the central sector of your civilization. The less tolerant elements in your civilization offer increasing resistance and eventually things turn nasty. A short Holy War breaks out, forcing the central government to take action against the religious order, weakening the cohesion of your civilization. EFFECT: 30% Dissolution',
-			dissolution:0.3,
-			civLvl:0,
-			icon:'fa fa-exclamation-circle text-danger',
-			color:'red'
-		},
-		'C':{
-			name:'Civil War!',
-			desc:'A festering and long-standing inability of two species (which are the most significant) to get along at last breaks out into irreconcilable conflict. The struggle is brief but brutal, and in the aftermath a genuine consensus finally develops - to split down the middle. EFFECT: 50% Dissolution',
-			dissolution:0.5,
-			civLvl:0,
-			icon:'fa fa-exclamation-circle text-danger',
-			color:'red'
-		},
-		'D':{
-			name:'Pharmecutical Crisis',
-			desc:'The discovery of a highly potent and nutritious organic drug proves highly adictive to some three-quarters of the sentient population of your civilization. The effects of its consequent wide usage are disastrous for the cohesion of your civilization. EFFECT: 70% Dissolution',
-			dissolution:0.7,
-			civLvl:0,
-			icon:'fa fa-exclamation-circle text-danger',
-			color:'red'
-		},
-		'E':{
-			name:'Societal Collapse',
-			desc:'A gradual but irreversable trend to decay develops in the capacity of the central government to maintain active control. A crisis reveals the bankruptcy of the older order, and the consequence is a non-violent but virtually complete secession of most of the species in your civilization. EFFECT: 80% Dissolution',
-			dissolution:0.8,
-			civLvl:0,
-			icon:'fa fa-exclamation-circle text-danger',
-			color:'red'
-		},
-		'F':{
-			name:'Revolutionary Crisis',
-			desc:'After the supreme leader is assasinated a military junta assumes control over a vast majority of your civilization. But resentment builds and a tiny rebellion movement gains popularity among a tiny minority of the population. The military junta foolishly ignores the movement, allowing it to grow until a full scale Revolution breaks out, leading to total anarchy. EFFECT: 90% Dissolution',
-			dissolution:0.9,
-			civLvl:0,
-			icon:'fa fa-exclamation-circle text-danger',
-			color:'red'
-		},
-		'G':{
-			name:'',
-			desc:'',
-			dissolution:0,
-			civLvl:0,
-			icon:'',
-			color:''
-		},
-		'H':{
-			name:'',
-			desc:'',
-			dissolution:0,
-			civLvl:0,
-			icon:'',
-			color:''
-		},
-		'I':{
-			name:'',
-			desc:'',
-			dissolution:0,
-			civLvl:0,
-			icon:'',
-			color:''
-		},
-		'J':{
-			name:'',
-			desc:'',
-			dissolution:0,
-			civLvl:0,
-			icon:'',
-			color:''
-		},
-		'K':{
-			name:'',
-			desc:'',
-			dissolution:0,
-			civLvl:0,
-			icon:'',
-			color:''
-		}
-	}
+	
 /*
 	 /$$$$$$$$                 /$$       /$$$$$$$$                           
 	| $$_____/                | $$      |__  $$__/                           
@@ -674,157 +459,16 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 					}
 				}
 			}else{
-				// console.log('editedSectors: ');
-				// console.log(editedSectors);
 				$scope.turn++;
 				turn++;
+                checkCivLvl();
 				relationshipsField.val(relationships);
-				/*
-				if(gw1 && this.BlackHole == 0 && this.HasARCBase){
-					console.log(this.X+'x'+this.Y+': '+this.BaseGPot+'/'+this.HasARCBase);
-					var rploss = Math.ceil(this.ARCBasePoints*0.5);
-					notification('G-Wave Hit!','A gravity wave has hit one of your ARCBases and has wiped out '+rploss+' Resource Points!','red');
-					this.ARCBasePoints = rploss;
-				}
-				if(gw2 && this.BlackHole == 0 && this.HasARCBase){
-					//this.ARCBasePoints -= Math.ceil(this.ARCBasePoints*0.25);
-				}
-				if(gw3 && this.BlackHole == 0 && this.HasARCBase){
-					//this.ARCBasePoints -= Math.ceil(this.ARCBasePoints*0.125);
-				}*/
-
-				//$j('[id$=turns]').val($scope.turn);
 				$scope.save();
 			}
 		}
 		gameover = !canBuildRegulars && $scope.regularFleetCount < 2;
 		if(gwaveHit) notification('G-Wave Hit!','A gravity wave has hit your civilization and you have lost resource points!','red');
-		
-		if(gameover){
-			$j('#gameOverModal').modal({backdrop:'static'});
-			//$j('#gameOverModal').modal('show'); //notification('Game Over','Oh no, it seems your civilization has depleted its resources and can no longer support ARC technology. Slow inevitable decline has set in.','red');
-		
-		} 
-
-		// var eventOcurred = randomIntFromInterval(1,10)>5;
-		// var eventMatrixIndex = Math.min(6,Math.floor($scope.resourcePoints/10));
-		// var eventIndex = randomIntFromInterval(0,5);
-		// var eventThatOcurred = {};
-		// if(eventOcurred){
-		// 	if(Math.floor(event[eventMatrix[eventMatrixIndex][eventIndex]].dissolution * $scope.arcbaseCount)>0){
-		// 		eventThatOcurred = event[eventMatrix[eventMatrixIndex][eventIndex]];
-
-		// 	}
-		// }
-		// console.log('event info: '+eventOcurred+'/'+eventMatrixIndex+'/'+eventIndex);
-		// console.log(eventThatOcurred);
-		// console.log($scope.turn);
-		//if($scope.showGWaveMessage){
-		//	notification('Gravity Wave','Dangerous Gravity Waves eminating from the center of the gravity have destroyed your ARC Base.','red');
-		//}else{
-			//notification('Turn Ended','All fleets and bases are now active.','green');	
-		//}		
-		/*
-		for (var i = 0; i <= $scope.sectors.length; i++) {
-			if(i>$scope.sectors.length){
-				var hab = $scope.sectors[i].HasARCBase?1:0;
-				var terrainObject={'Empty':0,'Interspiral':1,'Fringe':2,'Axis':3,'Nucleus':4,'Core':5};
-
-
-				var sector = $scope.sectors[i].X+','+
-					$scope.sectors[i].Y+','+
-					terrainObject[$scope.sectors[i].Terrain]+','+
-					$scope.sectors[i].IsHomeSector+','+
-					$scope.sectors[i].BlackHole+','+
-					$scope.sectors[i].BaseGPot+','+
-					$scope.sectors[i].BaseRPot+','+
-					$scope.sectors[i].DarkMatter+','+
-					$scope.sectors[i].ResourceValue+','+
-					hab+','+
-					$scope.sectors[i].ARCBasePoints+','+
-					$scope.sectors[i].TotalRegularCount()+','+
-					$scope.sectors[i].TotalExplorerCount()+','+
-					$scope.sectors[i].TotalDestroyerCount()+','+
-					$scope.sectors[i].AlienARCBase+','+
-					$scope.sectors[i].AlienRegularCount+','+
-					$scope.sectors[i].AlienExplorerCount+','+
-					$scope.sectors[i].AlienDestroyerCount;
-				if(i<1001){
-					if(is.undefined($scope.sectorJSON1)){
-		        		$scope.sectorJSON1 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON1 += sector;
-		        		if(i < 1000) $scope.sectorJSON1 += ';';
-		        	}
-				}else if(i<2001){
-					if(is.undefined($scope.sectorJSON2)){
-		        		$scope.sectorJSON2 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON2 += sector;
-		        		if(i < 2000) $scope.sectorJSON2 += ';';
-		        	}
-				}else if(i<3001){
-					if(is.undefined($scope.sectorJSON3)){
-		        		$scope.sectorJSON3 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON3 += sector;
-		        		if(i < 3000) $scope.sectorJSON3 += ';';
-		        	}
-				}else if(i<4001){
-					if(is.undefined($scope.sectorJSON4)){
-		        		$scope.sectorJSON4 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON4 += sector;
-		        		if(i < 4000) $scope.sectorJSON4 += ';';
-		        	}
-				}else if(i<5001){
-					if(is.undefined($scope.sectorJSON5)){
-		        		$scope.sectorJSON5 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON5 += sector;
-		        		if(i < 5000) $scope.sectorJSON5 += ';';
-		        	}
-				}else if(i<6001){
-					if(is.undefined($scope.sectorJSON6)){
-		        		$scope.sectorJSON6 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON6 += sector;
-		        		if(i < 6000) $scope.sectorJSON6 += ';';
-		        	}
-				}else if(i<7001){
-					if(is.undefined($scope.sectorJSON7)){
-		        		$scope.sectorJSON7 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON7 += sector;
-		        		if(i < 7000) $scope.sectorJSON7 += ';';
-		        	}
-				}else if(i<8001){
-					if(is.undefined($scope.sectorJSON8)){
-		        		$scope.sectorJSON8 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON8 += sector;
-		        		if(i < 8000) $scope.sectorJSON8 += ';';
-		        	}
-				}else if(i<9001){
-					if(is.undefined($scope.sectorJSON9)){
-		        		$scope.sectorJSON9 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON9 += sector;
-		        		if(i < 9000) $scope.sectorJSON9 += ';';
-		        	}
-				}else if(i<10001){
-					if(is.undefined($scope.sectorJSON10)){
-		        		$scope.sectorJSON10 = sector + ';';
-		        	}else{
-		        		$scope.sectorJSON10 += sector;
-		        		if(i < 10000) $scope.sectorJSON10 += ';';
-		        	}
-				}							
-			}else{
-    			af__endTurn();
-    		}
-		};	
-		*/					
+		if(gameover)$j('#gameOverModal').modal({backdrop:'static'}); 			
 	}
 	var civSettings = {
 		lvl1:{
@@ -949,38 +593,30 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 	$scope.gwaveFilterShown = true;
 	$scope.gWaveSectors = [];
 	$scope.gWaveSector = function(x,y){
-		//return false;
 		var d = distance({x:50,y:50},{x:x,y:y});
 		var t = turn%50;		
 		var gw = (d >= t-1) && (d <= t+1);
 		if(gw && $scope.sectors[getIndex(x,y)].BlackHole == 0){
-			//$scope.sectors[getIndex(x,y)].HasARCBase = false;
 			$scope.sectors[getIndex(x,y)].ARCBasePoints = 0;
-			//$scope.showGWaveMessage = true;
 		}
 		return gw;
 	}
 	function showRange(x, y, r){
 		$scope.VisibleInARCSpace = new Object;
-	    for(var j=x-r; j<=x+r; j++)
-	    {   
-	    	for(var k=y-r; k<=y+r; k++)
-	        {   
+	    for(var j=x-r; j<=x+r; j++){   
+	    	for(var k=y-r; k<=y+r; k++){   
 	        	if(distance({x:j,y:k},{x:x,y:y}) <= r){
-	        		if(!darkMatterInPath({x: x,y: y}, {x: j,y: k}))
-	        		{
+	        		if(!darkMatterInPath({x: x,y: y}, {x: j,y: k})){
 	        			$scope.VisibleInARCSpace[j+'x'+k] = true;
 	        		}
 	        		if(is.not.undefined($scope.sectors[getIndex(j,k)])){
-                        if($scope.sectors[getIndex(j,k)].DarkMatter)
-            			{
+                        if($scope.sectors[getIndex(j,k)].DarkMatter){
             				$scope.VisibleInARCSpace[j+'x'+k] = true;
             			}
                     }
 	        	}
 	        }
 	    }
-	    // console.log($scope.VisibleInARCSpace);
 	}
 	$scope.maintenanceCost = function(){
     	var mc = $scope.regularFleetCount + $scope.explorerFleetCount  + $scope.destroyerFleetCount;
@@ -999,68 +635,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     		// Delete fleets
     	};
     }
-    // $scope.allConstructSize = function(type){            	
-    // 	if(type == 'regular'){
-    // 		return Object.size($scope.allRegularFleets);
-    // 	}else if(type == 'explorer'){
-    // 		return Object.size($scope.allExplorerFleets);
-    // 	}else if(type == 'destroyer'){
-    // 		return Object.size($scope.allDestroyerFleets);
-    // 	}else{
-    // 		return Object.size($scope.allARCBases);
-    // 	}
-    // }
-/*
-      /$$$$$$  /$$                                                     /$$      /$$                 /$$          
-     /$$__  $$| $$                                                    | $$$    /$$$                | $$          
-    | $$  \__/| $$$$$$$   /$$$$$$  /$$$$$$$   /$$$$$$   /$$$$$$       | $$$$  /$$$$  /$$$$$$   /$$$$$$$  /$$$$$$ 
-    | $$      | $$__  $$ |____  $$| $$__  $$ /$$__  $$ /$$__  $$      | $$ $$/$$ $$ /$$__  $$ /$$__  $$ /$$__  $$
-    | $$      | $$  \ $$  /$$$$$$$| $$  \ $$| $$  \ $$| $$$$$$$$      | $$  $$$| $$| $$  \ $$| $$  | $$| $$$$$$$$
-    | $$    $$| $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$_____/      | $$\  $ | $$| $$  | $$| $$  | $$| $$_____/
-    |  $$$$$$/| $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$$|  $$$$$$$      | $$ \/  | $$|  $$$$$$/|  $$$$$$$|  $$$$$$$
-     \______/ |__/  |__/ \_______/|__/  |__/ \____  $$ \_______/      |__/     |__/ \______/  \_______/ \_______/
-                                             /$$  \ $$                                                           
-                                            |  $$$$$$/                                                           
-                                             \______/                                                            
-*/
-    $scope.changeMode = function(mode){                
-        // Default Scanner Mode
-        $scope.mode = mode;
-        $scope.showSectorInfo = true;
-        $scope.showSectorContents = false;
-        $scope.showResourcePoints = false;
-        $scope.arcFilterShown = false;
-        $scope.attackButtonEnabled = true;
-            $scope.arcCalcButtonEnabled = true;
-        $scope.hideArc();
-        $scope.resizeConsoleLog();
-        if(mode == 'ARC'){
-            // ARC Mode
-            $scope.showSectorContents = true;
-            $scope.showArcCalcContents = true;
-            $scope.resizeConsoleLog();
-        }else if(mode == 'ARC Calc'){
-            // ARC Calc Mode
-            $scope.arcCalcButtonEnabled = false;
-            $scope.showSectorContents = true;
-            $scope.arcFilterShown = true;
-        	$scope.attackButtonEnabled = false;
-            $scope.resizeConsoleLog();
-        }else if(mode == 'Explore'){
-            // Explore Mode
-            $scope.showSectorContents = true;
-            $scope.showResourcePoints = true;
-            $scope.resizeConsoleLog();
-        }else if(mode == 'Combat'){
-            // Combat Mode
-            $scope.showSectorContents = true;
-            $scope.resizeConsoleLog();
-        }else if(mode == 'Construction'){
-            // Construction Mode
-            $scope.showSectorContents = true;
-            $scope.resizeConsoleLog();
-        }
-    }
 /*
      /$$      /$$                 /$$                 /$$$$$$$$                              /$$     /$$                              
     | $$$    /$$$                | $$                | $$_____/                             | $$    |__/                              
@@ -1071,6 +645,45 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     | $$ \/  | $$|  $$$$$$/|  $$$$$$$|  $$$$$$$      | $$   |  $$$$$$/| $$  | $$|  $$$$$$$  |  $$$$/| $$|  $$$$$$/| $$  | $$ /$$$$$$$/
     |__/     |__/ \______/  \_______/ \_______/      |__/    \______/ |__/  |__/ \_______/   \___/  |__/ \______/ |__/  |__/|_______/ 
 */
+// Change Mode
+    $scope.changeMode = function(mode){                
+// Default Scanner Mode
+        $scope.mode = mode;
+        $scope.showSectorInfo = true;
+        $scope.showSectorContents = false;
+        $scope.showResourcePoints = false;
+        $scope.arcFilterShown = false;
+        $scope.attackButtonEnabled = true;
+        $scope.arcCalcButtonEnabled = true;
+        $scope.hideArc();
+        $scope.resizeConsoleLog();
+        if(mode == 'ARC'){
+// ARC Mode
+            $scope.showSectorContents = true;
+            $scope.showArcCalcContents = true;
+            $scope.resizeConsoleLog();
+        }else if(mode == 'ARC Calc'){
+// ARC Calc Mode
+            $scope.arcCalcButtonEnabled = false;
+            $scope.showSectorContents = true;
+            $scope.arcFilterShown = true;
+        	$scope.attackButtonEnabled = false;
+            $scope.resizeConsoleLog();
+        }else if(mode == 'Explore'){
+// Explore Mode
+            $scope.showSectorContents = true;
+            $scope.showResourcePoints = true;
+            $scope.resizeConsoleLog();
+        }else if(mode == 'Combat'){
+// Combat Mode
+            $scope.showSectorContents = true;
+            $scope.resizeConsoleLog();
+        }else if(mode == 'Construction'){
+// Construction Mode
+            $scope.showSectorContents = true;
+            $scope.resizeConsoleLog();
+        }
+    }
     $scope.scannerMode = function(){
         $scope.changeMode('Scanner');
     }
@@ -1134,14 +747,12 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     	}
     ];
     $scope.exploreSector = function(){
-        // console.log('## exploreSector() ##');
-// determine explored Resource Value
+// Determine explored Resource Value
         var exploredRP = randomIntFromInterval(0,7) + $scope.selectedSector.BaseRPot;
 // Create new Explorer Log Entry
         var xpLog;
         var explored = $scope.selectedSector.Explored;
-        var explorable = false;		                
-        
+        var explorable = false;	                        
         if($scope.selectedSector.Terrain == 'Axis' || $scope.selectedSector.Terrain == 'Fringe' || $scope.selectedSector.Terrain == 'Interspiral' || ($scope.selectedSector.Terrain == 'Interspiral' && $scope.selectedSector.BlackHole > 0) || $scope.selectedSector.BlackHole > 0) explorable = true;
         if(explorable){
             if(!explored){  		                                         
@@ -1151,10 +762,8 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 	            	spendActionPoints(0,$scope.explorer_fleetsSelected,0,0);
 	                var exploreRoll = isDebug?0:randomIntFromInterval(1,6);
                     if(exploreRoll <= $scope.explorer_fleetsSelected){
-	                    // console.log('beginning Exploration with '+$scope.explorer_fleetsSelected+' fleets');                          
 	                    $scope.ARCFleetSFX('E1');
 	                    if($scope.selectedSector.BlackHole == 10){
-	                    	//$scope.discoveries.push($scope.discovery[0]);
 	                    	notification($scope.discovery[0].Title,$scope.discovery[0].Description,'green');
 	                    }else{
 		                    if($scope.selectedSector.HasContacts()){
@@ -1163,9 +772,7 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 		                		notification('Exploration','Sector '+$scope.selectedSector.X+'x'+$scope.selectedSector.Y+' has been explored. The fleet was able to discover '+$scope.selectedSector.ResourceValue+' potential resource points.','green');      
 		                    }
 		                    af__markExplored();
-
 		                    var discoveryRoll = randomIntFromInterval(0,100);
-
 		                    $scope.selectedSector.Explored = true;  
 		                }
 	                    $scope.save();		                   
@@ -1228,8 +835,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 // If no roll value has been passed, roll the dice
         if(r == null) arcRoll = randomIntFromInterval(1,100) + (50-($scope.civLvl*10));
         if(arcRoll >= 100) arcRoll = 99;
-        // console.log('Beginning ARC');
-//notification('ARC','Calc: '+$scope.fleet_arcCalc+' / Roll: '+arcRoll,'red');
         if(arcRoll < $scope.fleet_arcCalc){
 // Successful ARC
             $scope.ARCFleetSFX('A2');
@@ -1289,20 +894,12 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             if($scope.explorer_fleetsSelected>0) fleetLossMatrixKey+='e';
             if($scope.destroyer_fleetsSelected>0) fleetLossMatrixKey+='d';
 
-            // console.log('fleetLossMatrixKey: '+fleetLossMatrixKey);
-
             var numberOfLostRegulars = Math.max(0,Math.floor(numberOfLostFleets*fleetLossMatrix[fleetLossMatrixKey][0]));
             var numberOfLostExplorers = Math.max(0,Math.floor(numberOfLostFleets*fleetLossMatrix[fleetLossMatrixKey][1]));
             var numberOfLostDestroyers = Math.max(0,Math.floor(numberOfLostFleets*fleetLossMatrix[fleetLossMatrixKey][2]));
 
-            // console.log('totalARCingFleets: '+totalARCingFleets);
-            // console.log('numberOfLostFleets: '+numberOfLostFleets);
-            // console.log('numberOfLostRegulars: '+numberOfLostRegulars);
-            // console.log('numberOfLostExplorers: '+numberOfLostExplorers);
-            // console.log('numberOfLostDestroyers: '+numberOfLostDestroyers);
-
             if(numberOfLostFleets>0){
-                // Notification
+// Notification
                 var regularLossMessage = numberOfLostRegulars>0?numberOfLostRegulars+' regulars':'';
                 var explorerLossMessage = numberOfLostExplorers>0?numberOfLostExplorers+' explorers':'';
                 var destroyerLossMessage = numberOfLostDestroyers>0?numberOfLostDestroyers+' destroyers':'';
@@ -1314,52 +911,34 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                 if(lossMessageArray.length == 1) lossMessage = lossMessageArray[0];
                 if(lossMessageArray.length == 2) lossMessage = lossMessageArray[0]+' and '+lossMessageArray[1];
                 if(lossMessageArray.length == 3) lossMessage = lossMessageArray[0]+', '+lossMessageArray[1]+', and '+lossMessageArray[2];
-                
                 notification('Dissolution!','Your fleet suffered '+(scatterDissolution*100)+'% dissolution, resulting in a loss of '+lossMessage+'.','red');
             }  
             moveFleets($scope.regular_fleetsSelected-numberOfLostRegulars,$scope.explorer_fleetsSelected-numberOfLostExplorers,$scope.destroyer_fleetsSelected-numberOfLostDestroyers);
         } 
-		// Enter Scanner Mode
+// Enter Scanner Mode
         $scope.scannerMode();
     }
-/*
-     /$$      /$$                                     /$$$$$$$$ /$$                       /$$             
-    | $$$    /$$$                                    | $$_____/| $$                      | $$             
-    | $$$$  /$$$$  /$$$$$$  /$$    /$$ /$$$$$$       | $$      | $$  /$$$$$$   /$$$$$$  /$$$$$$   /$$$$$$$
-    | $$ $$/$$ $$ /$$__  $$|  $$  /$$//$$__  $$      | $$$$$   | $$ /$$__  $$ /$$__  $$|_  $$_/  /$$_____/
-    | $$  $$$| $$| $$  \ $$ \  $$/$$/| $$$$$$$$      | $$__/   | $$| $$$$$$$$| $$$$$$$$  | $$   |  $$$$$$ 
-    | $$\  $ | $$| $$  | $$  \  $$$/ | $$_____/      | $$      | $$| $$_____/| $$_____/  | $$ /$$\____  $$
-    | $$ \/  | $$|  $$$$$$/   \  $/  |  $$$$$$$      | $$      | $$|  $$$$$$$|  $$$$$$$  |  $$$$//$$$$$$$/
-    |__/     |__/ \______/     \_/    \_______/      |__/      |__/ \_______/ \_______/   \___/ |_______/ 
-*/
+// Move Fleets
     function moveFleets(r,e,d){
-    	//console.log('Move '+$scope.regular_fleetsSelected+' regulars, '+$scope.explorer_fleetsSelected+' explorers, and '+$scope.destroyer_fleetsSelected+' destroyers from '+$scope.selectedSector.X+'x'+$scope.selectedSector.Y+' to '+$scope.destinationSector.X+'x'+$scope.destinationSector.Y);
-    	
     	if(civlvl.canBlackHoleTravel() && $scope.destinationSector.BlackHole>0 && $scope.destinationSector.BlackHole<10){
-    		//if($scope.destinationSector.BlackHole<10){
-    			// Not central Black Hole
-    			//console.log('Black Hole Travel');
-	    		// Pick a connecting Black Hole
-	    		var blackHoleList = [];
-	    		var matchingBlackHoles = blackHoles[$scope.destinationSector.BlackHole].length;
-	    		if(matchingBlackHoles>0){
-	    			for (var i = 0; i < blackHoles[$scope.destinationSector.BlackHole].length; i++) {
-	        			if(blackHoles[$scope.destinationSector.BlackHole][i].x == $scope.destinationSector.X && blackHoles[$scope.destinationSector.BlackHole][i].y == $scope.destinationSector.Y){
-							//console.log(blackHoles[$scope.destinationSector.BlackHole][i]);
-	            			//console.log($scope.destinationSector);
-						}else{	
-							blackHoleList.push(blackHoles[$scope.destinationSector.BlackHole][i])
-	        			}
-	        		};
-	        		//console.log('blackHoleList: ');
-	        		//console.log(blackHoleList);
-	    			var ran = randomIntFromInterval(0,blackHoleList.length-1);
-	    			//console.log(ran);
-	    			var randomBlackHole = blackHoleList[ran];
-	    			$scope.destinationSector = sectors[getIndex(randomBlackHole.x,randomBlackHole.y)];
-	    			notification('Black Hole ARC','Your fleets have traveled through a black hole!','yellow');
-	    		}
-	    	//}
+// Not central Black Hole
+// Pick a connecting Black Hole
+    		var blackHoleList = [];
+    		var matchingBlackHoles = blackHoles[$scope.destinationSector.BlackHole].length;
+    		if(matchingBlackHoles>0){
+    			for (var i = 0; i < blackHoles[$scope.destinationSector.BlackHole].length; i++) {
+        			if(blackHoles[$scope.destinationSector.BlackHole][i].x == $scope.destinationSector.X && blackHoles[$scope.destinationSector.BlackHole][i].y == $scope.destinationSector.Y){
+						//console.log(blackHoles[$scope.destinationSector.BlackHole][i]);
+            			//console.log($scope.destinationSector);
+					}else{	
+						blackHoleList.push(blackHoles[$scope.destinationSector.BlackHole][i])
+        			}
+        		};
+    			var ran = randomIntFromInterval(0,blackHoleList.length-1);
+    			var randomBlackHole = blackHoleList[ran];
+    			$scope.destinationSector = sectors[getIndex(randomBlackHole.x,randomBlackHole.y)];
+    			notification('Black Hole ARC','Your fleets have traveled through a black hole!','yellow');
+    		}
     	}
     	$scope.selectedSector.ActiveRegularCount -= $scope.regular_fleetsSelected;
     	$scope.selectedSector.ActiveExplorerCount -= $scope.explorer_fleetsSelected;
@@ -1370,9 +949,9 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     	}
     	var destroyedByBlackhole = false;
     	if($scope.destinationSector.BlackHole == 10){
-    		if(!civlvl.canARC('CentralBlackHole')){
-	    		destroyedByBlackhole = true;
-	    		
+// Is central black hole
+            if(!civlvl.canARC('CentralBlackHole')){
+	    		destroyedByBlackhole = true;	    		
 	    	}else{
 		    	var centralBlackHoleMessage = 'Congratulations, after a long and arduous journey, you have finally reached the central black hole! What wonders are there to discover here at the heart of the galaxy?';
 	    		centralBlackHoleMessage += e>0?' There is one way to find out.':' Too bad you didn\'t bring any explorers. ;(';
@@ -1390,20 +969,18 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         		notification('Black Hole Too Powerful','The gravity of the central black hole proved too great for your fleets to endure.','red');
         	}else{
 	        	if($scope.destinationSector.HasARCBase){		            		
-	            	$scope.destinationSector.ActiveRegularCount += r; // $scope.regular_fleetsSelected;
-	            	$scope.destinationSector.ActiveExplorerCount += e; // $scope.explorer_fleetsSelected;
-	            	$scope.destinationSector.ActiveDestroyerCount += d; // $scope.destroyer_fleetsSelected;
+	            	$scope.destinationSector.ActiveRegularCount += r;
+	            	$scope.destinationSector.ActiveExplorerCount += e;
+	            	$scope.destinationSector.ActiveDestroyerCount += d;
 	        	}else{
-	            	$scope.destinationSector.InactiveRegularCount += r; // $scope.regular_fleetsSelected;
-	            	$scope.destinationSector.InactiveExplorerCount += e; // $scope.explorer_fleetsSelected;
-	            	$scope.destinationSector.InactiveDestroyerCount += d; // $scope.destroyer_fleetsSelected;
+	            	$scope.destinationSector.InactiveRegularCount += r;
+	            	$scope.destinationSector.InactiveExplorerCount += e;
+	            	$scope.destinationSector.InactiveDestroyerCount += d;
 	        	} 
 	        }
     	} 		                                
-        $scope.selectSector($scope.destinationSector.X,$scope.destinationSector.Y); 
-        
-		$scope.save();
-		           
+        $scope.selectSector($scope.destinationSector.X,$scope.destinationSector.Y);         
+		$scope.save();		           
     }
 /*
       /$$$$$$  /$$$$$$$$ /$$$$$$$$ /$$$$$$   /$$$$$$  /$$   /$$
@@ -1445,82 +1022,43 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 		'remaining':0
 	};
 	$scope.recon = function(){
-		// console.log('Recon()');
         $scope.rand = randomIntFromInterval(1,10);
         $scope.augmentedRoll = Math.max(1,Math.ceil(($scope.rand + ($scope.attacker.destroyers - $scope.selectedSector.AlienDestroyerCount)) / 3));
-
         $scope.attacker.regulars = $scope.regular_fleetsSelected;
         $scope.attacker.explorers = $scope.explorer_fleetsSelected;
         $scope.attacker.destroyers = $scope.destroyer_fleetsSelected;
-        
         $scope.attacker.trueConflictCapacity = Math.max(1,(($scope.attacker.sum() - $scope.attacker.explorers) + $scope.attacker.destroyers) + $scope.augmentedRoll);
         $scope.defender.trueConflictCapacity = Math.max(1,(($scope.defender.sum() - $scope.selectedSector.AlienExplorerCount) + $scope.selectedSector.AlienDestroyerCount) - $scope.augmentedRoll);		                
-        
         $scope.attacker.strengthPercentage = $scope.attacker.trueConflictCapacity/$scope.defender.trueConflictCapacity;
         $scope.defender.strengthPercentage = $scope.defender.trueConflictCapacity/$scope.attacker.trueConflictCapacity;
 	}
     $scope.getLosses = function(count,losses,sum,classmod){
-        //return Math.floor(Math.min(count,Math.round(losses * (count/sum)))/classmod);
         return Math.min(count,Math.round((losses * (count/sum))/classmod));
     }
     $scope.attack = function(){
-        // Figure total losses for each side
+// Figure total losses for each side
         $scope.attacker.losses = Math.max(0,Math.ceil((($scope.defender.strengthPercentage/$scope.defender.trueConflictCapacity) * $scope.defender.sum()) + $scope.augmentedRoll));
         $scope.defender.losses = Math.max(0,Math.ceil((($scope.attacker.strengthPercentage/$scope.attacker.trueConflictCapacity) * $scope.attacker.sum()) + $scope.augmentedRoll));
-        
-        // Defender
-        // Figure per type losses
+// Defender
+// Figure per type losses
         $scope.defender.regularLosses = $scope.getLosses($scope.selectedSector.AlienRegularCount,$scope.defender.losses,$scope.defender.sum(),1);
         $scope.defender.explorerLosses = $scope.getLosses($scope.selectedSector.AlienExplorerCount,$scope.defender.losses,$scope.defender.sum(),2);
         $scope.defender.destroyerLosses = $scope.getLosses($scope.selectedSector.AlienDestroyerCount,$scope.defender.losses,$scope.defender.sum(),4);
-
-        // Attacker
-        // Figure per type losses
+// Attacker
+// Figure per type losses
         $scope.attacker.regularLosses = $scope.getLosses($scope.attacker.regulars,$scope.attacker.losses,$scope.attacker.sum(),1);
         $scope.attacker.explorerLosses = $scope.getLosses($scope.attacker.explorers,$scope.attacker.losses,$scope.attacker.sum(),2);
-        $scope.attacker.destroyerLosses = $scope.getLosses($scope.attacker.destroyers,$scope.attacker.losses,$scope.attacker.sum(),4);
-
-        // console.log('**** ATTACK RESULTS ****');
-        // console.log('(RAND(1-10):'+$scope.rand+' + (ATTDEST:'+$scope.attacker.destroyers+' - DEFDEST:'+$scope.selectedSector.AlienDestroyerCount+')) / 3');
-        // console.log('Augmented Roll: '+$scope.augmentedRoll);
-        // console.log('**');
-        // console.log('Attacker Fleets:');
-        // console.log('Regulars: '+$scope.attacker.regulars);
-        // console.log('Explorers: '+$scope.attacker.explorers);
-        // console.log('Destroyers: '+$scope.attacker.destroyers);
-        // console.log('True Conflict Capacity: '+$scope.attacker.trueConflictCapacity);
-        // console.log('**');
-        // console.log('Defender Fleets:');
-        // console.log('Regulars: '+$scope.selectedSector.AlienRegularCount);
-        // console.log('Explorers: '+$scope.selectedSector.AlienExplorerCount);
-        // console.log('Destroyers: '+$scope.selectedSector.AlienDestroyerCount);
-        // console.log('True Conflict Capacity: '+$scope.defender.trueConflictCapacity);
-        // console.log('****');
-        // console.log('Attacker Total Losses: '+$scope.attacker.losses);
-        // console.log('Regulars: ('+$scope.attacker.losses+' * ('+$scope.attacker.regulars+'/'+$scope.attacker.sum()+'))/1 = '+$scope.attacker.regularLosses);
-        // console.log('Explorers: ('+$scope.attacker.losses+' * ('+$scope.attacker.explorers+'/'+$scope.attacker.sum()+'))/2 = '+$scope.attacker.explorerLosses);
-        // console.log('Destroyers: ('+$scope.attacker.losses+' * ('+$scope.attacker.destroyers+'/'+$scope.attacker.sum()+'))/3 = '+$scope.attacker.destroyerLosses);
-        // console.log('**');
-        // console.log('Defender Total Losses: '+$scope.defender.losses);
-        // console.log('Regulars: ('+$scope.defender.losses+' * ('+$scope.selectedSector.AlienRegularCount+'/'+$scope.defender.sum()+'))/1 = '+$scope.defender.regularLosses);
-        // console.log('Explorers: ('+$scope.defender.losses+' * ('+$scope.selectedSector.AlienExplorerCount+'/'+$scope.defender.sum()+'))/2 = '+$scope.defender.explorerLosses);
-        // console.log('Destroyers: ('+$scope.defender.losses+' * ('+$scope.selectedSector.AlienDestroyerCount+'/'+$scope.defender.sum()+'))/3 = '+$scope.defender.destroyerLosses);
-        // console.log('**** END ATTACK RESULTS ****');
-                    
+        $scope.attacker.destroyerLosses = $scope.getLosses($scope.attacker.destroyers,$scope.attacker.losses,$scope.attacker.sum(),4);            
     	spendActionPoints($scope.attacker.regulars,$scope.attacker.explorers,$scope.attacker.destroyers,0);
     	if($scope.attacker.regulars   > 0 && $scope.attacker.regularLosses   > 0) $scope.selectedSector.InactiveRegularCount -= $scope.attacker.regularLosses;
         if($scope.attacker.explorers  > 0 && $scope.attacker.explorerLosses  > 0) $scope.selectedSector.InactiveExplorerCount -= $scope.attacker.explorerLosses;
         if($scope.attacker.destroyers > 0 && $scope.attacker.destroyerLosses > 0) $scope.selectedSector.InactiveDestroyerCount -= $scope.attacker.destroyerLosses;
-        
         if($scope.selectedSector.AlienRegularCount   > 0 && $scope.defender.regularLosses   > 0) $scope.selectedSector.AlienRegularCount -= $scope.defender.regularLosses;
         if($scope.selectedSector.AlienExplorerCount  > 0 && $scope.defender.explorerLosses  > 0) $scope.selectedSector.AlienExplorerCount -= $scope.defender.explorerLosses;
         if($scope.selectedSector.AlienDestroyerCount > 0 && $scope.defender.destroyerLosses > 0) $scope.selectedSector.AlienDestroyerCount -= $scope.defender.destroyerLosses;
-		
         notification('Combat Results ('+$scope.selectedSector.X+'x'+$scope.selectedSector.Y+')','Attacker Loses: <b><ul><li>Regulars: '+$scope.attacker.regularLosses+'</li><li>Explorers :'+$scope.attacker.explorerLosses+'</li><li>Destroyers: '+$scope.attacker.destroyerLosses+'</li></ul></b><p/>Defender Loses:<b><ul><li>Regulars: '+$scope.defender.regularLosses+'</li><li>Explorers: '+$scope.defender.explorerLosses+'</li><li>Destroyers: '+$scope.defender.destroyerLosses+'</li></ul></b>','blue');
-	    
         $scope.attacker.remaining = Math.max(0,Math.ceil($scope.attacker.sum() - $scope.attacker.losses));
         $scope.defender.remaining = Math.max(0,Math.ceil($scope.defender.sum() - $scope.defender.losses));
-        
         $scope.scanSector($scope.selectedSector.X,$scope.selectedSector.Y);
     }
     $scope.reduced = false;
@@ -1580,8 +1118,7 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     $scope.build = function(ncClass,ncType){
         if(ncType=='fleet'){
 // Build Fleet
-            // console.log('Building new '+ncClass+' Fleet');		            
-           	$scope.ARCFleetSFX('B2');
+            $scope.ARCFleetSFX('B2');
            	if(ncClass=='regular'){
 // Build Regular
            		$scope.spendResources($scope.regularCost);
@@ -1601,15 +1138,13 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             $scope.save();			                          	
         }else{
 // Build ARCBase
-            // console.log('Building new ARC Base');
-          	$scope.ARCFleetSFX('B2');
+            $scope.ARCFleetSFX('B2');
             $scope.selectedSector.ActiveRegularCount -= 2;
             $scope.selectedSector.HasARCBase = true;
             $scope.selectedSector.ARCBasePoints = 1;
             $scope.save();
         }
-    }
-		        
+    }		        
 /*
       /$$$$$$                                                          /$$    
      /$$__  $$                                                        | $$    
@@ -1624,7 +1159,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                          \______/                                             
 */
     $scope.augment = function(ncClass,ncType){
-        // console.log('## augment() ##');
 // Enter Construction Mode
         $scope.constructionMode();
 // What are we building?               
@@ -1642,13 +1176,12 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                 	$scope.selectedSector.ARCBasePoints++;
                 	spendActionPoints(0,0,0,1);
                 	$scope.selectedSector.ActiveRegularCount--;
-                	$scope.save();
-		                            
+                	$scope.save();		                            
     			}else{
     				notification('Cannot Augment ARC Base','This ARC Base has reached its full potential of resource point production and cannot be augmented further. ARC Bases that are operating at full capacity are outlined in blue.','red');
                 }
             }else if($scope.selectedSector.ResourceValue > 0){
-	        // There is no ARCBase here, let us build one
+// There is no ARCBase here, let us build one
                 notification('ARC Base Construction Begun','Construction of ARC Base is under way. When construction is complete next turn, it may be augmented by regular fleets in order to increase its resource point production.','blue');
                 $scope.build('regular','arcbase');
             }else if($scope.selectedSector.HasContactARCBase()){
@@ -1758,7 +1291,7 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         if(!$scope.selectedSector.HasARCBase){
             $scope.regular_actionButtonEnabled = $scope.regular_fleetsSelected > 1 && $scope.explorer_fleetsSelected == 0 && $scope.destroyer_fleetsSelected == 0;
         }else{
-            // If ARCBase is out of Action Points, do not allow regular to augment  
+// If ARCBase is out of Action Points, do not allow regular to augment  
             if(!$scope.selectedSector.ARCBaseIsActive){
                 $scope.regular_actionButtonEnabled = false;
             }else{
@@ -1790,13 +1323,11 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     	value: $scope.regular_fleetsSelected,
     	max: 0
     }).on('slideStop',function(slideEvt){
-        //console.log('regSlider Value: '+slideEvt.value);
         $scope.$apply(function(){
             $scope.regular_fleetsSelected = slideEvt.value;
             $scope.sliderStop();
         });                      
-    }).data('slider');
-    
+    }).data('slider');    
     var exSlider = $j('#explorerSlider').slider({
     	value: $scope.explorer_fleetsSelected,
     	max: 0
@@ -1825,10 +1356,7 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     |  $$$$$$/|  $$$$$$$| $$|  $$$$$$$|  $$$$$$$  |  $$$$/      |  $$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$/| $$      
      \______/  \_______/|__/ \_______/ \_______/   \___/         \______/  \_______/ \_______/   \___/   \______/ |__/      
 */
-    //$scope.destinationSector
     $scope.selectSector = function(x,y){
-        // console.log('## selectSector('+x+','+y+') ##');
-        // console.log('$scope.mode: '+$scope.mode); 
         if($scope.mode == 'Scanner'){
 // Selecting Sector with no Functions activated
 // This is the default behavior
@@ -1852,12 +1380,20 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             }       
         }
     }
-    
+/*   /$$$$$$  /$$ /$$                           /$$$$$$$$                                                     /$$                               /$$      /$$                 /$$           /$$
+    /$$__  $$| $$|__/                          | $$_____/                                                    | $$                              | $$$    /$$$                | $$          | $$
+   | $$  \ $$| $$ /$$  /$$$$$$  /$$$$$$$       | $$       /$$$$$$$   /$$$$$$$  /$$$$$$  /$$   /$$ /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$       | $$$$  /$$$$  /$$$$$$   /$$$$$$$  /$$$$$$ | $$
+   | $$$$$$$$| $$| $$ /$$__  $$| $$__  $$      | $$$$$   | $$__  $$ /$$_____/ /$$__  $$| $$  | $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$      | $$ $$/$$ $$ /$$__  $$ /$$__  $$ |____  $$| $$
+   | $$__  $$| $$| $$| $$$$$$$$| $$  \ $$      | $$__/   | $$  \ $$| $$      | $$  \ $$| $$  | $$| $$  \ $$  | $$    | $$$$$$$$| $$  \__/      | $$  $$$| $$| $$  \ $$| $$  | $$  /$$$$$$$| $$
+   | $$  | $$| $$| $$| $$_____/| $$  | $$      | $$      | $$  | $$| $$      | $$  | $$| $$  | $$| $$  | $$  | $$ /$$| $$_____/| $$            | $$\  $ | $$| $$  | $$| $$  | $$ /$$__  $$| $$
+   | $$  | $$| $$| $$|  $$$$$$$| $$  | $$      | $$$$$$$$| $$  | $$|  $$$$$$$|  $$$$$$/|  $$$$$$/| $$  | $$  |  $$$$/|  $$$$$$$| $$            | $$ \/  | $$|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$
+   |__/  |__/|__/|__/ \_______/|__/  |__/      |________/|__/  |__/ \_______/ \______/  \______/ |__/  |__/   \___/   \_______/|__/            |__/     |__/ \______/  \_______/ \_______/|__/
+*/    
     var stage = new createjs.Stage('alienCanvas');
     var bg = new createjs.Shape();
     var seed = '';
     var linesCont = new createjs.Container();
-    var hudColor = 'hsl(193,40%,20%)'; //'rgba(255,255,255,0.75)';
+    var hudColor = 'hsl(193,40%,20%)';
     var hudBorder = 'rgb(41, 209, 255)';
     var orangeColor = '#F1AF16';
     var lineGraphWidth = 170;
@@ -1866,209 +1402,189 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     var widgets = new createjs.Container();
     var dashes = new createjs.Container();
     var centerline = rifi(20,30);
-
     var tkr = createjs.Ticker;
     tkr.framerate = 24;
     tkr.addEventListener("tick", handleTick);
-
-    $scope.showAliens = function(alienseed){
-        
+    $scope.showAliens = function(alienseed){        
         stage.removeAllChildren();
-            //bg.graphics.beginLinearGradientFill(['#ccc','#000'], [0, 1], 0, 0, 0, 400).drawRect(0, 0, 1000, 500);
-            bg.graphics.beginFill('#000').drawRect(0, 0, 1000, 500);
-            var alien = drawAlien(alienseed);
-            var alien1 = new createjs.Container();
-            alien1.x = 50;
-            alien1.y = 50; 
-            var head1 = alien.head;
-            alien1.addChild(head1);         
-
-            var hud = new createjs.Container();
-            var glow = new createjs.Shadow("hsl(193,40%,70%)", 0, 0, 15);
-            var outline = new createjs.Shape();
-            outline.graphics.setStrokeStyle(1).beginStroke(hudBorder).beginFill(hudColor)
-                .mt(10,20).bt(10,10,10,10,20,10)
-                .lt(580,10).bt(590,10,590,10,590,20)
-                .lt(590,330).bt(590,340,590,340,580,340)
-                .lt(400,340).bt(390,340,390,340,390,330)
-                .lt(390,50).bt(390,40,390,40,380,40)
-                .lt(20,40).bt(10,40,10,40,10,30)
-                .lt(10,20);
-            
-            var alienHeadParts = head1.getChildByName('partsContainer').children;
-            for (var i = 0; i < alienHeadParts.length; i++) {
-                var p = alienHeadParts[i];
-                if(p.name.includes('_Flipped')){
-                    drawPointers(p.x+alien1.x+head1.x+p._bounds.x,p.y+alien1.y+head1.y,hud,350);
-                }
+        bg.graphics.beginFill('#000').drawRect(0, 0, 1000, 500);
+        var alien = drawAlien(alienseed);
+        var alien1 = new createjs.Container();
+        alien1.x = 50;
+        alien1.y = 50; 
+        var head1 = alien.head;
+        alien1.addChild(head1);
+        var hud = new createjs.Container();
+        var glow = new createjs.Shadow("hsl(193,40%,70%)", 0, 0, 15);
+        var outline = new createjs.Shape();
+        outline.graphics.setStrokeStyle(1).beginStroke(hudBorder).beginFill(hudColor)
+            .mt(10,20).bt(10,10,10,10,20,10)
+            .lt(580,10).bt(590,10,590,10,590,20)
+            .lt(590,330).bt(590,340,590,340,580,340)
+            .lt(400,340).bt(390,340,390,340,390,330)
+            .lt(390,50).bt(390,40,390,40,380,40)
+            .lt(20,40).bt(10,40,10,40,10,30)
+            .lt(10,20);            
+        var alienHeadParts = head1.getChildByName('partsContainer').children;
+        for (var i = 0; i < alienHeadParts.length; i++) {
+            var p = alienHeadParts[i];
+            if(p.name.includes('_Flipped')){
+                drawPointers(p.x+alien1.x+head1.x+p._bounds.x,p.y+alien1.y+head1.y,hud,350);
             }
-            drawPointers(rifi(150,200),rifi(100,300),hud,300);
-            drawPointers(rifi(150,200),rifi(100,300),hud,300);
-            drawPointers(rifi(150,200),rifi(100,300),hud,300);
-                        
-            stats.x = 10;
-            stats.y = 40;            
-
-            dnaXArray = [0,1,1,2,2,1,1,0,0];
-            var dna = new createjs.Container();
-            var dnaBox = new createjs.Shape();        
-            var dnaWidth = 50;
-            var scale = Math.floor(dnaWidth/dnaXArray.length);
-            dnaBox.graphics.setStrokeStyle(1).beginStroke(hudBorder).rect(-5,-10,55,100);
-            dna.addChild(dnaBox);
-            var nucColors = ['rgba(255,255,0,0.5)','rgba(0,255,0,0.5)','rgba(255,0,0,0.5)','rgba(0,255,255,0.5)']
-            var dnaX = 0;
-            for (var i = 0; i < dnaXArray.length; i++) {
-                
-                circleSize = 3;
-                var nuc1 = new createjs.Shape();
-                var nuc2 = new createjs.Shape();
-                var bond = new createjs.Shape();
-                nuc1.graphics.setStrokeStyle(1).beginFill(nucColors[alien.dna[i]%nucColors.length]).dc(dnaX,i*10,circleSize)
-                nuc2.graphics.setStrokeStyle(1).beginFill(nucColors[alien.dna[i+dnaXArray.length]%nucColors.length]).dc(dnaWidth-dnaX-scale,i*10,circleSize);
-                bond.graphics.setStrokeStyle(1).beginStroke(hudBorder).mt(dnaX,i*10).lt(dnaWidth-dnaX-scale,i*10);
-                dna.addChild(bond,nuc1,nuc2);
-                dnaX+=dnaXArray[i]*scale;
-            }            
-            dna.x=115;
-            dna.y=140;
-            
-            var axis = new createjs.Shape();
-            axis.graphics.setStrokeStyle(0.5).beginStroke(hudBorder)
-                .dashedLineTo(0,5,lineGraphWidth,5,1)
-                .dashedLineTo(0,10,lineGraphWidth,10,1)
-                .dashedLineTo(0,15,lineGraphWidth,15,1)
-                .dashedLineTo(0,20,lineGraphWidth,20,1)
-                .dashedLineTo(0,25,lineGraphWidth,25,1)
-                .dashedLineTo(0,30,lineGraphWidth,30,1)
-                .dashedLineTo(0,35,lineGraphWidth,35,1)
-                .dashedLineTo(0,40,lineGraphWidth,40,1)
-                .dashedLineTo(0,45,lineGraphWidth,45,1)
-            var lineGraphBox = new createjs.Shape();
-            var lineGraphCont = new createjs.Container();
-            lineGraphBox.graphics.setStrokeStyle(1).beginStroke(hudBorder).mt(0,0).lt(0,50).mt(lineGraphWidth,0).lt(lineGraphWidth,50);
-            
-            lineGraphCont.addChild(axis,lineGraphBox,linesCont);
-            lineGraphCont.x = 0;
-            lineGraphCont.y = 240;
-            
-
-            dashes.x=10;
-            dashes.y=130
-            
-            dataCont.x=10;
-            dataCont.y=0;
-            widgets.addChild(stats,dna,lineGraphCont,dataCont,dashes);
-            widgets.x = 405;
-            widgets.y = 30;
-
-            hud.addChild(outline,widgets);
-
-            stage.addChild(bg);
-            stage.addChild(alien1);
-            stage.addChild(hud);
-            stage.update();
-
-            $j('#history').html(alien.history);
-
-            $j('#contactModal').modal('show');
-        
+        }
+        drawPointers(rifi(150,200),rifi(100,300),hud,300);
+        drawPointers(rifi(150,200),rifi(100,300),hud,300);
+        drawPointers(rifi(150,200),rifi(100,300),hud,300);                        
+        stats.x = 10;
+        stats.y = 40;
+        dnaXArray = [0,1,1,2,2,1,1,0,0];
+        var dna = new createjs.Container();
+        var dnaBox = new createjs.Shape();        
+        var dnaWidth = 50;
+        var scale = Math.floor(dnaWidth/dnaXArray.length);
+        dnaBox.graphics.setStrokeStyle(1).beginStroke(hudBorder).rect(-5,-10,55,100);
+        dna.addChild(dnaBox);
+        var nucColors = ['rgba(255,255,0,0.5)','rgba(0,255,0,0.5)','rgba(255,0,0,0.5)','rgba(0,255,255,0.5)']
+        var dnaX = 0;
+        for (var i = 0; i < dnaXArray.length; i++) {                
+            circleSize = 3;
+            var nuc1 = new createjs.Shape();
+            var nuc2 = new createjs.Shape();
+            var bond = new createjs.Shape();
+            nuc1.graphics.setStrokeStyle(1).beginFill(nucColors[alien.dna[i]%nucColors.length]).dc(dnaX,i*10,circleSize)
+            nuc2.graphics.setStrokeStyle(1).beginFill(nucColors[alien.dna[i+dnaXArray.length]%nucColors.length]).dc(dnaWidth-dnaX-scale,i*10,circleSize);
+            bond.graphics.setStrokeStyle(1).beginStroke(hudBorder).mt(dnaX,i*10).lt(dnaWidth-dnaX-scale,i*10);
+            dna.addChild(bond,nuc1,nuc2);
+            dnaX+=dnaXArray[i]*scale;
+        }            
+        dna.x=115;
+        dna.y=140;            
+        var axis = new createjs.Shape();
+        axis.graphics.setStrokeStyle(0.5).beginStroke(hudBorder)
+            .dashedLineTo(0,5,lineGraphWidth,5,1)
+            .dashedLineTo(0,10,lineGraphWidth,10,1)
+            .dashedLineTo(0,15,lineGraphWidth,15,1)
+            .dashedLineTo(0,20,lineGraphWidth,20,1)
+            .dashedLineTo(0,25,lineGraphWidth,25,1)
+            .dashedLineTo(0,30,lineGraphWidth,30,1)
+            .dashedLineTo(0,35,lineGraphWidth,35,1)
+            .dashedLineTo(0,40,lineGraphWidth,40,1)
+            .dashedLineTo(0,45,lineGraphWidth,45,1)
+        var lineGraphBox = new createjs.Shape();
+        var lineGraphCont = new createjs.Container();
+        lineGraphBox.graphics.setStrokeStyle(1).beginStroke(hudBorder).mt(0,0).lt(0,50).mt(lineGraphWidth,0).lt(lineGraphWidth,50);
+        lineGraphCont.addChild(axis,lineGraphBox,linesCont);
+        lineGraphCont.x = 0;
+        lineGraphCont.y = 240;
+        dashes.x=10;
+        dashes.y=130;            
+        dataCont.x=10;
+        dataCont.y=0;
+        widgets.addChild(stats,dna,lineGraphCont,dataCont,dashes);
+        widgets.x = 405;
+        widgets.y = 30;
+        hud.addChild(outline,widgets);
+        stage.addChild(bg);
+        stage.addChild(alien1);
+        stage.addChild(hud);
+        stage.update();
+        $j('#history').html(alien.history);
+        $j('#contactModal').modal('show');        
+    }        
+    function drawBargraph(h,w,fill,barcolor,graphcolor){
+        if(graphcolor == null) graphcolor = hudBorder;
+        if(barcolor == null) barcolor = 'hsla('+100*fill+',100%,50%,0.5)';
+        var cont = new createjs.Container();
+        var graph = new createjs.Shape();
+        graph.graphics.setStrokeStyle(1).beginStroke(graphcolor).rect(0,0,w,h);
+        var bar = new createjs.Shape();
+        bar.graphics.setStrokeStyle(1).beginFill(barcolor).rect(2,2+(h-(fill*h)),w-4,(h*fill)-2);
+        cont.addChild(graph);
+        cont.addChild(bar);
+        return cont;
     }
-        
-        function drawBargraph(h,w,fill,barcolor,graphcolor){
-            if(graphcolor == null) graphcolor = hudBorder;
-            if(barcolor == null) barcolor = 'hsla('+100*fill+',100%,50%,0.5)';
-            var cont = new createjs.Container();
-            var graph = new createjs.Shape();
-            graph.graphics.setStrokeStyle(1).beginStroke(graphcolor).rect(0,0,w,h);
-            var bar = new createjs.Shape();
-            bar.graphics.setStrokeStyle(1).beginFill(barcolor).rect(2,2+(h-(fill*h)),w-4,(h*fill)-2);
-            cont.addChild(graph);
-            cont.addChild(bar);
-            return cont;
-        }
-        function drawPointers(startX,startY,hud,endX){
-            var endY = startY - 40;
-            var pointer = new createjs.Shape();
-            pointer.graphics.setStrokeStyle(1).beginStroke(hudBorder).mt(startX,startY).lt(endX,endY);
-            var text = new createjs.Text(rifi(10,99999999),'bold 6px Arial',hudBorder);
-            text.x = endX+5;
-            text.y = endY;
-            text.textBaseline = "alphabetic";
-            hud.addChild(text);
-            hud.addChild(pointer);
-        }
-        var i = 0;
-        var blahblahblah = rifi(10,99999999);
-        var gibI = 0;
-        function handleTick(event){
-            if (!event.paused) {
-                // twice a second
-                if(i==0 || i==6 || i==12 || i == 18){
-                    drawGraph(6,lineGraphWidth); 
-                    stats.removeAllChildren();
-                    for (var ii = 0; ii < 10; ii++) {
-                        var bargraph = drawBargraph(50,12,rifi(0,100)*0.01,orangeColor);
-                        bargraph.x = ii*15;
-                        stats.addChild(bargraph)
-                    }                   
-                }
-                if(i==0 || i==12){
-                    dataCont.removeAllChildren();
-                    blahblahblah += ' '+rifi(10,99999999);
-                    var gibberish = new createjs.Text(blahblahblah,'bold 6px Arial',hudBorder);
-                    gibberish.lineWidth = 150;
-                    dataCont.addChild(gibberish);
-                    dashes.removeAllChildren();
-                    for (var ii = 0; ii < 8; ii++) {                
-                        var w = rifi(10,40);
-                        var s = rifi(0,1);
-                        var dash = new createjs.Shape();
-                        dash.graphics.setStrokeStyle(1).beginFill('hsl(193,40%,'+(w+30)+'%)').rect(0,0,w,10)
-                        dash.x=s==0?50-w:50;
-                        dash.y=ii*12;
-                        dashes.addChild(dash);
-                    }
-                }
-                stage.update();
-                var top = 24;
-                i = i<top?i+1:0;
-                gibI = gibI<140?gibI+1:0;
-                if(gibI==0) blahblahblah = blahblahblah.substring(blahblahblah.length/2,blahblahblah.length);
+    function drawPointers(startX,startY,hud,endX){
+        var endY = startY - 40;
+        var pointer = new createjs.Shape();
+        pointer.graphics.setStrokeStyle(1).beginStroke(hudBorder).mt(startX,startY).lt(endX,endY);
+        var text = new createjs.Text(rifi(10,99999999),'bold 6px Arial',hudBorder);
+        text.x = endX+5;
+        text.y = endY;
+        text.textBaseline = "alphabetic";
+        hud.addChild(text);
+        hud.addChild(pointer);
+    }
+    var i = 0;
+    var blahblahblah = rifi(10,99999999);
+    var gibI = 0;
+    function handleTick(event){
+        if (!event.paused) {
+// twice a second
+            if(i==0 || i==6 || i==12 || i == 18){
+                drawGraph(6,lineGraphWidth); 
+                stats.removeAllChildren();
+                for (var ii = 0; ii < 10; ii++) {
+                    var bargraph = drawBargraph(50,12,rifi(0,100)*0.01,orangeColor);
+                    bargraph.x = ii*15;
+                    stats.addChild(bargraph)
+                }                   
             }
+            if(i==0 || i==12){
+                dataCont.removeAllChildren();
+                blahblahblah += ' '+rifi(10,99999999);
+                var gibberish = new createjs.Text(blahblahblah,'bold 6px Arial',hudBorder);
+                gibberish.lineWidth = 150;
+                dataCont.addChild(gibberish);
+                dashes.removeAllChildren();
+                for (var ii = 0; ii < 8; ii++) {                
+                    var w = rifi(10,40);
+                    var s = rifi(0,1);
+                    var dash = new createjs.Shape();
+                    dash.graphics.setStrokeStyle(1).beginFill('hsl(193,40%,'+(w+30)+'%)').rect(0,0,w,10)
+                    dash.x=s==0?50-w:50;
+                    dash.y=ii*12;
+                    dashes.addChild(dash);
+                }
+            }
+            stage.update();
+            var top = 24;
+            i = i<top?i+1:0;
+            gibI = gibI<140?gibI+1:0;
+            if(gibI==0) blahblahblah = blahblahblah.substring(blahblahblah.length/2,blahblahblah.length);
         }
-        function drawGraph(nooflines,width){            
-            linesCont.removeAllChildren();            
-            for (var i = 0; i < nooflines; i++) {
-                var line = new createjs.Shape();
-                var r1=centerline+(i*rifi(-5,5)),
-                    r2=centerline+(i*rifi(-5,5)),
-                    r3=centerline+(i*rifi(-5,5)),
-                    r4=centerline+(i*rifi(-5,5)),
-                    r5=centerline+(i*rifi(-5,5)),
-                    r6=centerline+(i*rifi(-5,5)),
-                    r7=centerline+(i*rifi(-5,5)),
-                    r8=centerline+(i*rifi(-5,5)),
-                    r9=centerline+(i*rifi(-5,5)),
-                    r10=centerline+(i*rifi(-5,5))
-                line.graphics.setStrokeStyle(i/nooflines).beginStroke(orangeColor).mt(0,centerline-(i*3))
-                    .lt(width*0.1,r1)
-                    .lt(width*0.2,r2)
-                    .lt(width*0.3,r3)
-                    .lt(width*0.4,r4)
-                    .lt(width*0.5,r5)
-                    .lt(width*0.6,r6)
-                    .lt(width*0.7,r7)
-                    .lt(width*0.8,r8)
-                    .lt(width*0.9,r9)
-                    .lt(width,r10)
-                linesCont.addChild(line);
-            }            
-            var readings = new createjs.Text(r1.toString()+r2.toString()+r3.toString()+r4.toString()+r5.toString()+r6.toString()+r7.toString()+r8.toString()+r9.toString()+r10.toString(),"10px Arial", hudBorder);
-            readings.x = 0;
-            readings.y = 50;
-            linesCont.addChild(readings);
-        }
+    }
+    function drawGraph(nooflines,width){            
+        linesCont.removeAllChildren();            
+        for (var i = 0; i < nooflines; i++) {
+            var line = new createjs.Shape();
+            var r1=centerline+(i*rifi(-5,5)),
+                r2=centerline+(i*rifi(-5,5)),
+                r3=centerline+(i*rifi(-5,5)),
+                r4=centerline+(i*rifi(-5,5)),
+                r5=centerline+(i*rifi(-5,5)),
+                r6=centerline+(i*rifi(-5,5)),
+                r7=centerline+(i*rifi(-5,5)),
+                r8=centerline+(i*rifi(-5,5)),
+                r9=centerline+(i*rifi(-5,5)),
+                r10=centerline+(i*rifi(-5,5))
+            line.graphics.setStrokeStyle(i/nooflines).beginStroke(orangeColor).mt(0,centerline-(i*3))
+                .lt(width*0.1,r1)
+                .lt(width*0.2,r2)
+                .lt(width*0.3,r3)
+                .lt(width*0.4,r4)
+                .lt(width*0.5,r5)
+                .lt(width*0.6,r6)
+                .lt(width*0.7,r7)
+                .lt(width*0.8,r8)
+                .lt(width*0.9,r9)
+                .lt(width,r10)
+            linesCont.addChild(line);
+        }            
+        var readings = new createjs.Text(r1.toString()+r2.toString()+r3.toString()+r4.toString()+r5.toString()+r6.toString()+r7.toString()+r8.toString()+r9.toString()+r10.toString(),"10px Arial", hudBorder);
+        readings.x = 0;
+        readings.y = 50;
+        linesCont.addChild(readings);
+    }
 /*
       /$$$$$$                                       /$$$$$$                        /$$                        
      /$$__  $$                                     /$$__  $$                      | $$                        
@@ -2087,10 +1603,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         $scope.setViewX = x;
         $scope.setViewY = y;                
         $scope.selectedSector = $scope.sectors[getIndex(x,y)];
-        // console.log('selectedSector.HasARCBase: '+$scope.selectedSector.HasARCBase);
-        // console.log('selectedSector.HasARCFleet: '+$scope.selectedSector.HasARCFleet());
-        // console.log('selectedSector.X: '+$scope.selectedSector.X);
-        // console.log('selectedSector.Y: '+$scope.selectedSector.Y);
         $scope.selectedSectorId = $scope.selectedSector.Id;
         $scope.selectedSector.RegularContacts = [];
         $scope.selectedSector.ExplorerContacts = [];
@@ -2099,9 +1611,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         $scope.selectedSector.Contacts = [];
         $scope.selectedSector.Races = [];
 // Reset Fleet count
-        //$scope.regular_fleetAmount = 0;
-        //$scope.explorer_fleetAmount = 0;
-        //$scope.destroyer_fleetAmount = 0;
         $scope.regular_fleetsSelected = 0;
         $scope.explorer_fleetsSelected = 0;
         $scope.destroyer_fleetsSelected = 0;
@@ -2155,7 +1664,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         var a = Math.abs($scope.curr_x-$scope.dest_x);
         var b = Math.abs($scope.curr_y-$scope.dest_y);
         $scope.arc_distance = Math.floor(Math.sqrt((a*a)+(b*b)));
-
     	var isDarkMatterInPath = darkMatterInPath({
 		    x: $scope.curr_x,
 		    y: $scope.curr_y
@@ -2163,19 +1671,15 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 		    x: $scope.dest_x,
 		    y: $scope.dest_y
 		});
-		//if((!$scope.destinationSector.VisibleInARCSpace && !$scope.destinationSector.HasARCBase) || $scope.destinationSector.DarkMatter){
-        if((is.undefined($scope.VisibleInARCSpace[$scope.destinationSector.X+'x'+$scope.destinationSector.Y]) && !$scope.destinationSector.HasARCBase) || $scope.destinationSector.DarkMatter){
+		if((is.undefined($scope.VisibleInARCSpace[$scope.destinationSector.X+'x'+$scope.destinationSector.Y]) && !$scope.destinationSector.HasARCBase) || $scope.destinationSector.DarkMatter){
          	arcPot = 0;
         }else{
             if($scope.arc_distance <= $scope.civLvl){
 // ARC is guarenteed if distance is equal or less than Civ Level
                 if($scope.destinationSector.Terrain != 'Empty') arcPot = 100;
             }else{
-            	// console.log($scope.destinationSector.ARCPot());
-            	//console.log(Math.abs($scope.selectedSector.BaseGPot - $scope.destinationSector.BaseGPot));
 //Get GravPot Difference
                 var gPotDiff = Math.ceil(Math.abs($scope.selectedSector.ARCPot() - $scope.destinationSector.ARCPot())/2); //2;
-                // console.log(gPotDiff);
 // Get slope
                 var slope = Math.atan(gPotDiff/$scope.arc_distance);
 // Calculate probability of successful ARC:
@@ -2245,7 +1749,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 //Set color of ARC Line and Circle
         var m = 10;
         $scope.color = 'hsl('+120*(($scope.fleet_arcCalc-m)/100)+',100%,50%)';
-
         $scope.showArc();
     }
 /*
@@ -2267,7 +1770,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 	            x1 = start.y,
 	            y2 = end.x,
 	            x2 = end.y
-	        var i; // loop counter 
 	        var i; // loop counter 
 	        var ystep, xstep; // the step on y and x axis 
 	        var error; // the error accumulated during the increment 
@@ -2323,35 +1825,19 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 	        }
 	    }
 	    var arr = []
-
-        function POINT(x, y) {
-            //if((x>0 && x<101)&&(y>0 && y<101)){
-                if(is.not.undefined($scope.sectors[getIndex(x,y)])){
-                    if($scope.sectors[getIndex(x,y)].DarkMatter){			            
-        	            arr.push({
-        	                x: x,
-        	                y: y
-        	            });
-                    }
+        function POINT(x, y) {            
+            if(is.not.undefined($scope.sectors[getIndex(x,y)])){
+                if($scope.sectors[getIndex(x,y)].DarkMatter){			            
+    	            arr.push({
+    	                x: x,
+    	                y: y
+    	            });
                 }
-            //}
+            }
         }
 	    useVisionLine(startPoint, endPoint)
 	    return arr.length > 0;
 	}
-/*
-     /$$   /$$                 /$$             /$$                      /$$$$$$            /$$                       /$$                     /$$       /$$$$$$$$ /$$                       /$$             
-    | $$  | $$                | $$            | $$                     /$$__  $$          | $$                      | $$                    | $$      | $$_____/| $$                      | $$             
-    | $$  | $$  /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$       | $$  \__/  /$$$$$$ | $$  /$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$$      | $$      | $$  /$$$$$$   /$$$$$$  /$$$$$$   /$$$$$$$
-    | $$  | $$ /$$__  $$ /$$__  $$ |____  $$|_  $$_/   /$$__  $$      |  $$$$$$  /$$__  $$| $$ /$$__  $$ /$$_____/|_  $$_/   /$$__  $$ /$$__  $$      | $$$$$   | $$ /$$__  $$ /$$__  $$|_  $$_/  /$$_____/
-    | $$  | $$| $$  \ $$| $$  | $$  /$$$$$$$  | $$    | $$$$$$$$       \____  $$| $$$$$$$$| $$| $$$$$$$$| $$        | $$    | $$$$$$$$| $$  | $$      | $$__/   | $$| $$$$$$$$| $$$$$$$$  | $$   |  $$$$$$ 
-    | $$  | $$| $$  | $$| $$  | $$ /$$__  $$  | $$ /$$| $$_____/       /$$  \ $$| $$_____/| $$| $$_____/| $$        | $$ /$$| $$_____/| $$  | $$      | $$      | $$| $$_____/| $$_____/  | $$ /$$\____  $$
-    |  $$$$$$/| $$$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$      |  $$$$$$/|  $$$$$$$| $$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$      | $$      | $$|  $$$$$$$|  $$$$$$$  |  $$$$//$$$$$$$/
-     \______/ | $$____/  \_______/ \_______/   \___/   \_______/       \______/  \_______/|__/ \_______/ \_______/   \___/   \_______/ \_______/      |__/      |__/ \_______/ \_______/   \___/ |_______/ 
-              | $$                                                                                                                                                                                         
-              | $$                                                                                                                                                                                         
-              |__/                                                                                                                                                                                         
-*/
     $scope.updateSelectedFleets = function(){
         if($scope.selectedSector.ActiveRegularCount > 0) $j('#regularSlider').slider('enable');
         if($scope.selectedSector.ActiveExplorerCount > 0) $j('#explorerSlider').slider('enable');
@@ -2360,37 +1846,13 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         regSlider.setValue($scope.regular_fleetsSelected).setAttribute('max',$scope.selectedSector.ActiveRegularCount);
         exSlider.setValue($scope.explorer_fleetsSelected).setAttribute('max',$scope.selectedSector.ActiveExplorerCount);
         desSlider.setValue($scope.destroyer_fleetsSelected).setAttribute('max',$scope.selectedSector.ActiveDestroyerCount);
-        // console.log('## updating included fleets');
     }
     $scope.getNumber = function(num) {
         return new Array(num);   
     }
-/*
-     /$$$$$$$                      /$$                            /$$$$$$                                          /$$                   /$$                          
-    | $$__  $$                    |__/                           /$$__  $$                                        | $$                  | $$                          
-    | $$  \ $$  /$$$$$$   /$$$$$$$ /$$ /$$$$$$$$  /$$$$$$       | $$  \__/  /$$$$$$  /$$$$$$$   /$$$$$$$  /$$$$$$ | $$  /$$$$$$         | $$        /$$$$$$   /$$$$$$ 
-    | $$$$$$$/ /$$__  $$ /$$_____/| $$|____ /$$/ /$$__  $$      | $$       /$$__  $$| $$__  $$ /$$_____/ /$$__  $$| $$ /$$__  $$ /$$$$$$| $$       /$$__  $$ /$$__  $$
-    | $$__  $$| $$$$$$$$|  $$$$$$ | $$   /$$$$/ | $$$$$$$$      | $$      | $$  \ $$| $$  \ $$|  $$$$$$ | $$  \ $$| $$| $$$$$$$$|______/| $$      | $$  \ $$| $$  \ $$
-    | $$  \ $$| $$_____/ \____  $$| $$  /$$__/  | $$_____/      | $$    $$| $$  | $$| $$  | $$ \____  $$| $$  | $$| $$| $$_____/        | $$      | $$  | $$| $$  | $$
-    | $$  | $$|  $$$$$$$ /$$$$$$$/| $$ /$$$$$$$$|  $$$$$$$      |  $$$$$$/|  $$$$$$/| $$  | $$ /$$$$$$$/|  $$$$$$/| $$|  $$$$$$$        | $$$$$$$$|  $$$$$$/|  $$$$$$$
-    |__/  |__/ \_______/|_______/ |__/|________/ \_______/       \______/  \______/ |__/  |__/|_______/  \______/ |__/ \_______/        |________/ \______/  \____  $$
-                                                                                                                                                             /$$  \ $$
-                                                                                                                                                            |  $$$$$$/
-                                                                                                                                                             \______/ 
-*/
     $scope.resizeConsoleLog = function(){
         $scope.consoleLogHeight = $scope.viewHeight - 495;
     }
-/*
-     /$$      /$$                                     /$$    /$$ /$$                        
-    | $$$    /$$$                                    | $$   | $$|__/                        
-    | $$$$  /$$$$  /$$$$$$  /$$    /$$ /$$$$$$       | $$   | $$ /$$  /$$$$$$  /$$  /$$  /$$
-    | $$ $$/$$ $$ /$$__  $$|  $$  /$$//$$__  $$      |  $$ / $$/| $$ /$$__  $$| $$ | $$ | $$
-    | $$  $$$| $$| $$  \ $$ \  $$/$$/| $$$$$$$$       \  $$ $$/ | $$| $$$$$$$$| $$ | $$ | $$
-    | $$\  $ | $$| $$  | $$  \  $$$/ | $$_____/        \  $$$/  | $$| $$_____/| $$ | $$ | $$
-    | $$ \/  | $$|  $$$$$$/   \  $/  |  $$$$$$$         \  $/   | $$|  $$$$$$$|  $$$$$/$$$$/
-    |__/     |__/ \______/     \_/    \_______/          \_/    |__/ \_______/ \_____/\___/ 
-*/
     $scope.moveView = function(d){
         if(d=='1'){
             $scope.setView($scope.setViewX-5,$scope.setViewY,d);
@@ -2405,16 +1867,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             $scope.setView($scope.setViewX+5,$scope.setViewY,d);
         }
     }
-/*
-      /$$$$$$              /$$           /$$    /$$ /$$                        
-     /$$__  $$            | $$          | $$   | $$|__/                        
-    | $$  \__/  /$$$$$$  /$$$$$$        | $$   | $$ /$$  /$$$$$$  /$$  /$$  /$$
-    |  $$$$$$  /$$__  $$|_  $$_/        |  $$ / $$/| $$ /$$__  $$| $$ | $$ | $$
-     \____  $$| $$$$$$$$  | $$           \  $$ $$/ | $$| $$$$$$$$| $$ | $$ | $$
-     /$$  \ $$| $$_____/  | $$ /$$        \  $$$/  | $$| $$_____/| $$ | $$ | $$
-    |  $$$$$$/|  $$$$$$$  |  $$$$/         \  $/   | $$|  $$$$$$$|  $$$$$/$$$$/
-     \______/  \_______/   \___/            \_/    |__/ \_______/ \_____/\___/ 
-*/
     $scope.setView = function(x,y,d){
         if(d == null) d = 4;
         $scope.ARCFleetSFX('X'+d); 
@@ -2422,16 +1874,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         $scope.setViewY = y;
         $scope.renderChunk();
     }
-/*
-     /$$$$$$$$ /$$                       /$$           /$$$$$$$            /$$ /$$       /$$       /$$$$$$$  /$$                     /$$       /$$                 /$$
-    | $$_____/| $$                      | $$          | $$__  $$          |__/| $$      | $$      | $$__  $$|__/                    | $$      | $$                | $$
-    | $$      | $$  /$$$$$$   /$$$$$$  /$$$$$$        | $$  \ $$ /$$   /$$ /$$| $$  /$$$$$$$      | $$  \ $$ /$$  /$$$$$$$  /$$$$$$ | $$$$$$$ | $$  /$$$$$$   /$$$$$$$
-    | $$$$$   | $$ /$$__  $$ /$$__  $$|_  $$_/        | $$$$$$$ | $$  | $$| $$| $$ /$$__  $$      | $$  | $$| $$ /$$_____/ |____  $$| $$__  $$| $$ /$$__  $$ /$$__  $$
-    | $$__/   | $$| $$$$$$$$| $$$$$$$$  | $$          | $$__  $$| $$  | $$| $$| $$| $$  | $$      | $$  | $$| $$|  $$$$$$   /$$$$$$$| $$  \ $$| $$| $$$$$$$$| $$  | $$
-    | $$      | $$| $$_____/| $$_____/  | $$ /$$      | $$  \ $$| $$  | $$| $$| $$| $$  | $$      | $$  | $$| $$ \____  $$ /$$__  $$| $$  | $$| $$| $$_____/| $$  | $$
-    | $$      | $$|  $$$$$$$|  $$$$$$$  |  $$$$/      | $$$$$$$/|  $$$$$$/| $$| $$|  $$$$$$$      | $$$$$$$/| $$ /$$$$$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$|  $$$$$$$
-    |__/      |__/ \_______/ \_______/   \___/        |_______/  \______/ |__/|__/ \_______/      |_______/ |__/|_______/  \_______/|_______/ |__/ \_______/ \_______/
-*/
     $scope.regularFleetBuildDisabled = function(){
         if($scope.selectedSector.HasARCBase == null){
         	return true;
@@ -2453,16 +1895,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         	return ($scope.selectedSector.ARCBasePoints < $scope.destroyerCost || $scope.availableResourcePoints() < $scope.destroyerCost) || ($scope.selectedSector.Terrain != 'Axis' && $scope.selectedSector.Terrain != 'Fringe');
         }
     }
-/*
-     /$$$$$$$                      /$$$$$$                                        /$$$$$$$$ /$$                       /$$            /$$$$$$              /$$     /$$                    
-    | $$__  $$                    /$$__  $$                                      | $$_____/| $$                      | $$           /$$__  $$            | $$    |__/                    
-    | $$  \ $$ /$$$$$$   /$$$$$$ | $$  \__//$$$$$$   /$$$$$$  /$$$$$$/$$$$       | $$      | $$  /$$$$$$   /$$$$$$  /$$$$$$        | $$  \ $$  /$$$$$$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$ 
-    | $$$$$$$//$$__  $$ /$$__  $$| $$$$   /$$__  $$ /$$__  $$| $$_  $$_  $$      | $$$$$   | $$ /$$__  $$ /$$__  $$|_  $$_/        | $$$$$$$$ /$$_____/|_  $$_/  | $$ /$$__  $$| $$__  $$
-    | $$____/| $$$$$$$$| $$  \__/| $$_/  | $$  \ $$| $$  \__/| $$ \ $$ \ $$      | $$__/   | $$| $$$$$$$$| $$$$$$$$  | $$          | $$__  $$| $$        | $$    | $$| $$  \ $$| $$  \ $$
-    | $$     | $$_____/| $$      | $$    | $$  | $$| $$      | $$ | $$ | $$      | $$      | $$| $$_____/| $$_____/  | $$ /$$      | $$  | $$| $$        | $$ /$$| $$| $$  | $$| $$  | $$
-    | $$     |  $$$$$$$| $$      | $$    |  $$$$$$/| $$      | $$ | $$ | $$      | $$      | $$|  $$$$$$$|  $$$$$$$  |  $$$$/      | $$  | $$|  $$$$$$$  |  $$$$/| $$|  $$$$$$/| $$  | $$
-    |__/      \_______/|__/      |__/     \______/ |__/      |__/ |__/ |__/      |__/      |__/ \_______/ \_______/   \___/        |__/  |__/ \_______/   \___/  |__/ \______/ |__/  |__/
-*/
     $scope.performFleetAction = function(){
         if($scope.regular_actionButtonEnabled){
             $scope.augment('regular','arcbase');
@@ -2472,16 +1904,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         	$scope.siege();
         }
     }
-/*
-     /$$$$$$$                      /$$$$$$                                         /$$$$$$  /$$$$$$$   /$$$$$$                                   /$$$$$$            /$$          
-    | $$__  $$                    /$$__  $$                                       /$$__  $$| $$__  $$ /$$__  $$                                 /$$__  $$          | $$          
-    | $$  \ $$ /$$$$$$   /$$$$$$ | $$  \__//$$$$$$   /$$$$$$  /$$$$$$/$$$$       | $$  \ $$| $$  \ $$| $$  \__/        /$$$$$$   /$$$$$$       | $$  \__/  /$$$$$$ | $$  /$$$$$$$
-    | $$$$$$$//$$__  $$ /$$__  $$| $$$$   /$$__  $$ /$$__  $$| $$_  $$_  $$      | $$$$$$$$| $$$$$$$/| $$             /$$__  $$ /$$__  $$      | $$       |____  $$| $$ /$$_____/
-    | $$____/| $$$$$$$$| $$  \__/| $$_/  | $$  \ $$| $$  \__/| $$ \ $$ \ $$      | $$__  $$| $$__  $$| $$            | $$  \ $$| $$  \__/      | $$        /$$$$$$$| $$| $$      
-    | $$     | $$_____/| $$      | $$    | $$  | $$| $$      | $$ | $$ | $$      | $$  | $$| $$  \ $$| $$    $$      | $$  | $$| $$            | $$    $$ /$$__  $$| $$| $$      
-    | $$     |  $$$$$$$| $$      | $$    |  $$$$$$/| $$      | $$ | $$ | $$      | $$  | $$| $$  | $$|  $$$$$$/      |  $$$$$$/| $$            |  $$$$$$/|  $$$$$$$| $$|  $$$$$$$
-    |__/      \_______/|__/      |__/     \______/ |__/      |__/ |__/ |__/      |__/  |__/|__/  |__/ \______/        \______/ |__/             \______/  \_______/|__/ \_______/
-*/
     $scope.performARCorCalc = function(){
         if(!$scope.showArcCalcContents){
             $scope.arcCalcMode();
@@ -2489,16 +1911,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
             $scope.arc();
         }
     }
-/*
-      /$$$$$$            /$$                       /$$            /$$$$$$  /$$ /$$
-     /$$__  $$          | $$                      | $$           /$$__  $$| $$| $$
-    | $$  \__/  /$$$$$$ | $$  /$$$$$$   /$$$$$$$ /$$$$$$        | $$  \ $$| $$| $$
-    |  $$$$$$  /$$__  $$| $$ /$$__  $$ /$$_____/|_  $$_/        | $$$$$$$$| $$| $$
-     \____  $$| $$$$$$$$| $$| $$$$$$$$| $$        | $$          | $$__  $$| $$| $$
-     /$$  \ $$| $$_____/| $$| $$_____/| $$        | $$ /$$      | $$  | $$| $$| $$
-    |  $$$$$$/|  $$$$$$$| $$|  $$$$$$$|  $$$$$$$  |  $$$$/      | $$  | $$| $$| $$
-     \______/  \_______/|__/ \_______/ \_______/   \___/        |__/  |__/|__/|__/
-*/
     $scope.selectAllRegulars = function(){
     	regSlider.setValue($scope.selectedSector.ActiveRegularCount);
     	$scope.regular_fleetsSelected = $scope.selectedSector.ActiveRegularCount;
@@ -2519,21 +1931,11 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     	$scope.selectAllExplorers();
     	$scope.selectAllDestroyers();
     }
-/*
-     /$$      /$$                 /$$                  /$$$$$$                        /$$                           /$$           /$$      /$$ /$$   /$$     /$$      
-    | $$$    /$$$                | $$                 /$$__  $$                      | $$                          | $$          | $$  /$ | $$|__/  | $$    | $$      
-    | $$$$  /$$$$  /$$$$$$   /$$$$$$$  /$$$$$$       | $$  \__/  /$$$$$$  /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$ /$$$$$$        | $$ /$$$| $$ /$$ /$$$$$$  | $$$$$$$ 
-    | $$ $$/$$ $$ |____  $$ /$$__  $$ /$$__  $$      | $$       /$$__  $$| $$__  $$|_  $$_/   |____  $$ /$$_____/|_  $$_/        | $$/$$ $$ $$| $$|_  $$_/  | $$__  $$
-    | $$  $$$| $$  /$$$$$$$| $$  | $$| $$$$$$$$      | $$      | $$  \ $$| $$  \ $$  | $$      /$$$$$$$| $$        | $$          | $$$$_  $$$$| $$  | $$    | $$  \ $$
-    | $$\  $ | $$ /$$__  $$| $$  | $$| $$_____/      | $$    $$| $$  | $$| $$  | $$  | $$ /$$ /$$__  $$| $$        | $$ /$$      | $$$/ \  $$$| $$  | $$ /$$| $$  | $$
-    | $$ \/  | $$|  $$$$$$$|  $$$$$$$|  $$$$$$$      |  $$$$$$/|  $$$$$$/| $$  | $$  |  $$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/      | $$/   \  $$| $$  |  $$$$/| $$  | $$
-    |__/     |__/ \_______/ \_______/ \_______/       \______/  \______/ |__/  |__/   \___/   \_______/ \_______/   \___/        |__/     \__/|__/   \___/  |__/  |__/
-*/
     $scope.madeContactWith = function(alienId){                
         var contactHasBeenMade = false;
         contactHasBeenMade = relationships[alienId] > 0; //$scope.relationshipMap[raceId] != null;
-        console.log('madeContactWith('+alienId+')');
-        console.log(contactHasBeenMade);
+        // console.log('madeContactWith('+alienId+')');
+        // console.log(contactHasBeenMade);
         return contactHasBeenMade;
     }
 /*
@@ -2575,6 +1977,7 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         var alienId = $scope.selectedSector.X+'x'+$scope.selectedSector.Y;
         var alienMood = $scope.selectedSector.AlienMood;
         var relationshipCode = fp*alienMood;
+        $scope.foreignPolicy = fp;
         console.log('Making contact with : '+alienId+' with mood: '+alienMood+' for relationship of: '+relationshipCode);
         console.log($scope.parseRelationship(relationshipCode).title+' - '+$scope.parseRelationship(relationshipCode).contactSuceedMessage)
         relationships[alienId] = relationshipCode;
@@ -2582,7 +1985,7 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         console.log(JSON.stringify(relationships));
         $scope.save();
         $scope.contactResults = $scope.parseRelationship(relationshipCode);
-        $j('#contactModal').modal('hide');
+        //$j('#contactModal').modal('hide');
         /*
         var raceId = $scope.selectedSector.Contacts[0].Race;
         var relationship = {
@@ -2634,70 +2037,96 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
         } 
         */  
     }
-    var alienDialogTree = {
-        rel1: [
-            //themselves
-            {
-                civLvl1:'Us? We ain\'t nobody special.',
-                civLvl2:'We have been around a while. We\'ve seen things.',
-                civLvl3:'This galaxy is no longer safe, we are leaving it. So should you.'
-            },
-            //others
-            {
-                civLvl1:'Yeah, there are some other aliens out there, they\'re all a bunch of crooks.',
-                civLvl2:'',
-                civLvl3:''
-            },
-            //past
-            {
-                civLvl1:'The past is the past, what\'s done is done. Me? I\'m more interested in the future.',
-                civLvl2:'',
-                civLvl3:''
-            },
-            //gravityWaves
-            {
-                civLvl1:'Them gravity waves is a pain, am I right? If you figure them out, give us a call.',
-                civLvl2:'',
-                civLvl3:''
-            },
-            //blackHoles
-            {
-                civLvl1:'Black holes will eat you up and spit you out. Stay away from them if you know what\'s good for you.',
-                civLvl2:'',
-                civLvl3:''
-            },
-            //core
-            {
-                civLvl1:'The core? That place is a real piece of work. Radiation out the wazoo! If you\'s goin\' in there, bring some sun tan lotion.',
-                civLvl2:'',
-                civLvl3:''
-            },
-            //timeworn
-            {
-                civLvl1:'A\'int never heard of \'em.',
-                civLvl2:'',
-                civLvl3:''
-            },
-            //darkMatter
-            {
-                civLvl1:'Dark Matter gums up ARC drives, makes them all screwy. Try and ARC through it, you\'ll scatter but good!',
-                civLvl2:'',
-                civLvl3:''
-            },
-            //anomoly
-            {
-                civLvl1:'I don\'t know what that thing is, that\'s why we call it an anomaly.',
-                civLvl2:'',
-                civLvl3:''
-            }
-        ]
+/*
+  /$$$$$$  /$$ /$$                           /$$$$$$$  /$$           /$$
+ /$$__  $$| $$|__/                          | $$__  $$|__/          | $$
+| $$  \ $$| $$ /$$  /$$$$$$  /$$$$$$$       | $$  \ $$ /$$  /$$$$$$ | $$  /$$$$$$   /$$$$$$
+| $$$$$$$$| $$| $$ /$$__  $$| $$__  $$      | $$  | $$| $$ |____  $$| $$ /$$__  $$ /$$__  $$
+| $$__  $$| $$| $$| $$$$$$$$| $$  \ $$      | $$  | $$| $$  /$$$$$$$| $$| $$  \ $$| $$  \ $$
+| $$  | $$| $$| $$| $$_____/| $$  | $$      | $$  | $$| $$ /$$__  $$| $$| $$  | $$| $$  | $$
+| $$  | $$| $$| $$|  $$$$$$$| $$  | $$      | $$$$$$$/| $$|  $$$$$$$| $$|  $$$$$$/|  $$$$$$$
+|__/  |__/|__/|__/ \_______/|__/  |__/      |_______/ |__/ \_______/|__/ \______/  \____  $$
+                                                                                   /$$  \ $$
+                                                                                  |  $$$$$$/
+                                                                                   \______/
+*/
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    $scope.askAbout = function(subject){
-        var alienId = 'rel1'; //$scope.selectedSector.X+'x'+$scope.selectedSector.Y;
-        var cv = 'civLvl'+$scope.selectedSector.AlienCivLvl;
-        console.log(cv);
-        $scope.alienChatText = alienDialogTree[alienId][subject][cv];
+    function cap(string){
+        return capitalizeFirstLetter(string)
+    }
+    var you = {
+        friendly:['you', 'your ambasadors', 'your peace envoys','your explorers','the ambasadors you sent','your cultural attachés'],
+        neutral:['you','your diplomats','your diplomat corps','your investigators','the scientists you sent','the diplomats you dispatched'],
+        hostile:['you','your warriors','your recon personel','your spies','your explorer fleets','your armies','your espionage teams']
+    };
+    var actions = ['were able to learn','discovered','gleaned','recieved','learned','were able to discover','amassed','uncovered','pieced together','gathered','collected']
+    var yourMoods = ['0','1','2','3','4','5','6','friendly','neutral','hostile'];
+    var alienMoods = ['0','friendly','neutral','hostile'];
+    var moods = {
+        friendly:['friendly','pacifist','affable','amiable','amicable','attentive','cordial','helpful','neighborly','receptive','peaceful','sympathetic','welcoming','kind','sociable','benign','benevolent','genial','solicitous','consilliatory','convivial','civil'],
+        neutral:['neutral','evenhanded','fair-minded','indifferent','aloof','clinical','stoic','detached','dispassionate','impersonal','easy-going','antisocial'],
+        hostile:['hostile','beligerent','antagonistic','warlike','aggressive','contentious','bitter','hateful','inhospitable','inimical','nasty','unfriendly','militant','bellicose','dour','malevolent','malicious','malignant','ornery','pugnacious','rancorous','spiteful','vitriolic','viperous','combatative']
+    }
+    var amount = {
+        full:['all the','an exhaustive amount of','reams of','petabytes of',''],
+        lot:['a lot of','a tidal wave of','a ton of','a flood of','gobbs of','a copious amount of'],
+        little:['appallingly little','little','very little','barely any','a good bit of','some'],
+        none:['no','absolutely no']
+    }
+    var disclosure = {
+        friendly:['0','full','lot','none'],
+        neutral:['0','lot','little','little'],
+        hostile:['0','little','none','lot']
+    }
+    var data = ['data','information','intel','intelligence','answers'];
+    var civilizationDelta = [
+        ['much less advanced','not very advanced','backward','unadvanced','primitive','neophyte','weak'],
+        ['less advanced','developing','younger','adolecent','weaker'],
+        ['equally advanced','','contemporary','advanced','progressive'],
+        ['more advanced','superior','impressive','older','powerful','more progressive'],
+        ['much more advanced','magical','much superior','godlike','ancient','super powerful']
+    ]
+    var subjects = {
+        themselves:['their culture','their species','their civilization','their race','their government','themselves'],
+        others:['other races','the other civilizations in this area','other civilizations','other spacefaring civilizations','other ARC Users'],
+        past:['the past','the history of this area','the ancient past','the history of this part of the galaxy','the history of the galaxy'],
+        gwaves:['G-Waves','the gravity waves','gravity waves'],
+        blackholes:['black holes','wormholes','the black holes','collapsed stars'],
+        core:['the core','the galactic core','the nucleus','the galactic nucleus','the center of the galaxy','the center','the core of the galaxy','the nucleus of the galaxy'],
+        timeworn:['the Timeworn','the extinct race that once ruled the galaxy','the old lords of the galaxy','the ancient race','the Timeworn race','the Timeworn civilization','what happened to the Timeworn'],
+        darkmatter:['dark matter','what dark matter is','what to do about dark matter','how to ARC through dark matter'],
+        anomoly:['the anomoly','what the anomoly is','what they know about the anomoly','what the anomoly does']
+
+    }
+    var subs = Object.keys(subjects);
+    $scope.askAbout = function(subject){            
         $scope.talkedToAliens = true;
+        var dCiv = ($scope.selectedSector.AlienCivLvl-$scope.civLvl)+2;
+        var relCode = 'rel'+$scope.foreignPolicy*$scope.selectedSector.AlienMood;
+        var cv = 'civLvl'+$scope.civLvl;
+        var yourMood = yourMoods[$scope.foreignPolicy];
+        console.log('Delta Civ: '+dCiv);
+        console.log('Relationship Code: '+relCode)
+        console.log('cv: '+cv)
+        console.log('subject: '+subject)
+        console.log('yourMood: '+yourMood)
+        var youVal = rae(you[yourMood]),
+            actionVal = rae(actions),
+            amountVal = rae(amount[disclosure[yourMood][$scope.selectedSector.AlienMood]]),
+            dataVal = rae(data),
+            deltaCivVal = rae(civilizationDelta[dCiv]),
+            moodVal = rae(moods[alienMoods[$scope.selectedSector.AlienMood]]),
+            subjectVal = rae(subjects[subject])
+        console.log(youVal)
+        console.log(actionVal)
+        console.log(amountVal)
+        console.log(dataVal)
+        console.log(deltaCivVal)
+        console.log(moodVal)
+        console.log(subjectVal)
+        $scope.alienChatText = cap(youVal+' '+actionVal+' '+amountVal+' '+dataVal+' from this '+deltaCivVal+', yet '+moodVal+', civilization about '+subjectVal)+'.'; //subjects[subject][dCiv][relCode])
     }
     $scope.showContactARCBase = function(x,y){
 // Commented out until contacts is settled
@@ -2745,7 +2174,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
 	   |__/ \______/  \______/ |__/     
 */
     $scope.startTour = function (){
-        // console.log('New Tour()');
         var tour = new Tour({
             steps: [
                 {
@@ -2760,8 +2188,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: "<ul><li>ARC</li><li>Explore</li><li>Black Holes</li></ul>",
                     placement: "bottom",
                     onNext: function(){
-                    	// console.log('Open Inspector');
-                    	// console.log('Open InfoTab');
                     	$scope.showInspector('Info');
                     	$scope.$apply();
                     }
@@ -2772,7 +2198,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: 'This is a running collection of information pertaining to events for a turn.',
                     placement: "left",
                     onNext: function(){
-                    	// console.log('Open ForeignPolicyTab');
                     	$scope.showInspector('ForeignPolicy');
                     	$scope.$apply();
                     }
@@ -2783,7 +2208,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: 'Use this section to set default foreign policy and to inspect or change relations with specific alien civilizations.',
                     placement: "bottom",
                     onNext: function(){
-                    	// console.log('Open CivLevelTab');
                     	$scope.showInspector('CivLevel');
                     	$scope.$apply();
                     }
@@ -2794,7 +2218,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: 'In depth overview of your civilization\'s statistics.',
                     placement: "bottom",
                     onNext: function(){
-                    	// console.log('Open RegularsTab');
                     	$scope.showInspector('Regular');
                     	$scope.$apply();
                     }
@@ -2805,7 +2228,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: 'A list of all your Regular fleets. Click the magnifying glass to go to the sector containing this fleet. Click the red delete button to decommision this fleet.',
                     placement: "bottom",
                     onNext: function(){
-                    	// console.log('Open ExplorersTab');
                     	$scope.showInspector('Explorer');
                     	$scope.$apply();
                     }
@@ -2816,7 +2238,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: 'A list of all your Explorer fleets. Click the magnifying glass to go to the sector containing this fleet. Click the red delete button to decommision this fleet.',
                     placement: "bottom",
                     onNext: function(){
-                    	// console.log('Open DestroyersTab');
                     	$scope.showInspector('Destroyer');
                     	$scope.$apply();
                     }
@@ -2827,7 +2248,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: 'A list of all your Destroyer fleets. Click the magnifying glass to go to the sector containing this fleet. Click the red delete button to decommision this fleet.',
                     placement: "bottom",
                     onNext: function(){
-                    	// console.log('Open ARC BasesTab');
                     	$scope.showInspector('ARCBase');
                     	$scope.$apply();
                     }
@@ -2838,7 +2258,6 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                     content: 'A list of all your ARC Basess. Click the magnifying glass to go to the sector containing this fleet. The RP column shows actual Resource points/potential resource points. Click the red delete button to decommision this fleet.',
                     placement: "bottom",
                     onNext: function(){
-                    	// console.log('Close Inspector');
                     	$scope.showInspectorPanel = false;
                     	$scope.$apply();
                     }
@@ -2851,13 +2270,10 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
                 }
             ]
         });
-        // console.log('Initialize Tour');
 // Initialize the tour
         tour.init();
-        // console.log('Start Tour');
 // Start the tour
         tour.restart();
-        // console.log('Tour Started');
     }
     $scope.scannerMode();
     $scope.selectSector($scope.setViewX, $scope.setViewY);
@@ -2886,5 +2302,4 @@ var arfleetCon = arcfleetApp.controller('arcfleetCon',['$scope','$filter','$inte
     	$scope.gameIsPaused = $interval.cancel(gamePromise);
     	gamePromise = undefined;
     }
-    //$scope.endTurn();
 }]);

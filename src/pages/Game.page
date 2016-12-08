@@ -36,6 +36,7 @@
                 <apex:remoteObjectModel name="ARCFleet__Game__c" jsShorthand="Game" fields="Name, Id">
                     <apex:remoteObjectField name="ARCFleet__Mood__c" jsShorthand="foreignPolicy"/>
                     <apex:remoteObjectField name="ARCFleet__Civilization_Name__c" jsShorthand="CivilizationName"/>
+                    <apex:remoteObjectField name="ARCFleet__Civilization_Level__c" jsShorthand="CivilizationLevel"/>
                     <apex:remoteObjectField name="ARCFleet__SFX_On__c" jsShorthand="SfxOn"/>
                     <apex:remoteObjectField name="ARCFleet__Turns__c" jsShorthand="Turn"/>
                     <apex:remoteObjectField name="ARCFleet__Relationships__c" jsShorthand="Relationships"/>
@@ -63,7 +64,7 @@
                 var isDebug = '{!isDebug}' == 'true';
                 console.log('debug: '+isDebug);
                 var civName = '{!game.Civilization_Name__c}';
-                var civilizationLevel = isDebug?3:'{!game.Civilization_Level__c}'=='0'?1:parseInt('{!game.Civilization_Level__c}');
+                //var civilizationLevel = isDebug?3:'{!game.Civilization_Level__c}'=='0'?1:parseInt('{!game.Civilization_Level__c}');
                 var mood = parseInt('{!game.Mood__c}');
                 var gameStartX = '{!game.Start_X__c}';
                 var gameStartY = '{!game.Start_Y__c}';
@@ -478,9 +479,9 @@
                         <div class="inspectorSection">
                             <!-- <b class="pull-left">Default</b><span ng-class="{'label-primary':foreignPolicy == 1,'label-warning':foreignPolicy == 2,'label-danger':foreignPolicy == 3}" class="pull-right label ">{{foreignPolicyLabel}}</span> -->
                             <div class="btn-group btn-group-justified">
-                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 1" ng-click="setMood(1);"><i class="fa fa-smile-o footerIcon text-primary"/></button></div>
-                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 2" ng-click="setMood(2);"><i class="fa fa-meh-o footerIcon text-warning"/></button></div>
-                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 3" ng-click="setMood(3);"><i class="fa fa-frown-o footerIcon text-danger"/></button></div>
+                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 7" ng-click="setMood(7);"><i class="fa fa-smile-o footerIcon text-primary"/></button></div>
+                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 8" ng-click="setMood(8);"><i class="fa fa-meh-o footerIcon text-warning"/></button></div>
+                                <div class="btn-group"><button type="button" class="btn panelButton btn-sm" ng-disabled="foreignPolicy == 9" ng-click="setMood(9);"><i class="fa fa-frown-o footerIcon text-danger"/></button></div>
                             </div>
                         </div>                              
     <!-- Settings -->
@@ -646,14 +647,13 @@
                                     <canvas id="alienCanvas" class="img-responsive" height="350px" width="600px"></canvas>
                                 </div>                                
                                 <!-- <h2 id="name" class="text-uppercase"></h2> -->
-                                <div id="xhistory" class="xtext-capitalize" ng-show="madeContactWith(selectedSector.Id)">
+                                <div ng-show="!talkedToAliens && madeContactWith(selectedSector.Id)">
                                     <h4>{{contactResults.title}}</h4>
                                     <div>{{contactResults.contactSuceedMessage}}</div>
                                 </div>
-                                <div id="alienChatBox">
-                                    {{selectedSector.AlienCivLvl}}
-                                    <br/>
-                                    {{alienChatText}}
+                                <div id="alienChatBox" ng-show="talkedToAliens">                                    
+                                    <h4>{{alienChatText}}</h4>
+                                    TODO: Add UI for information gleaned from communication
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -672,40 +672,43 @@
                                     </div>
                                 </div>
                                 <div ng-show="madeContactWith(selectedSector.Id)">
-                                    <h4 style="text-align: left">Ask about:</h4>
-                                    <div class="btn-group btn-group-justified" ng-show="civLvl==1">
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(0)">Themselves</button>                                        
+                                    <h4 style="text-align: left" ng-show="!talkedToAliens">Ask about:</h4>
+                                    <h4 style="text-align: left" ng-show="talkedToAliens">Talk To {{selectedSector.AlienCivName}} Again Next Turn</h4>
+                                    <span ng-hide="talkedToAliens">
+                                        <div class="btn-group btn-group-justified" ng-show="civLvl>=1">
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('themselves')">Themselves</button>                                        
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('others')">Other Races</button>                                        
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('past')">The Past</button>                                        
+                                            </div>
                                         </div>
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(1)">Other Races</button>                                        
+                                        <div class="btn-group btn-group-justified" ng-show="civLvl>=2">
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('gwaves')">Gravity Waves</button>                                        
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('blackholes')">Black Holes</button>                                        
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('core')">The Core</button>                                        
+                                            </div>
                                         </div>
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(2)">The Past</button>                                        
+                                        <div class="btn-group btn-group-justified" ng-show="civLvl==3">
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('timeworn')">The Timeworn</button>                                        
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('darkmatter')">Dark Matter</button>                                        
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn panelButton btn-sm" ng-click="askAbout('anomoly')">The Anomoly</button>                                        
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="btn-group btn-group-justified" ng-show="civLvl==2">
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(3)">Gravity Waves</button>                                        
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(4)">Black Holes</button>                                        
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(5)">The Center</button>                                        
-                                        </div>
-                                    </div>
-                                    <div class="btn-group btn-group-justified" ng-show="civLvl==3">
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(6)">The Timeworn</button>                                        
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(7)">Dark Matter</button>                                        
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn panelButton btn-sm" ng-disabled="talkedToAliens" ng-click="askAbout(8)">The Anomoly</button>                                        
-                                        </div>
-                                    </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
